@@ -13,4 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="msg_token_fmt">InstanceID Token: %s</string>
+
+
 </resources>
