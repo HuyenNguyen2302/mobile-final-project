@@ -59,8 +59,5 @@ public class RegistrationActivity extends AppCompatActivity {
                 ft.commit();
             }
         });
-
-        riderRadioButton.callOnClick();
-        riderRadioButton.setSelected(false);
     }
 }

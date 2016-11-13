@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.wpi.cs4518.werideshare.R;
+import com.wpi.cs4518.werideshare.model.User.UserType;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,11 +19,6 @@ import com.wpi.cs4518.werideshare.R;
 public class PersonalDetails extends Fragment {
     private String firstName, lastName, phone;
     private UserType userType;
-
-
-    public enum UserType{
-        Driver, Rider;
-    }
 
     public PersonalDetails() {
     }

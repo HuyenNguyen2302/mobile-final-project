@@ -37,8 +37,10 @@
 
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/capacitySpinner"/>
+            android:layout_height="30sp"
+            android:id="@+id/capacitySpinner"
+            android:layout_marginTop="@dimen/text_top"
+            android:layout_marginBottom="@dimen/text_bottom"/>
 
     </LinearLayout>
 
