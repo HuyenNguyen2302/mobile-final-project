@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "530810481145",
+    "firebase_url": "https://werideshare-149119.firebaseio.com",
+    "project_id": "werideshare-149119",
+    "storage_bucket": "werideshare-149119.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530810481145:android:9c986df497cb58cd",
+        "android_client_info": {
+          "package_name": "com.wpi.cs4518.werideshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530810481145-44s84cdi7g5n7of3pt5rs9vmc7tbu85i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNaBHMN-wKJuD39dDtyoytdTZ__OgjPRE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

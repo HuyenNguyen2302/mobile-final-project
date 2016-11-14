@@ -1,5 +1,6 @@
 package com.wpi.cs4518.werideshare;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,13 +16,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.regex.Pattern;
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
 
 
     private static final String TAG = "EmailPassword";
+    public static String userId = null;
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
@@ -119,6 +124,8 @@ public class EmailPasswordActivity extends BaseActivity implements
                         if (!task.isSuccessful()) {
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                        }else{
+                            startActivity(new Intent(EmailPasswordActivity.this, RegistrationActivity.class));
                         }
 
                         // [START_EXCLUDE]
@@ -131,25 +138,29 @@ public class EmailPasswordActivity extends BaseActivity implements
 
 
     private boolean validateForm() {
-        boolean valid = true;
+        boolean validEmail = true, validPassword = true;
+        TextView formStatus = (TextView) findViewById(R.id.form_status);
 
         String email = mEmailField.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            mEmailField.setError("Required.");
-            valid = false;
-        } else {
-            mEmailField.setError(null);
+        if(!Pattern.matches(Constants.EMAIL_PATTERN, email)){
+            validEmail = false;
+
+            if(formStatus != null)
+                formStatus.setText(String.format("Invalid email\n"));
         }
 
         String password = mPasswordField.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            mPasswordField.setError("Required.");
-            valid = false;
-        } else {
-            mPasswordField.setError(null);
-        }
+        if(!Pattern.matches(Constants.PASSWORD_PATTERN, password)){
+            validPassword = false;
 
-        return valid;
+            if(formStatus != null){
+                if(!validEmail)
+                    formStatus.setText(String.format("%s Invalid password\n", formStatus.getText()));
+                else
+                    formStatus.setText(String.format("Invalid password\n"));
+            }
+        }
+        return validEmail && validPassword;
     }
 
     private void updateUI(FirebaseUser user) {
@@ -163,9 +174,11 @@ public class EmailPasswordActivity extends BaseActivity implements
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
     }
 
-    private void signIn(String email, String password) {
+    private void signIn(final String email, final String password) {
         Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
+            Toast.makeText(EmailPasswordActivity.this, R.string.form_status_invalid,
+                Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -178,20 +191,20 @@ public class EmailPasswordActivity extends BaseActivity implements
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
+                        hideProgressDialog();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
+                            if(task.getException() instanceof FirebaseAuthInvalidUserException)
+                                createAccount(email, password);
+                            else
+                                Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
+                                        Toast.LENGTH_SHORT).show();
+                        }else{
+                            //TODO: open user profile
                         }
-
-                        // [START_EXCLUDE]
-                        if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
-                        }
-                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
