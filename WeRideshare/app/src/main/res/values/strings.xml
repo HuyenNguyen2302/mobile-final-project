@@ -1,19 +1,43 @@
 <resources>
     <string name="app_name">WeRideshare</string>
 
+    <!-- Strings related to intro screen -->
+    <string name="intro_text">WeRideshare\nWPI\nCS 4341</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">This password is invalid</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
     <string name="msg_token_fmt">InstanceID Token: %s</string>
 
+
+    <string name="team_members">Huyen Nguyen\tEbenezer Ampiah\tWill Wen
+    </string>
+    <string-array name="VehicleCapacity">
+        <item>(Vehicle Capacity)</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <string name="title_activity_intro_screen">IntroScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

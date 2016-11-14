@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.wpi.cs4518.werideshare.layout.VehicleDetails"
+    android:layout_marginLeft="@dimen/text_left"
+    android:layout_marginTop="@dimen/text_right">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/text_top">
+
+        <EditText
+            android:id="@+id/car_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:hint="Name"
+            android:ems="10"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/text_top"/>
+
+        <EditText
+            android:id="@+id/registration_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:hint="Registration ID"
+            android:ems="10"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/text_top"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="30sp"
+            android:id="@+id/capacitySpinner"
+            android:layout_marginTop="@dimen/text_top"
+            android:layout_marginBottom="@dimen/text_bottom"/>
+
+    </LinearLayout>
+
+</FrameLayout>

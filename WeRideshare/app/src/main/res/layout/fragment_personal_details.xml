@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".layout.PersonalDetails"
+    android:layout_marginLeft="@dimen/text_left"
+    android:layout_marginTop="@dimen/text_right">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="First Name"
+            android:ems="10"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/text_top"/>
+
+        <EditText
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Last Name"
+            android:ems="10"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/text_top"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/text_top"
+            android:id="@+id/phone"
+            android:hint="Phone number: eg. 123-456-7890"/>
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/radioButtonGroup">
+
+            <RadioButton
+                android:text="Driver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/driverRadioButton" />
+
+            <RadioButton
+                android:text="Rider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/riderRadioButton"/>
+        </RadioGroup>
+    </LinearLayout>
+</FrameLayout>
