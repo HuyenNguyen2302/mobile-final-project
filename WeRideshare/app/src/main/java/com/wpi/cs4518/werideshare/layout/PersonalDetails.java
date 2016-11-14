@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -23,6 +24,9 @@ public class PersonalDetails extends Fragment {
     public PersonalDetails() {
     }
 
+    /**
+     * Save the details of this fragment
+     */
     public void saveDetails(){
         try{
             Bundle arguments = new Bundle();
@@ -52,11 +56,19 @@ public class PersonalDetails extends Fragment {
         this.userType = userType;
     }
 
+    /**
+     * Get the value of the firstName EditText
+     * @return first name
+     */
     public String getFirstName(){
-        TextView firstNameView = (TextView) getView().findViewById(R.id.first_name);
+        EditText firstNameView = (EditText) getView().findViewById(R.id.first_name);
         return firstNameView == null? null : firstNameView.getText().toString();
     }
 
+    /**
+     * Get the user type from the selected radio button
+     * @return
+     */
     public UserType getUserType(){
         RadioGroup buttonGroup = (RadioGroup) getView().findViewById(R.id.radioButtonGroup);
         if(buttonGroup == null)

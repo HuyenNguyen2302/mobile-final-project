@@ -27,8 +27,10 @@
         </activity>
         <activity
             android:name=".DelayScreen"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".RegistrationActivity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".EmailPasswordActivity"></activity>
     </application>
 
 </manifest>

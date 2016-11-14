@@ -21,7 +21,7 @@ public class DelayScreen extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }finally{
-                    startActivity(new Intent(DelayScreen.this, LoginActivity.class));
+                    startActivity(new Intent(DelayScreen.this, EmailPasswordActivity.class));
                 }
             }
         };

@@ -29,44 +29,28 @@ public class WeRideshareDBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Create tables to be used as cache storage
+     */
     private void createTables(){
         //create user table
         String userTableQuery = "CREATE TABLE user ("
                 + "user_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "username VARCHAR2(20) UNIQUE, "
-                + "password VARCHAR2(20) NOT NULL, "
-                + "first_name VARCHAR2(20) NOT NULL,"
-                + "last_name VARCHAR2(25),"
-                + "email VARCHAR2(30) UNIQUE,"
-                + "phone VARCHAR2(20)"
-                + "user_type VARCHAR2(10) NOT NULL,"
-                + "date_registered TIMESTAMP NOT NULL,"
-                + "CONSTRAINT user_type_check check (user_type in ('driver', 'rider')"
+                + "password VARCHAR2(20) NOT NULL"
                 + ");";
 
         database.execSQL(userTableQuery);
-
-        //create vehicle table
-        String vehicleTableQuery = "CREATE TABLE vehicle ("
-                + "vehicle_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "registration_id VARCHAR2(30) UNIQUE, "
-                + "capacity INTEGER NOT NULL"
-                + ");";
-
-        database.execSQL(vehicleTableQuery);
     }
 
+    /**
+     * Create dummy records in cache for testing
+     */
     private void createDummyRecords(){
         //create rider
         ContentValues values = new ContentValues();
         values.put("username", "test@example.com");
         values.put("password", "HelloWorld1");
-        values.put("first_name", "Test");
-        values.put("last_name", "User");
-        values.put("email", "test@example.com");
-        values.put("phone", "123-456-7890");
-        values.put("user_type", "rider");
-        values.put("date_registered", System.currentTimeMillis());
 
         database.insert("user", null, values);
 
@@ -75,15 +59,8 @@ public class WeRideshareDBHelper extends SQLiteOpenHelper {
         values = new ContentValues();
         values.put("username", "test2@example.com");
         values.put("password", "HelloWorld2");
-        values.put("first_name", "Test2");
-        values.put("last_name", "User2");
-        values.put("email", "test2@example.com");
-        values.put("phone", "223-456-7890");
-        values.put("user_type", "driver");
-        values.put("date_registered", System.currentTimeMillis());
 
         database.insert("user", null, values);
     }
-
 
 }
