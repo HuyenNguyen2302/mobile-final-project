@@ -19,6 +19,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="msg_token_fmt">InstanceID Token: %s</string>
+
+
     <string name="team_members">Huyen Nguyen\tEbenezer Ampiah\tWill Wen
     </string>
     <string-array name="VehicleCapacity">
