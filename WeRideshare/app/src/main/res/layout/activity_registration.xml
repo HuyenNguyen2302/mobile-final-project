@@ -44,7 +44,8 @@
                     android:layout_weight="1"
                     android:text="Proceed"
                     android:layout_marginTop="@dimen/text_top"
-                    android:layout_marginBottom="@dimen/text_bottom"/>
+                    android:layout_marginBottom="@dimen/text_bottom"
+                    android:onClick="onClickProceedButton"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

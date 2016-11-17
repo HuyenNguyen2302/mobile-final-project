@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.regex.Pattern;
 
@@ -146,7 +147,7 @@ public class EmailPasswordActivity extends BaseActivity implements
             validEmail = false;
 
             if(formStatus != null)
-                formStatus.setText(String.format("Invalid email\n"));
+                formStatus.setText(String.format("%s\n", R.string.error_invalid_email));
         }
 
         String password = mPasswordField.getText().toString();
@@ -155,9 +156,9 @@ public class EmailPasswordActivity extends BaseActivity implements
 
             if(formStatus != null){
                 if(!validEmail)
-                    formStatus.setText(String.format("%s Invalid password\n", formStatus.getText()));
+                    formStatus.setText(String.format("%s %s\n", formStatus.getText(), R.string.error_invalid_password));
                 else
-                    formStatus.setText(String.format("Invalid password\n"));
+                    formStatus.setText(String.format("%s\n", R.string.error_invalid_password));
             }
         }
         return validEmail && validPassword;
@@ -203,7 +204,8 @@ public class EmailPasswordActivity extends BaseActivity implements
                                 Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
                         }else{
-                            //TODO: open user profile
+                            startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
+                            Log.w(TAG, String.format("token: %s\n", FirebaseInstanceId.getInstance().getToken()) );
                         }
                         // [END_EXCLUDE]
                     }
