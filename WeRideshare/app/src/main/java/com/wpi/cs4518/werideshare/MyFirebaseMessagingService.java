@@ -59,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Log.d(TAG, "Conversation data payload: " + remoteMessage.getData());
             Map<String, String> data = remoteMessage.getData();
 
             readMessage(data, remoteMessage);
@@ -67,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Conversation Notification Body: " + remoteMessage.getNotification().getBody());
             sendMessage(remoteMessage.getNotification().getBody());
         }
 
@@ -93,7 +93,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 //.setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setSmallIcon(R.drawable.notify_panel_notification_icon_bg)
-                .setContentTitle("FCM Message")
+                .setContentTitle("FCM Conversation")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

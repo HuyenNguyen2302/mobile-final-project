@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
+import com.wpi.cs4518.werideshare.layout.ConversationsFragment;
 import com.wpi.cs4518.werideshare.layout.MessagesFragment;
 import com.wpi.cs4518.werideshare.layout.ProfileDetails;
 
@@ -24,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String SENDER_ID = "530810481145";
     private ProfileDetails profileDetails;
     private MessagesFragment messagesFragment;
+    private ConversationsFragment conversationsFragment;
+    int selectedConversation = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,18 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickMessagesButton(View view) {
-        System.out.printf("null fragment: %s\n", messagesFragment == null);
+        if (conversationsFragment == null)
+            conversationsFragment = new ConversationsFragment();
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.task_container, conversationsFragment); // f1_container is your FrameLayout container
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.addToBackStack(null);
+        ft.commit();
+        Log.w("Log: ", "started conversations fragment");
+    }
+
+    public void displayMessages(){
         if (messagesFragment == null)
             messagesFragment = new MessagesFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -79,7 +93,12 @@ public class ProfileActivity extends AppCompatActivity {
             messagesFragment.addMessage(null, message);
     }
 
-    public void addMessage() {
+    public void setSelectedConversation(int position){
+        Log.w("UPDATE", "setting selected convo to " + position);
+        selectedConversation = position;
+    }
 
+    public int getSelectedConversation(){
+        return selectedConversation;
     }
 }

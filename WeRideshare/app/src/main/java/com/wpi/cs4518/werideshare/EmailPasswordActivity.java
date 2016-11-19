@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.wpi.cs4518.werideshare.model.Model;
+import com.wpi.cs4518.werideshare.model.User;
 
 import java.util.regex.Pattern;
 
@@ -53,8 +55,6 @@ public class EmailPasswordActivity extends BaseActivity implements
         FirebaseApp app = FirebaseApp.initializeApp(getApplicationContext());
 
         // Views
-//        mStatusTextView = (TextView) findViewById(R.id.status);
-//        mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.email);
         mPasswordField = (EditText) findViewById(R.id.password);
 
@@ -73,6 +73,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Model.user = new User(user.getUid());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -203,9 +204,12 @@ public class EmailPasswordActivity extends BaseActivity implements
                             else
                                 Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
-                        }else{
+                        }else{//login success
                             startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
                             Log.w(TAG, String.format("token: %s\n", FirebaseInstanceId.getInstance().getToken()) );
+
+                            if(Model.user != null)
+                                Model.user.setDeviceId(FirebaseInstanceId.getInstance().getToken());
                         }
                         // [END_EXCLUDE]
                     }
