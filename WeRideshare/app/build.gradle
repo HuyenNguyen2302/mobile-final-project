@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.wpi.cs4518.werideshare"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -27,6 +27,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.google.firebase:firebase-database:9.8.0'
+
+    compile 'com.google.android.gms:play-services:9.8.0'
     //https://firebase.google.com/docs/android/setup#available_libraries
     //compile 'com.google.firebase:firebase-messaging:9.8.0'
 

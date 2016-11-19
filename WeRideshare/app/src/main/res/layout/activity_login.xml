@@ -40,8 +40,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -79,11 +78,12 @@
                 android:layout_marginTop="@dimen/text_top"
                 android:layout_gravity="center"
                 android:textAlignment="center"/>
+
             <Button
-                android:text="getFCMToken"
+                android:text="See My Location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/getFCMToken" />
+                android:id="@+id/goToMapFragmentButton" />
 
         </LinearLayout>
     </ScrollView>
