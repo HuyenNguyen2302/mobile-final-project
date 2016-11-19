@@ -21,10 +21,6 @@ public class VehicleDetails extends Fragment {
         // Required empty public constructor
     }
 
-    public void toggleVisibility(boolean visible){
-
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

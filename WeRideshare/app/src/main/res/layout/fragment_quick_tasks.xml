@@ -19,13 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/profile_image"
-            android:id="@+id/imageButton5" />
+            android:id="@+id/profile_image_button" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/messages_icon"
-            android:id="@+id/imageButton3" />
+            android:id="@+id/messages_image_button" />
     </GridLayout>
 
 
