@@ -219,6 +219,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                                         Toast.LENGTH_SHORT).show();
                         }else{
                             //TODO: open user profile
+                                startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
                         }
                         // [END_EXCLUDE]
                     }
