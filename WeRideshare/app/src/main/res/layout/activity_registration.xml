@@ -17,7 +17,7 @@
 
             <fragment
                 android:id="@+id/personalDetailsFragment"
-                android:name="com.wpi.cs4518.werideshare.layout.PersonalDetails"
+                android:name="com.wpi.cs4518.werideshare.fragments.PersonalDetails"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -25,7 +25,7 @@
 
             <fragment
                 android:id="@+id/vehicleDetailsFragment"
-                android:name="com.wpi.cs4518.werideshare.layout.VehicleDetails"
+                android:name="com.wpi.cs4518.werideshare.fragments.VehicleDetails"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -44,7 +44,8 @@
                     android:layout_weight="1"
                     android:text="Proceed"
                     android:layout_marginTop="@dimen/text_top"
-                    android:layout_marginBottom="@dimen/text_bottom"/>
+                    android:layout_marginBottom="@dimen/text_bottom"
+                    android:onClick="onClickProceedButton"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

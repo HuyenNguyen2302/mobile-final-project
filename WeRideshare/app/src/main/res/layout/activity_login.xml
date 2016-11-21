@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.wpi.cs4518.werideshare.LoginActivity">
+    tools:context="com.wpi.cs4518.werideshare.EmailPasswordActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -80,10 +80,11 @@
                 android:textAlignment="center"/>
 
             <Button
-                android:text="See My Location"
+                android:text="@string/action_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/goToMapFragmentButton" />
+                android:id="@+id/register_button"
+                android:onClick="onRegisterClick"/>
 
         </LinearLayout>
     </ScrollView>

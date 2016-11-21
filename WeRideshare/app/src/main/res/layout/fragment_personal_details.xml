@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".layout.PersonalDetails"
+    tools:context=".fragments.PersonalDetails"
     android:layout_marginLeft="@dimen/text_left"
     android:layout_marginTop="@dimen/text_right">
 
