@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wpi.cs4518.werideshare.layout.QuickTasks">
+    tools:context="com.wpi.cs4518.werideshare.fragments.QuickTasks">
 
     <!-- TODO: Update blank fragment layout -->
 

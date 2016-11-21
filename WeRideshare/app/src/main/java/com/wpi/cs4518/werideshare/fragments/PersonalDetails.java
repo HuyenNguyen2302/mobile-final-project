@@ -1,4 +1,4 @@
-package com.wpi.cs4518.werideshare.layout;
+package com.wpi.cs4518.werideshare.fragments;
 
 
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.wpi.cs4518.werideshare.R;
 import com.wpi.cs4518.werideshare.model.User.UserType;
@@ -66,7 +65,7 @@ public class PersonalDetails extends Fragment {
     }
 
     /**
-     * Get the user type from the selected radio button
+     * Get the currentUser type from the selected radio button
      * @return
      */
     public UserType getUserType(){

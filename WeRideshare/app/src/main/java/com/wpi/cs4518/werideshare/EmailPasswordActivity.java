@@ -2,9 +2,7 @@ package com.wpi.cs4518.werideshare;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -73,7 +71,6 @@ public class EmailPasswordActivity extends BaseActivity implements
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Model.user = new User(user.getUid());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -120,9 +117,9 @@ public class EmailPasswordActivity extends BaseActivity implements
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // If sign in fails, display a message to the currentUser. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        // signed in currentUser can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
@@ -162,7 +159,8 @@ public class EmailPasswordActivity extends BaseActivity implements
                     formStatus.setText(String.format("%s\n", R.string.error_invalid_password));
             }
         }
-        return validEmail && validPassword;
+//        return validEmail && validPassword;
+        return password != null && email != null;
     }
 
     private void updateUI(FirebaseUser user) {
@@ -177,7 +175,7 @@ public class EmailPasswordActivity extends BaseActivity implements
     }
 
     private void signIn(final String email, final String password) {
-        Log.d(TAG, "signIn:" + email);
+        Log.d(TAG, "signIn: " + email);
         if (!validateForm()) {
             Toast.makeText(EmailPasswordActivity.this, R.string.form_status_invalid,
                 Toast.LENGTH_SHORT).show();
@@ -194,9 +192,9 @@ public class EmailPasswordActivity extends BaseActivity implements
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
                         hideProgressDialog();
-                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // If sign in fails, display a message to the currentUser. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        // signed in currentUser can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             if(task.getException() instanceof FirebaseAuthInvalidUserException)
@@ -207,9 +205,9 @@ public class EmailPasswordActivity extends BaseActivity implements
                         }else{//login success
                             startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
                             Log.w(TAG, String.format("token: %s\n", FirebaseInstanceId.getInstance().getToken()) );
-
-                            if(Model.user != null)
-                                Model.user.setDeviceId(FirebaseInstanceId.getInstance().getToken());
+                            Model.currentUser = Model.getUser(mAuth.getCurrentUser().getUid());
+                            if(Model.currentUser == null)
+                                Model.currentUser = Model.getDummyUser(mAuth.getCurrentUser().getUid());
                         }
                         // [END_EXCLUDE]
                     }

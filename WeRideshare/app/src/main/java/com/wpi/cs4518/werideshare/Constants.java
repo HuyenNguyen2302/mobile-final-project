@@ -27,7 +27,7 @@ public class Constants {
 
 
     /**
-     * A dummy authentication store containing known user names and passwords.
+     * A dummy authentication store containing known currentUser names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
     public static final String[] DUMMY_CREDENTIALS = new String[]{

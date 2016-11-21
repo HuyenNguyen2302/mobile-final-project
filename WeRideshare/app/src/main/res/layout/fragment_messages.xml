@@ -5,23 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wpi.cs4518.werideshare.layout.MessagesFragment">
+    tools:context="com.wpi.cs4518.werideshare.fragments.MessagesFragment">
 
 
     <ListView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:id="@+id/messages_view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_gravity="center_horizontal"
+        android:transcriptMode="normal"
+        tools:listitem="@android:layout/simple_list_item_2"
+        android:layout_above="@+id/input_bar" />
 
     <LinearLayout
         android:id="@+id/input_bar"
         android:layout_width="fill_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal" >

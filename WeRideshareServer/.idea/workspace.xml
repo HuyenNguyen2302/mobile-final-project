@@ -25,8 +25,8 @@
       <file leaf-file-name="SmackCcsClient.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/werideshare/server/SmackCcsClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
+            <state relative-caret-position="510">
+              <caret line="76" column="30" selection-start-line="76" selection-start-column="30" selection-end-line="76" selection-end-column="30" />
               <folding>
                 <element signature="docComment;class#SmackCcsClient#0" expanded="false" />
                 <element signature="initializer##0;class#SmackCcsClient#0" expanded="false" />
@@ -80,9 +80,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="162" />
-    <option name="width" value="1327" />
-    <option name="height" value="842" />
+    <option name="x" value="11" />
+    <option name="y" value="118" />
+    <option name="width" value="1151" />
+    <option name="height" value="854" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -109,9 +110,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -150,6 +148,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -633,20 +634,22 @@
       <updated>1479442742390</updated>
       <workItem from="1479442744303" duration="4706000" />
       <workItem from="1479487851506" duration="1980000" />
+      <workItem from="1479580094203" duration="20000" />
+      <workItem from="1479643599220" duration="454000" />
+      <workItem from="1479666161997" duration="14000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6686000" />
+    <option name="totallyTimeSpent" value="7174000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="162" width="1327" height="842" extended-state="0" />
+    <frame x="11" y="118" width="1151" height="854" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="PlantUML" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -656,7 +659,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24980545" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25879171" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -667,6 +670,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -728,6 +732,111 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/werideshare/server/SmackCcsClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#SmackCcsClient#0" expanded="false" />
+            <element signature="initializer##0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#2132:2487" expanded="false" />
+            <element signature="method#parse#0;class#2132:2487" expanded="false" />
+            <element signature="docComment;field#connectionDraining#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#nextMessageId#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#send#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleUpstreamMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleAckReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleAckReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleNackReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleNackReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleControlMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#createJsonMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#createJsonAck#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#createJsonAck#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#connect#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaFilter#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#accept#0;class#MyStanzaFilter#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#processPacket#0;class#MyStanzaListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaInterceptor#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;class#GcmPacketExtension#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#toPacket#0;class#GcmPacketExtension#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#LoggingConnectionListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#authenticated#0;class#LoggingConnectionListener#0;class#SmackCcsClient#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/werideshare/server/SmackCcsClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1095">
+          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
+          <folding>
+            <element signature="docComment;class#SmackCcsClient#0" expanded="false" />
+            <element signature="initializer##0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#2132:2487" expanded="false" />
+            <element signature="method#parse#0;class#2132:2487" expanded="false" />
+            <element signature="docComment;field#connectionDraining#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#nextMessageId#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#send#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleUpstreamMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleAckReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleAckReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleNackReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleNackReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleControlMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#createJsonMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#createJsonAck#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#createJsonAck#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#connect#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaFilter#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#accept#0;class#MyStanzaFilter#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#processPacket#0;class#MyStanzaListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaInterceptor#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;class#GcmPacketExtension#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#toPacket#0;class#GcmPacketExtension#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#LoggingConnectionListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#authenticated#0;class#LoggingConnectionListener#0;class#SmackCcsClient#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/werideshare/server/SmackCcsClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#SmackCcsClient#0" expanded="false" />
+            <element signature="initializer##0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#2132:2487" expanded="false" />
+            <element signature="method#parse#0;class#2132:2487" expanded="false" />
+            <element signature="docComment;field#connectionDraining#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#nextMessageId#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#send#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleUpstreamMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleAckReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleAckReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#handleNackReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleNackReceipt#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#handleControlMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#createJsonMessage#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#createJsonAck#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#createJsonAck#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;method#connect#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaFilter#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#accept#0;class#MyStanzaFilter#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#processPacket#0;class#MyStanzaListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#MyStanzaInterceptor#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="docComment;class#GcmPacketExtension#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#toPacket#0;class#GcmPacketExtension#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="class#LoggingConnectionListener#0;class#SmackCcsClient#0" expanded="false" />
+            <element signature="method#authenticated#0;class#LoggingConnectionListener#0;class#SmackCcsClient#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://$PROJECT_DIR$/../resources/libs/smack-core-4.1.8-sources.jar!/org/jivesoftware/smack/packet/DefaultExtensionElement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -751,8 +860,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/werideshare/server/SmackCcsClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
+        <state relative-caret-position="510">
+          <caret line="76" column="30" selection-start-line="76" selection-start-column="30" selection-end-line="76" selection-end-column="30" />
           <folding>
             <element signature="docComment;class#SmackCcsClient#0" expanded="false" />
             <element signature="initializer##0;class#SmackCcsClient#0" expanded="false" />

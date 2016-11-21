@@ -33,8 +33,8 @@ public class WeRideshareDBHelper extends SQLiteOpenHelper {
      * Create tables to be used as cache storage
      */
     private void createTables(){
-        //create user table
-        String userTableQuery = "CREATE TABLE user ("
+        //create currentUser table
+        String userTableQuery = "CREATE TABLE currentUser ("
                 + "user_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "username VARCHAR2(20) UNIQUE, "
                 + "password VARCHAR2(20) NOT NULL"
@@ -52,7 +52,7 @@ public class WeRideshareDBHelper extends SQLiteOpenHelper {
         values.put("username", "test@example.com");
         values.put("password", "HelloWorld1");
 
-        database.insert("user", null, values);
+        database.insert("currentUser", null, values);
 
 
         //create driver
@@ -60,7 +60,7 @@ public class WeRideshareDBHelper extends SQLiteOpenHelper {
         values.put("username", "test2@example.com");
         values.put("password", "HelloWorld2");
 
-        database.insert("user", null, values);
+        database.insert("currentUser", null, values);
     }
 
 }
