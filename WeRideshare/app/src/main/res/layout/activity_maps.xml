@@ -22,12 +22,18 @@ android:layout_height="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <Button
-            android:text="reFocus"
-            android:layout_width="wrap_content"
+        <fragment
+            android:id="@+id/source_place_autocomplete_fragment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/reFocus"
-            android:layout_weight="0.01" />
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            />
+        <fragment
+            android:id="@+id/destination_place_autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
