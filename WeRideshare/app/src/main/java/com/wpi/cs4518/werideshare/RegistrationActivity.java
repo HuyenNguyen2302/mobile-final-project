@@ -1,5 +1,6 @@
 package com.wpi.cs4518.werideshare;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -59,5 +60,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 ft.commit();
             }
         });
+    }
+
+    public void onClickProceedButton(View view){
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 }
