@@ -37,6 +37,8 @@ import static com.wpi.cs4518.werideshare.model.Model.MSG_ROOT;
 
 public class ProfileActivity extends AppCompatActivity {
     public static final String SENDER_ID = "530810481145";
+    private static final String TAG = "PROFILE_ACTIVITY";
+
     private ProfileDetails profileDetails;
     private MessagesFragment messagesFragment;
     private ConversationsFragment conversationsFragment;
@@ -52,11 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         firebase = FirebaseDatabase.getInstance().getReference();
+        Model.initDB();
     }
 
     public void onClickMessagesButton(View view) {
         if (conversationsFragment == null)
             conversationsFragment = new ConversationsFragment();
+        conversationsFragment.clearConversations();
 
         //setup firebase references
         chatRef = firebase
@@ -66,11 +70,13 @@ public class ProfileActivity extends AppCompatActivity {
         createDummyConversations();//add dummy conversations to firebase server
         chatRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s)           {
                 try {
-                    Conversation convo = dataSnapshot.getValue(Conversation.class);
-                    if (conversationsFragment != null && Model.currentUser.getConversations().contains(convo.getId()))
-                        conversationsFragment.addConversation(convo.getId());
+                    String convoId = dataSnapshot.getKey();
+                    String convoTitle = dataSnapshot.getValue(String.class);
+                    Log.w(TAG, String.format("Convo title: %s\n", convoTitle));
+                    if (conversationsFragment != null && Model.currentUser.getConversations().containsValue(convoId))
+                        conversationsFragment.addConversation(new Conversation(convoId, convoTitle));
                 } catch (DatabaseException ex) {
                     Log.w("ERROR", ex.getMessage());
                 }
@@ -167,13 +173,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickSendMessage(View view) {
-        FirebaseMessaging fm = FirebaseMessaging.getInstance();
-        Message message = new Message("Hello", Model.currentUser.getUsername());
-        fm.send(new RemoteMessage.Builder(SENDER_ID + "@gcm.googleapis.com")
-                .setMessageId(Long.toString(System.currentTimeMillis()))
-                .addData("message", message.getText())
-                .addData("my_action", FirebaseInstanceId.getInstance().getToken())
-                .build());
         EditText messageText = (EditText) findViewById(R.id.message_input);
         Message toSend = new Message(messageText.getText().toString(), Model.currentUser.getUsername());
         messageRef.push().setValue(toSend);
@@ -183,14 +182,19 @@ public class ProfileActivity extends AppCompatActivity {
     public void onClickMapButton(View view){
 
     }
+
     private void createDummyConversations() {
         Random random = new Random();
 
         for (int i = 0; i < 5; i++) {
             String key = chatRef.push().getKey();
-            chatRef.child(key).setValue(new Conversation(key));
             User randomUser = Model.getUsers().get(random.nextInt(Model.getUsers().size()));
-            randomUser.addConversation(key);
+            User randomUser2 = Model.getUsers().get(random.nextInt(Model.getUsers().size()));
+
+            while(randomUser.equals(randomUser2))
+                randomUser2 = Model.getUsers().get(random.nextInt(Model.getUsers().size()));
+
+            randomUser.addConversation(key, randomUser2);
         }
     }
 }

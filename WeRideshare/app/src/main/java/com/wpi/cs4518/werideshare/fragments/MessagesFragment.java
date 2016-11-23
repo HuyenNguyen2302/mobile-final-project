@@ -64,7 +64,6 @@ public class MessagesFragment extends Fragment {
         msg.put("meta", fmt.format(new Date(message.getTime())) + " "
                 + message.getUsername());
         messages.add(msg);
-        System.out.printf("messages size: %d\n", messages.size());
         messageAdapter.notifyDataSetChanged();
     }
 

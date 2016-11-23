@@ -68,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="onClickSignIn"/>
 
             <TextView
                 android:text="@string/form_status_pending"
@@ -84,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/register_button"
-                android:onClick="onRegisterClick"/>
+                android:onClick="onClickRegister"/>
 
         </LinearLayout>
     </ScrollView>

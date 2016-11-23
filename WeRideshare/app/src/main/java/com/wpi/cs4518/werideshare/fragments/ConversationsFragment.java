@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.wpi.cs4518.werideshare.ProfileActivity;
 import com.wpi.cs4518.werideshare.R;
 import com.wpi.cs4518.werideshare.model.Conversation;
+import com.wpi.cs4518.werideshare.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,27 +46,33 @@ public class ConversationsFragment extends Fragment {
 
         //set up conversation adapter
         conversations = new ArrayList<>();
+        conversations.addAll(Model.currentUser.getConversations().values());
         convoAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, conversations);
 
         conversationList = (ListView) getView().findViewById(R.id.conversations_view);
         conversationList.setAdapter(convoAdapter);
 
-        conversationList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        conversationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = (String) adapterView.getItemAtPosition(i);
                 ProfileActivity activity = (ProfileActivity) getContext();
-                activity.displayMessages(item);
+                String id = Model.currentUser.getConversationId(item);
+                activity.displayMessages(id != null? id : "With: " + item);
             }
         });
 
-        Log.w("CONVO", "conversation activity created");
+        Log.w("CONVO", "conversation fragment created");
     }
 
-    public void addConversation(String convo) {
-        if (conversations != null && !conversations.contains(convo))
-            conversations.add(convo);
+    public void clearConversations(){
+        conversations = new ArrayList<>();
+    }
+
+    public void addConversation(Conversation convo) {
+        if (conversations != null && !conversations.contains(convo.getTitle()))
+            conversations.add(convo.getTitle());
         convoAdapter.notifyDataSetChanged();
     }
 

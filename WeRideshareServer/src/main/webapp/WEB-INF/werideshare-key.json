@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "werideshare-149119",
+  "private_key_id": "cbcdc36f6be6c75b3d33a3a7216dcd175a2ae4ad",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC1emr1cLSH8t7M\nukOcEIj9MgLIk7NYzl6ik5npvry07JWFA2sTUmIxsC2M86NMCPsh5hlwDfzc/8Cf\nz7iMs9ZfT8RiDFRon2AdgZ2d/NwwEMyBPusqXGXxI9I3E8AufvhGClkqja1tTzpv\nk9lv98LefDZudKS0zQsEpHPDt5l42/A2M796E5iWQhRZZOYOuS+EL7uTOFRLVb5t\n0qxbrG0j7wP1WzVz1Rt59gURMv0OVcX1O4JmS3si1rSncxnd/BXHXG8h0hToOOVA\nZ3WVijADknEioE2XCYbaRSUTV51N+MZ8MqNh3CtFk+IYpQeeIxOWF8Gj5+m7gxIY\nr9beULLTAgMBAAECggEAaftI9XdRZsd2R/dLPpwFdGA9ceeX6Hf0mls6mmAykjJM\nC3b4lDsbb0sk/tjV97SS/LQFDQSONH4DfxDvBPSNb/IEjQIIVWUl23Vzl+0wpb1Z\nwOz+pyl4uz+hJ1sYc87grP6kHg7JRjnrtXeRlysJGadOnmjuO0w3cAmeNaFGNma3\neb4dKYLK+DsnP7yGiR5D+RrNe4gRG+qsogZIfV9v6rPv/GLsIaUvwQjZtEGWTBbr\nDDS8qlzU4elDUwfyfiH5aOkDUPEVcNBnFuHJnIntGZK/5ZmTgRhSesLDZRK2HKdu\nuOuKMOZTlthCMWmgt9C/Vw3SV2EPx94zAgn8JkpqAQKBgQDZY5iO14C9BP+/M2db\n4qFtANRWuMN6mh2eS7vzwWxQO1h7ofnPzUzoarBXUNcMC5uPmf4gSuLGmvdVRHxu\n8L+PWLnog1Zf/6O71rDmtTHIPIF2Vx/tm65F3oIxruwt3kNHukdNGFutE0O8wbiQ\nnKabNPx/lAf3nSYtfDFkF/Xb0wKBgQDVtgBCGhv7N/aEx64TOldc5rhwEXYcOcrY\n3AR/Vd8XEXv3fAkYTC2A5UajD9+es1mgFBzWIU/XYY0vliaptXSbY4/lZI/1MD9U\n9jSLeexKS/k7OBBj+i4uUjgcS5jMI/mQfmoOL4vEWO9mItNvPmy13S6zIMEtIKhB\npOG42fZtAQKBgCfCEVq+iysGyQddDWA+uKtI5YzeydGYciZLT5qrG3YpBGvIGfop\nYBF5wbqWbF4lmVPQJCwfxg3wtZ+AoQlhOoerAIVHz/pKtNVb1Iq9RNeMSVktYgeA\n24Snx0Py6/sPlVp+9R9ifxHOXisdevXn0Ii+The/KR3ePec/uYDG6Q5FAoGBAJAc\nH4ZzlsTL0wdsoxzCLaEuz9Z6X9veuMONcdbv7/TdTGvxjyx8Sf7uHLjeflvE8z33\n8g4O/ojtdkhNhxrPiqcx9xmnu0+KTlqbf4lCGS1sl87wGlVgof2IYd/qtkmKRMLE\nC/4u35/ynNSRzWPpg2MLmG8gOkOVDwDdD30YNY0BAoGBAMaDBzaLWmKr8/nhIb/X\nuthgTSQUdA1nminLr7tEwiKLoHyYR44FhLHvKq88YmQCJ9GtZgEGfliCtsL0GItA\nAQCBh+Gec2BCCNzwfhvMq0fup3tf30VdCuDLtQR+8cEhD4fi/NUkQhhVko+fDaQu\nyLOKbIqSg6SYQ6/UCcSyoiLP\n-----END PRIVATE KEY-----\n",
+  "client_email": "message-servlet@werideshare-149119.iam.gserviceaccount.com",
+  "client_id": "113083631063753108133",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/message-servlet%40werideshare-149119.iam.gserviceaccount.com"
+}
