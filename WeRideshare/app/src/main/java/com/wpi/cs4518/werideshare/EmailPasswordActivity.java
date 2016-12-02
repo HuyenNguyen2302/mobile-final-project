@@ -3,11 +3,15 @@ package com.wpi.cs4518.werideshare;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,27 +28,17 @@ import com.wpi.cs4518.werideshare.model.Model;
 
 import java.util.regex.Pattern;
 
-public class EmailPasswordActivity extends BaseActivity implements
-        View.OnClickListener {
+public class EmailPasswordActivity extends BaseActivity {
 
 
     private static final String TAG = "EmailPassword";
-    public static String userId = null;
 
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    // [START declare_auth]
+    //fiirebase fields
     private FirebaseAuth mAuth;
-    // [END declare_auth]
-
-    // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
-    // [END declare_auth_listener]
-
-    private ImageButton mGoToMapButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +48,11 @@ public class EmailPasswordActivity extends BaseActivity implements
     }
 
     private void setUp() {
-        FirebaseApp app = FirebaseApp.initializeApp(getApplicationContext());
-
         // Views
         mEmailField = (EditText) findViewById(R.id.email);
         mPasswordField = (EditText) findViewById(R.id.password);
 
-        // Buttons
-        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-
-        // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
-
-        // [START auth_state_listener]
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -75,46 +60,35 @@ public class EmailPasswordActivity extends BaseActivity implements
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    updateUI(user);
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // [START_EXCLUDE]
-                updateUI(user);
-                // [END_EXCLUDE]
             }
         };
-        // [END auth_state_listener]
     }
 
-    // [START on_start_add_listener]
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-    // [END on_start_add_listener]
 
-    // [START on_stop_remove_listener]
     @Override
     public void onStop() {
         super.onStop();
-        if (mAuthListener != null) {
+        if (mAuthListener != null)
             mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
-    // [END on_stop_remove_listener]
-
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
+        if (!validateForm())
             return;
-        }
 
         showProgressDialog();
 
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -127,16 +101,12 @@ public class EmailPasswordActivity extends BaseActivity implements
                         if (!task.isSuccessful()) {
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             startActivity(new Intent(EmailPasswordActivity.this, RegistrationActivity.class));
                         }
-
-                        // [START_EXCLUDE]
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END create_user_with_email]
     }
 
     private boolean validateForm() {
@@ -144,19 +114,19 @@ public class EmailPasswordActivity extends BaseActivity implements
         TextView formStatus = (TextView) findViewById(R.id.form_status);
 
         String email = mEmailField.getText().toString();
-        if(!Pattern.matches(Constants.EMAIL_PATTERN, email)){
+        if (!Pattern.matches(Constants.EMAIL_PATTERN, email)) {
             validEmail = false;
 
-            if(formStatus != null)
+            if (formStatus != null)
                 formStatus.setText(String.format("%s\n", R.string.error_invalid_email));
         }
 
         String password = mPasswordField.getText().toString();
-        if(!Pattern.matches(Constants.PASSWORD_PATTERN, password)){
+        if (!Pattern.matches(Constants.PASSWORD_PATTERN, password)) {
             validPassword = false;
 
-            if(formStatus != null){
-                if(!validEmail)
+            if (formStatus != null) {
+                if (!validEmail)
                     formStatus.setText(String.format("%s %s\n", formStatus.getText(), R.string.error_invalid_password));
                 else
                     formStatus.setText(String.format("%s\n", R.string.error_invalid_password));
@@ -170,28 +140,24 @@ public class EmailPasswordActivity extends BaseActivity implements
         hideProgressDialog();
     }
 
-    public void onRegisterClick(View v){
+    public void onClickRegister(View v) {
         createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.email_sign_in_button)
-            signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+    public void onClickSignIn(View v) {
+        signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
     }
 
     private void signIn(final String email, final String password) {
         Log.d(TAG, "signIn: " + email);
         if (!validateForm()) {
             Toast.makeText(EmailPasswordActivity.this, R.string.form_status_invalid,
-                Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
         showProgressDialog();
 
-        // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -199,30 +165,24 @@ public class EmailPasswordActivity extends BaseActivity implements
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
                         hideProgressDialog();
+
                         // If sign in fails, display a message to the currentUser. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in currentUser can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
-                                        Toast.LENGTH_SHORT).show();
-                        }else{//login success
+                            Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {//login success
                             startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
-                            Log.w(TAG, String.format("token: %s\n", FirebaseInstanceId.getInstance().getToken()) );
-                            Model.currentUser = Model.getUser(mAuth.getCurrentUser().getUid());
+                            String userId = mAuth.getCurrentUser().getUid();
+                            Model.getUser(userId);
                             if(Model.currentUser == null)
-                                Model.currentUser = Model.getDummyUser(mAuth.getCurrentUser().getUid());
+                                Model.setCurrentUser(Model.getDummyUser(userId));
+//                            Model.currentUser.setDeviceId(FirebaseInstanceId.getInstance().getToken());
                         }
                         // [END_EXCLUDE]
                     }
                 });
-        // [END sign_in_with_email]
     }
-
-    private void signOut() {
-        mAuth.signOut();
-        updateUI(null);
-    }
-
-
 }

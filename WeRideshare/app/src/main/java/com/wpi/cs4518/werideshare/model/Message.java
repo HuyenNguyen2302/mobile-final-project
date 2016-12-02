@@ -21,7 +21,7 @@ public class Message {
 
     public Message(String text, String displayName) {
         this.text = text;
-        this.username = displayName;
+        username = displayName;
         time = System.currentTimeMillis();
     }
 

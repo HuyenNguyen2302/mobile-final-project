@@ -12,14 +12,26 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.wpi.cs4518.werideshare.fragments.PersonalDetailsFragment;
+import com.wpi.cs4518.werideshare.fragments.VehicleDetailsFragment;
+
 public class RegistrationActivity extends AppCompatActivity {
+    private PersonalDetailsFragment personalDetailsFragment;
+    private VehicleDetailsFragment vehicleDetailsFragment;
+
+    private static final int PERSONAL = 1;
+    private static final int VEHICLE = 2;
+
+    private int currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         loadSpinnerCapacity();
-        setUpVehicleRegistration();
+
+        //add personal details fragment
+        addPersonalDetails();
     }
 
     private void loadSpinnerCapacity() {
@@ -33,36 +45,33 @@ public class RegistrationActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void setUpVehicleRegistration() {
-        final RadioButton driverRadioButton = (RadioButton) findViewById(R.id.driverRadioButton);
-        final RadioButton riderRadioButton = (RadioButton) findViewById(R.id.riderRadioButton);
-        final Fragment vehicleFragment = getSupportFragmentManager().findFragmentById(R.id.vehicleDetailsFragment);
-
-        driverRadioButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                ft.setCustomAnimations(android.R.animator.fade_in,
-//                        android.R.animator.fade_out);
-                if (vehicleFragment.isHidden()) {
-                    ft.show(vehicleFragment);
-                }
-                ft.commit();
-            }
-        });
-
-        riderRadioButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                ft.setCustomAnimations(android.R.animator.fade_in,
-//                        android.R.animator.fade_out);
-                if (vehicleFragment.isVisible())
-                    ft.hide(vehicleFragment);
-                ft.commit();
-            }
-        });
+    private void addPersonalDetails() {
+        if (personalDetailsFragment == null)
+            personalDetailsFragment = new PersonalDetailsFragment();
+        addFragment(personalDetailsFragment);
+        currentPage = PERSONAL;
     }
 
-    public void onClickProceedButton(View view){
-        startActivity(new Intent(this, ProfileActivity.class));
+    private void addVehicleDetails() {
+        if (vehicleDetailsFragment == null)
+            vehicleDetailsFragment = new VehicleDetailsFragment();
+        addFragment(vehicleDetailsFragment);
+        currentPage = VEHICLE;
+    }
+
+    private void addFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.task_container, fragment); // f1_container is FrameLayout container
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void onClickProceedButton(View view) {
+        RadioButton driverButton = (RadioButton) findViewById(R.id.driverRadioButton);
+        if (driverButton.isChecked() && currentPage == PERSONAL)
+            addVehicleDetails();
+        else
+            startActivity(new Intent(this, ProfileActivity.class));
     }
 }

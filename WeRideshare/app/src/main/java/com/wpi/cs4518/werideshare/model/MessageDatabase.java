@@ -35,19 +35,5 @@ public class MessageDatabase {
             }
         });
 
-        //add listener to each messages channel of current currentUser
-        for(String conversationId : currentUser.getConversations()){
-            firebase.child(MSG_ROOT).child(conversationId).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
     }
 }

@@ -110,7 +110,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, ProfileActivity.class);
 
         String sender = data.get("sender");
-        String message = data.get("meesage");
+        String message = data.get("message");
+        System.out.printf("message: %s\n", message);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("type", "private message");

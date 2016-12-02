@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <display-name>WeRideshare Server</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>MessageServlet</servlet-name>
+        <servlet-class>com.wpi.cs4518.werideshare.MessageServlet</servlet-class>
+        <init-param>
+            <param-name>credential</param-name>
+            <param-value>/WEB-INF/werideshare-key.json</param-value>
+        </init-param>
+        <init-param>
+            <param-name>databaseUrl</param-name>
+            <param-value>https://werideshare-149119.firebaseio.com/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>purgeLogs</param-name>
+            <param-value>100</param-value>
+        </init-param>
+        <init-param>
+            <param-name>purgeInterval</param-name>
+            <param-value>20000</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageServlet</servlet-name>
+        <url-pattern>/printLogs</url-pattern>
+    </servlet-mapping>
+</web-app>
