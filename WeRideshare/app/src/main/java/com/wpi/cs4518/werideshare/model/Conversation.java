@@ -45,7 +45,6 @@ public class Conversation {
         if (!( other instanceof Conversation) )
             return false;
 
-        return ((Conversation) other).getId().equals(id) &&
-                ((Conversation) other).getTitle().equals(title);
+        return ((Conversation) other).getId().equals(id) ;
     }
 }

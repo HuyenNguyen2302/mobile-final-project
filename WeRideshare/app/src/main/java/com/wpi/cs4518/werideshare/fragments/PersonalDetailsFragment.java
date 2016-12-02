@@ -16,11 +16,11 @@ import com.wpi.cs4518.werideshare.model.User.UserType;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalDetails extends Fragment {
+public class PersonalDetailsFragment extends Fragment {
     private String firstName, lastName, phone;
     private UserType userType;
 
-    public PersonalDetails() {
+    public PersonalDetailsFragment() {
     }
 
     /**

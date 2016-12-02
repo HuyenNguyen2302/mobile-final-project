@@ -3,11 +3,15 @@ package com.wpi.cs4518.werideshare;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +60,11 @@ public class EmailPasswordActivity extends BaseActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    updateUI(user);
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                updateUI(user);
             }
         };
     }
@@ -76,11 +80,6 @@ public class EmailPasswordActivity extends BaseActivity {
         super.onStop();
         if (mAuthListener != null)
             mAuth.removeAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle state){
-        
     }
 
     private void createAccount(String email, String password) {
@@ -176,22 +175,14 @@ public class EmailPasswordActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {//login success
                             startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
-
-                            Model.currentUser = Model.getUser(mAuth.getCurrentUser().getUid());
-                            if (Model.currentUser == null)
-                                Model.currentUser = Model.getDummyUser(mAuth.getCurrentUser().getUid());
-                            Model.currentUser.setDeviceId(FirebaseInstanceId.getInstance().getToken());
-                            System.out.printf("fcm token: %s\n", FirebaseInstanceId.getInstance().getToken());
+                            String userId = mAuth.getCurrentUser().getUid();
+                            Model.getUser(userId);
+                            if(Model.currentUser == null)
+                                Model.setCurrentUser(Model.getDummyUser(userId));
+//                            Model.currentUser.setDeviceId(FirebaseInstanceId.getInstance().getToken());
                         }
                         // [END_EXCLUDE]
                     }
                 });
     }
-
-    private void signOut() {
-        mAuth.signOut();
-        updateUI(null);
-    }
-
-
 }

@@ -31,14 +31,14 @@ public class MessageServlet extends HttpServlet {
     public static final String USER_ROOT = "users";
     public static final String CONVO_ROOT = "conversations";
     private static final String ENDPOINT_URL = "https://fcm.googleapis.com/fcm/send";
-    private static final String TAG = "SERVLET";
     private static final String TITLE = "WeRideshare";
     private static final String FIREBASE_SERVER_KEY = "key=AIzaSyDa5h-UGxvrRKD0S0o9uOPmUbAPyG7se9Y";
 
-
+    private static String TAG = "SERVLET";
     private FirebaseLogger logger;
     private DatabaseReference firebase, usersRef, messagesRef;
     private List<User> users;
+    private int uniqueID;
 
 
     @Override
@@ -50,8 +50,13 @@ public class MessageServlet extends HttpServlet {
                 .setDatabaseUrl(databaseUrl)
                 .build();
         FirebaseApp.initializeApp(options);
+
+        //initialize from server side
+        Main.init();
         firebase = FirebaseDatabase.getInstance().getReference();
         logger = new FirebaseLogger(firebase, "server");
+        uniqueID = (int) System.currentTimeMillis() % 10000;
+        TAG += " " + uniqueID;
 
         readUsers();
         messagesRef = firebase

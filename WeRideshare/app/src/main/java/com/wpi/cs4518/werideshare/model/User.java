@@ -7,10 +7,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
@@ -21,7 +21,7 @@ import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
  * Created by mrampiah on 11/13/16.
  */
 
-public class User {
+public class  User {
 
     private static final String TAG = "USER";
 
@@ -31,8 +31,11 @@ public class User {
 
     private String userId, firstName, lastName, username, deviceId;
     private UserType userType;
-    private Map<String, String> conversations;
-    private DatabaseReference firebase;
+    private List<Conversation> conversations;
+    private DatabaseReference firebase = FirebaseDatabase
+                                                    .getInstance()
+                                                    .getReference();
+    private DatabaseReference convoRef;
 
     private boolean update = false;
 
@@ -95,65 +98,66 @@ public class User {
         this.deviceId = deviceId;
     }
 
-    public Map<String, String> getConversations() {
+    public List<Conversation> getConversations() {
         if (conversations == null)
-            conversations = new HashMap<>();
+            conversations = new ArrayList<>();
 
         return conversations;
     }
 
-    public void addConversation(String convoId, User otherUser) {
-        if (getConversations().containsValue(otherUser.getUsername()))
+    public boolean hasConversation(Conversation convo){
+        return getConversations().contains(convo);
+    }
+
+    public void addConversation(Conversation convo, User otherUser) {
+        //dont add if user already has conversation
+        if (hasConversation(convo))
             return;
-        saveConversation(convoId, otherUser.getUsername());
-        if (!otherUser.getConversations().containsValue(username)) {
-            otherUser.addConversation(convoId, username);
-            otherUser.saveConversation(convoId, username);
-        }
+
+        saveConversation(convo);
+        convo.setTitle(username);
+
+        if (otherUser != null && !otherUser.hasConversation(convo))
+            otherUser.addConversation(convo, null);
     }
 
-    private void saveConversation(String convoId, String otherUser) {
-        firebase.child(convoId).setValue(otherUser);
+    private void saveConversation(Conversation convo) {
+        if(convoRef == null)
+            setupFirebase();
+        convoRef.push().setValue(convo);
         Log.w(TAG, String.format("adding %s(other), to %s(this) to %s(convo)",
-                otherUser, username, convoId));
+                convo.getTitle(), username, convo.getId()));
     }
 
-    public void addConversation(String convoId, String title) {
-        if (!getConversations().containsValue(title))
-            getConversations().put(convoId, title);
+    public void addConversation(Conversation convo) {
+        if (!hasConversation(convo))
+            getConversations().add(convo);
     }
 
     public String getConversationId(String user) {
-        for (Map.Entry<String, String> convos : getConversations().entrySet()) {
-            if (convos.getValue().equals(user))
-                return convos.getKey();
+        for (Conversation convo : getConversations()) {
+            if (convo.getTitle().equals(user))
+                return convo.getId();
         }
         return null;
     }
 
     private void setupFirebase() {
-        firebase =
-                FirebaseDatabase
-                        .getInstance()
-                        .getReference()
-                        .child(USER_ROOT)
-                        .child(userId)
-                        .child(CONVO_ROOT);
-        firebase.addChildEventListener(new ChildEventListener() {
+        convoRef = firebase
+                .child(USER_ROOT)
+                .child(userId)
+                .child(CONVO_ROOT);
+        convoRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String convoId = dataSnapshot.getKey();
-                String convoTitle = dataSnapshot.getValue(String.class);
-                if (!getConversations().containsValue(convoId))
-                    addConversation(convoId, convoTitle);
+                Conversation convo = dataSnapshot.getValue(Conversation.class);
+                if (!hasConversation(convo))
+                    addConversation(convo);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String convoId = dataSnapshot.getKey();
-                String convoTitle = dataSnapshot.getValue(String.class);
-                if (!getConversations().containsValue(convoTitle))
-                    addConversation(convoId, convoTitle);
+
             }
 
             @Override
@@ -196,5 +200,10 @@ public class User {
         } catch (NullPointerException ex) {//make sure null errors dont cause app to break
             Log.w(TAG, ex.getMessage());
         }
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Firstname: %s, Lastname: %s\n", firstName, lastName);
     }
 }

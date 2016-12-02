@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -24,24 +25,86 @@ public class Model {
     public static final String USER_ROOT = "users";
     public static final String MSG_ROOT = "messages";
     public static final String CONVO_ROOT = "conversations";
+    private static final String TAG = "MODEL";
 
     public static User currentUser;
+    public static boolean loggedIn = false;
     private static List<User> users;
 
     static Random index = new Random();
     static String[] firstNames = {"John", "David", "Chris", "Papa", "Frank"};
     static String[] lastNames = {"Viper", "Stewart", "Sarpong", "Ampiah", "Mould"};
+
     static DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+    static DatabaseReference usersRef = firebase.child(USER_ROOT);
+
+    public static List<User> getUsers() {
+        if (users == null)
+            users = new ArrayList<>();
+
+        return users;
+    }
 
     public static void initDB() {
         Log.w("INIT", "initializing with 5 people");
-        firebase.child(FCM_ROOT)
-                .child(USER_ROOT).addChildEventListener(new ChildEventListener() {
+        firebase.child(USER_ROOT).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User user = dataSnapshot.getValue(User.class);
-                if (!users.contains(user))
-                    users.add(user);
+                Log.w(TAG, "adding user: " + user);
+                if (!getUsers().contains(user))
+                    getUsers().add(user);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        for(int i = 0; i < 5; i++)
+            getDummyUser("RD" + System.currentTimeMillis() % 1000000);
+    }
+
+    public static User getDummyUser(String id) {
+        User user = new User(id, firstNames[index.nextInt(firstNames.length)],
+                lastNames[index.nextInt(lastNames.length)]);
+
+        if (!getUsers().contains(user)) {
+            writeToDatabase(user);
+        }
+        return user;
+    }
+
+    private static void writeToDatabase(User user) {
+        Log.w("WRITE", "writing user to database: " + user);
+
+        usersRef.child(user.getUserId())
+                .setValue(user);
+    }
+
+    public static void getAllUsers(){
+        usersRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                User user = dataSnapshot.getValue(User.class);
+                Log.w(TAG,  "all users size: " + getUsers().size());
+                if(!getUsers().contains(user))
+                    getUsers().add(user);
             }
 
             @Override
@@ -64,74 +127,46 @@ public class Model {
 
             }
         });
-
-        while (getUsers().size() < 5)
-            getDummyUser("RD" + index.nextInt(1000));
     }
 
-    public static void createDummyUsers() {
-        users = new ArrayList<>();
-        for (int i = 0; i < firstNames.length; i++) {
-            User u = new User(String.valueOf(index.nextInt(5000)), firstNames[index.nextInt(firstNames.length)],
-                    lastNames[index.nextInt(lastNames.length)]);
-            if (!getUsers().contains(u))
-                getUsers().add(u);
-        }
+    public static void getUser(final String id) {
 
-        currentUser = getUsers().get(index.nextInt(getUsers().size() - 1));
-//        writeToDatabase();
-    }
+        final Query userQuery = usersRef.orderByKey().equalTo(id);
 
-    public static List<User> getUsers() {
-        if (users == null)
-            users = new ArrayList<>();
-
-        return users;
-    }
-
-    public static User getDummyUser(String id) {
-        User user = new User(id, firstNames[index.nextInt(firstNames.length)],
-                lastNames[index.nextInt(lastNames.length)]);
-
-        if (!getUsers().contains(user)) {
-            getUsers().add(user);
-            writeToDatabase(user);
-        }
-        return user;
-    }
-
-    private static void writeToDatabase(User user) {
-        Log.w("WRITE", "writing user to database: " + user.getUsername());
-
-        firebase.child(USER_ROOT)
-                .child(user.getUserId())
-                .setValue(user);
-    }
-
-    public static User getUser(final String id) {
-        DatabaseReference firebase =
-                FirebaseDatabase
-                        .getInstance()
-                        .getReference()
-                        .child(USER_ROOT)
-                        .child(id);
-        final User[] user = {null};
-        if (firebase != null) {
-            firebase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    User u = dataSnapshot.getValue(User.class);
-                    if (u.getUserId().equals(id))
-                        user[0] = u;
+        userQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                User user = dataSnapshot.getValue(User.class);
+                if(user.getUserId().equals(id)) {
+                    Log.w(TAG, "user found");
+                    Model.setCurrentUser(user);
+                    userQuery.removeEventListener(this);
                 }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
-            });
-        }
+            }
 
-        return user[0];
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static void setCurrentUser(User user){
+        currentUser = user;
     }
 }
