@@ -66,8 +66,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         firebase = FirebaseDatabase.getInstance().getReference();
         setupNavMenu();
-        Model.initDB();
-        Model.getAllUsers();
     }
 
     private void setupNavMenu() {
@@ -128,8 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .child(CHAT_ROOT);
 
         addFragment(conversationsFragment);
-        if(Model.currentUser.getConversations().size() < 2)
-            createDummyConversation();
     }
 
     public void displayMessages(String convoId) {

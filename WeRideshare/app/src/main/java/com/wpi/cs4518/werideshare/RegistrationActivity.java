@@ -28,21 +28,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        loadSpinnerCapacity();
 
         //add personal details fragment
         addPersonalDetails();
-    }
-
-    private void loadSpinnerCapacity() {
-        Spinner spinner = (Spinner) findViewById(R.id.capacitySpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.VehicleCapacity, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
     }
 
     private void addPersonalDetails() {
@@ -69,9 +57,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void onClickProceedButton(View view) {
         RadioButton driverButton = (RadioButton) findViewById(R.id.driverRadioButton);
+        if (currentPage == VEHICLE){
+            startActivity(new Intent(this, ProfileActivity.class));
+            return;
+        }
         if (driverButton.isChecked() && currentPage == PERSONAL)
             addVehicleDetails();
-        else
-            startActivity(new Intent(this, ProfileActivity.class));
     }
 }
