@@ -3,14 +3,12 @@ package com.wpi.cs4518.werideshare.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.wpi.cs4518.werideshare.ProfileActivity;
 import com.wpi.cs4518.werideshare.R;
 import com.wpi.cs4518.werideshare.model.Message;
 
@@ -28,9 +26,7 @@ public class MessagesFragment extends Fragment {
     private ListView messageList;
     private List<Map<String, String>> messages;
     private SimpleAdapter messageAdapter;
-    private SimpleDateFormat fmt = new SimpleDateFormat("yy.MM.dd HH:mm z");
-    ;
-
+    private final SimpleDateFormat fmt = new SimpleDateFormat("yy.MM.dd HH:mm z");
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -57,15 +53,12 @@ public class MessagesFragment extends Fragment {
         messageList.setAdapter(messageAdapter);
     }
 
-
     public void addMessage(Message message) {
         Map<String, String> msg = new HashMap<>();
         msg.put("message", message.getText());
         msg.put("meta", fmt.format(new Date(message.getTime())) + " "
                 + message.getUsername());
         messages.add(msg);
-        System.out.printf("messages size: %d\n", messages.size());
         messageAdapter.notifyDataSetChanged();
     }
-
 }

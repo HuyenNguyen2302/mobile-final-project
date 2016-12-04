@@ -28,42 +28,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DelayScreen"
-            android:theme="@style/AppTheme" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".EmailPasswordActivity"></activity>
+        <activity android:name=".EmailPasswordActivity"/>
 
 
         <!--//showing self location activity -->
         <activity
-            android:name=".map.MapsActivity"
+            android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
-
-
-        <service
-            android:name=".MyFirebaseMessagingService">
-
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
         <activity
-            android:name=".ProfileActivity"
+            android:name=".HomescreenActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 

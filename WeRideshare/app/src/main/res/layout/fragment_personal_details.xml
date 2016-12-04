@@ -2,32 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.PersonalDetails"
+    tools:context=".fragments.PersonalDetailsFragment"
     android:layout_marginLeft="@dimen/text_left"
     android:layout_marginTop="@dimen/text_right">
-
+    <!-->
+     android lint said to use this, but resulted in a squished view
+    android:layout_marginStart="@dimen/text_left"
+    android:layout_marginTop="@dimen/text_right"
+    <-->
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="First Name"
+            android:hint="@string/first_name"
             android:ems="10"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
 
         <EditText
-            android:id="@+id/last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="Last Name"
+            android:hint="@string/last_name"
             android:ems="10"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
@@ -39,9 +41,7 @@
             android:ems="10"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/text_top"
-            android:id="@+id/phone"
-            android:hint="Phone number: eg. 123-456-7890"/>
-
+            android:hint="@string/phone_number_hint"/>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -49,16 +49,17 @@
             android:id="@+id/radioButtonGroup">
 
             <RadioButton
-                android:text="Driver"
+                android:text="@string/driver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/driverRadioButton" />
 
             <RadioButton
-                android:text="Rider"
+                android:text="@string/rider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/riderRadioButton"/>
         </RadioGroup>
     </LinearLayout>
+
 </FrameLayout>

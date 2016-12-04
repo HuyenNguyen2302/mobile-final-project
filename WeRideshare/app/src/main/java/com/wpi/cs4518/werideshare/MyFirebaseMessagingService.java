@@ -26,7 +26,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -62,7 +61,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Conversation data payload: " + remoteMessage.getData());
             Map<String, String> data = remoteMessage.getData();
 
-            readMessage(data, remoteMessage);
+            readMessage(data);
         }
 
         // Check if message contains a notification payload.
@@ -84,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void sendMessage(String messageBody) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, HomescreenActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -106,11 +105,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void readMessage(Map<String, String> data, RemoteMessage remoteMessage) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+    private void readMessage(Map<String, String> data) {
+        Intent intent = new Intent(this, HomescreenActivity.class);
 
         String sender = data.get("sender");
-        String message = data.get("meesage");
+        String message = data.get("message");
+        System.out.printf("message: %s\n", message);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("type", "private message");

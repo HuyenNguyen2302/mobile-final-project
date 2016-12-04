@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:map="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
- >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
     <!--tools:context=".MapsActivity"-->
 
     <fragment
@@ -14,33 +15,36 @@ android:layout_height="match_parent"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.wpi.cs4518.testingmap.MapsActivity" />
+        />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <fragment
-            android:id="@+id/source_place_autocomplete_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/source_autocomplete_fragment"
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#d8e0e1"
             />
+
         <fragment
-            android:id="@+id/destination_place_autocomplete_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/destination_autocomplete_fragment"
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#d8e0e1"
             />
 
         <ImageButton
+            android:id="@+id/getCurrentLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            map:srcCompat="@android:drawable/ic_menu_mylocation"
-            android:id="@+id/getCurrentLocation" />
+            map:srcCompat="@android:drawable/ic_menu_mylocation" />
 
     </LinearLayout>
 
-</FrameLayout>
+</merge>

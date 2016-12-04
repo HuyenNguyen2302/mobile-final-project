@@ -6,49 +6,23 @@
     android:layout_marginTop="13dp"
     android:orientation="vertical">
 
-    <ScrollView
+
+    <FrameLayout
+        android:id="@+id/task_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="420dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    </FrameLayout>
 
-            <fragment
-                android:id="@+id/personalDetailsFragment"
-                android:name="com.wpi.cs4518.werideshare.fragments.PersonalDetails"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                tools:layout="@layout/fragment_personal_details" />
-
-            <fragment
-                android:id="@+id/vehicleDetailsFragment"
-                android:name="com.wpi.cs4518.werideshare.fragments.VehicleDetails"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                tools:layout="@layout/fragment_vehicle_details" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/doneButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Proceed"
-                    android:layout_marginTop="@dimen/text_top"
-                    android:layout_marginBottom="@dimen/text_bottom"
-                    android:onClick="onClickProceedButton"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_bottom"
+        android:layout_marginTop="@dimen/text_top"
+        android:layout_weight="1"
+        android:text="@string/proceed"
+        android:id="@+id/proceedButton" />
 
 
 </LinearLayout>
