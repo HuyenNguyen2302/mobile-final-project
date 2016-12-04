@@ -76,11 +76,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGetCurrentLocationButton = (ImageButton) findViewById(R.id.getCurrentLocation);
 
         sourceSearch = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.source_place_autocomplete_fragment);
+                getFragmentManager().findFragmentById(R.id.source_autocomplete_fragment);
         sourceSearch.getView().setBackgroundColor(0x80FFFFFF);
 
         destinationSearch = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.destination_place_autocomplete_fragment);
+                getFragmentManager().findFragmentById(R.id.destination_autocomplete_fragment);
         destinationSearch.getView().setBackgroundColor(0x80FFFFFF);
 
         registerUI();
