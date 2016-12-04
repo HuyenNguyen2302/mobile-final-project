@@ -1,8 +1,5 @@
 package com.wpi.cs4518.werideshare.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by mrampiah on 11/18/16.
  */
@@ -41,10 +38,8 @@ public class Conversation {
     }
 
     @Override
-    public boolean equals(Object other){
-        if (!( other instanceof Conversation) )
-            return false;
+    public boolean equals(Object other) {
+        return other instanceof Conversation && ((Conversation) other).getId().equals(id);
 
-        return ((Conversation) other).getId().equals(id) ;
     }
 }

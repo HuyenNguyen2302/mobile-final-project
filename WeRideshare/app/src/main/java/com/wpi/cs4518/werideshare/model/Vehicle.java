@@ -4,7 +4,7 @@ package com.wpi.cs4518.werideshare.model;
  * Created by mrampiah on 11/13/16.
  */
 
-public class Vehicle {
+class Vehicle {
     /*
 
         String vehicleTableQuery = "CREATE TABLE vehicle ("

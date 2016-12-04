@@ -6,13 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.wpi.cs4518.werideshare.R;
 import com.wpi.cs4518.werideshare.model.Message;
-import com.wpi.cs4518.werideshare.model.Model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class MessagesFragment extends Fragment {
     private ListView messageList;
     private List<Map<String, String>> messages;
     private SimpleAdapter messageAdapter;
-    private SimpleDateFormat fmt = new SimpleDateFormat("yy.MM.dd HH:mm z");
+    private final SimpleDateFormat fmt = new SimpleDateFormat("yy.MM.dd HH:mm z");
 
     public MessagesFragment() {
         // Required empty public constructor

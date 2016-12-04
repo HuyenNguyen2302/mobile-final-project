@@ -23,6 +23,13 @@ public class PersonalDetailsFragment extends Fragment {
     public PersonalDetailsFragment() {
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_personal_details, container, false);
+    }
+
     /**
      * Save the details of this fragment
      */
@@ -66,7 +73,7 @@ public class PersonalDetailsFragment extends Fragment {
 
     /**
      * Get the currentUser type from the selected radio button
-     * @return
+     * @return a "rider" or "driver"
      */
     public UserType getUserType(){
         RadioGroup buttonGroup = (RadioGroup) getView().findViewById(R.id.radioButtonGroup);
@@ -85,11 +92,6 @@ public class PersonalDetailsFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_personal_details, container, false);
-    }
+
 
 }

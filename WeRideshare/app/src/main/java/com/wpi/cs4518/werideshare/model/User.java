@@ -9,12 +9,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 
 /**
@@ -32,7 +29,7 @@ public class  User {
     private String userId, firstName, lastName, username, deviceId;
     private UserType userType;
     private List<Conversation> conversations;
-    private DatabaseReference firebase = FirebaseDatabase
+    private final DatabaseReference firebase = FirebaseDatabase
                                                     .getInstance()
                                                     .getReference();
     private DatabaseReference convoRef;
@@ -45,15 +42,15 @@ public class  User {
 
     public User(String userId, String firstName, String lastName) {
         this(userId, firstName, lastName,
-                firstName.toLowerCase() + "_" + lastName.toLowerCase(), UserType.Rider);
+                firstName.toLowerCase() + "_" + lastName.toLowerCase());
     }
 
-    public User(String userId, String firstName, String lastName, String username, UserType userType) {
+    public User(String userId, String firstName, String lastName, String username) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.userType = userType;
+        this.userType = UserType.Rider;
         deviceId = "ecNVoxT2vBM:APA91bHBrqisoF6_dKu_PzuU21XPtCg4NOV7-pJ1gCfL3vu1afzulWnEql4GeDyVl3Puz85DTOEkVxYBGZq-7EPx6A4uZBbcykuTUGDjkxnrf4fqe9a6p6P2AUVxNq6xrSF0c9ihuPC7";
         setupFirebase();
     }
@@ -62,11 +59,11 @@ public class  User {
         return userId;
     }
 
-    public String getFirstName() {
+    private String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
+    private String getLastName() {
         return lastName;
     }
 
@@ -129,7 +126,7 @@ public class  User {
                 convo.getTitle(), username, convo.getId()));
     }
 
-    public void addConversation(Conversation convo) {
+    private void addConversation(Conversation convo) {
         if (!hasConversation(convo))
             getConversations().add(convo);
     }

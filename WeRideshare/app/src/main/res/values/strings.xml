@@ -2,31 +2,27 @@
     <string name="app_name">WeRideshare</string>
 
     <!-- Strings related to intro screen -->
-    <string name="intro_text">WeRideshare\nWPI\nCS 4341</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">Invalid email</string>
-    <string name="error_invalid_password">Invalid password</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="form_status_valid">Form Status: Valid</string>
-    <string name="form_status_invalid">Form Status: Invalid</string>
     <string name="form_status_pending">Form Status: Pending</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="send_message">Send</string>
+    <string name="proceed">Proceed</string>
 
-    <string name="msg_token_fmt">InstanceID Token: %s</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number_hint">Phone number: eg. 123-456-7890</string>
+    <string name="driver">Driver</string>
+    <string name="rider">Rider</string>
+
+    <string name="reg_id">Registration ID</string>
 
 
-    <string name="team_members">Huyen Nguyen\tEbenezer Ampiah\tWill Wen
-    </string>
     <string-array name="VehicleCapacity">
         <item>(Vehicle Capacity)</item>
         <item>1</item>
@@ -38,12 +34,6 @@
         <item>7</item>
     </string-array>
 
-    <string name="title_activity_intro_screen">IntroScreen</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">Loading...</string>
     <string name="auth_failed">Authentication failure</string>
 

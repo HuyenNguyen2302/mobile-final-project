@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,16 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 import com.wpi.cs4518.werideshare.fragments.ConversationsFragment;
 import com.wpi.cs4518.werideshare.fragments.MessagesFragment;
 import com.wpi.cs4518.werideshare.fragments.ProfileDetails;
-import com.wpi.cs4518.werideshare.map.MapsActivity;
 import com.wpi.cs4518.werideshare.model.Conversation;
 import com.wpi.cs4518.werideshare.model.Message;
-import com.wpi.cs4518.werideshare.model.MessageDatabase;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
@@ -41,7 +35,7 @@ import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.MSG_ROOT;
 
-public class ProfileActivity extends AppCompatActivity {
+public class HomescreenActivity extends AppCompatActivity {
     public static final String SENDER_ID = "530810481145";
     private static final String TAG = "PROFILE_ACTIVITY";
 
@@ -50,12 +44,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ConversationsFragment conversationsFragment;
     private List<String> convoKeys;
 
+
     //realtime database fields
     private DatabaseReference firebase;
     private DatabaseReference chatRef;
     private DatabaseReference messageRef;
 
-    private String[] navItems = {"Profile", "Messages", "Map", "Sign Out"};
+    private final String[] navItems = {"Profile", "Messages", "Map", "Sign Out"};
     private DrawerLayout drawerLayout;
     private ListView drawerList;
 
@@ -63,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_homescreen);
         firebase = FirebaseDatabase.getInstance().getReference();
         setupNavMenu();
     }
@@ -73,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        drawerList.setAdapter(new ArrayAdapter<String>(this,
+        drawerList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, navItems));
         // Set the list's click listener
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void selectNavItem(int position) {
-        if (position >= navItems.length) //make sure we dont access beyond bounds
+        if (position >= navItems.length) //make sure we don't access beyond bounds
             return;
 
         switch (position) {
@@ -186,7 +181,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickMapButton(View view) {
-
+        Intent goToMapFragment = new Intent (HomescreenActivity.this, MapsActivity.class);
+        HomescreenActivity.this.startActivity(goToMapFragment);
     }
 
     private void addFragment(Fragment fragment) {

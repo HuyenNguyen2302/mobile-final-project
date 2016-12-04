@@ -6,11 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 
 import com.wpi.cs4518.werideshare.fragments.PersonalDetailsFragment;
 import com.wpi.cs4518.werideshare.fragments.VehicleDetailsFragment;
@@ -24,11 +21,19 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private int currentPage;
 
+    private Button proceedButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        proceedButton = (Button) findViewById(R.id.proceedButton);
+        proceedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickProceedButton();
+            }
+        });
         //add personal details fragment
         addPersonalDetails();
     }
@@ -55,13 +60,19 @@ public class RegistrationActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void onClickProceedButton(View view) {
+    public void onClickProceedButton() {
         RadioButton driverButton = (RadioButton) findViewById(R.id.driverRadioButton);
+        RadioButton riderButton = (RadioButton) findViewById(R.id.riderRadioButton);
+
         if (currentPage == VEHICLE){
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, HomescreenActivity.class));
             return;
         }
         if (driverButton.isChecked() && currentPage == PERSONAL)
             addVehicleDetails();
+        if(riderButton.isChecked()){
+            startActivity(new Intent(this, HomescreenActivity.class));
+            return;
+        }
     }
 }

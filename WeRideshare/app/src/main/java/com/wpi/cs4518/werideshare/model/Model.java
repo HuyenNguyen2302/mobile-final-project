@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +30,12 @@ public class Model {
     public static boolean loggedIn = false;
     private static List<User> users;
 
-    static Random index = new Random();
-    static String[] firstNames = {"John", "David", "Chris", "Papa", "Frank"};
-    static String[] lastNames = {"Viper", "Stewart", "Sarpong", "Ampiah", "Mould"};
+    private static final Random index = new Random();
+    private static final String[] firstNames = {"John", "David", "Chris", "Papa", "Frank"};
+    private static final String[] lastNames = {"Viper", "Stewart", "Sarpong", "Ampiah", "Mould"};
 
-    static DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
-    static DatabaseReference usersRef = firebase.child(USER_ROOT);
+    private static final DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+    private static final DatabaseReference usersRef = firebase.child(USER_ROOT);
 
     public static List<User> getUsers() {
         if (users == null)

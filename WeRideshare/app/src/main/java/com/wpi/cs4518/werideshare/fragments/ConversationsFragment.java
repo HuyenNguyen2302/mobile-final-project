@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -17,19 +18,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.wpi.cs4518.werideshare.ProfileActivity;
+import com.wpi.cs4518.werideshare.HomescreenActivity;
 import com.wpi.cs4518.werideshare.R;
 import com.wpi.cs4518.werideshare.model.Conversation;
 import com.wpi.cs4518.werideshare.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 
 /**
@@ -38,11 +35,11 @@ import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 public class ConversationsFragment extends Fragment {
     private final String TAG = "CONVO_FRAG";
 
-    ListView conversationList;
-    List<Conversation> conversations;
-    ArrayAdapter<Conversation> convoAdapter;
-    DatabaseReference chatRef;
-    ChildEventListener convoListener;
+    private ListView conversationList;
+    private List<Conversation> conversations;
+    private ArrayAdapter<Conversation> convoAdapter;
+    private DatabaseReference chatRef;
+    private ChildEventListener convoListener;
 
 
     public ConversationsFragment() {
@@ -127,30 +124,38 @@ public class ConversationsFragment extends Fragment {
             }
         };
 
-        //set up conversation adapter
-        for (Conversation convo : Model.currentUser.getConversations())
-            addConversation(convo);
+        try {
+            //set up conversation adapter
+            for (Conversation convo : Model.currentUser.getConversations())
+                addConversation(convo);
 
-        convoAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1, getConversations());
+            convoAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_list_item_1, getConversations());
 
-        conversationList = (ListView) getView().findViewById(R.id.conversations_view);
-        conversationList.setAdapter(convoAdapter);
+            conversationList = (ListView) getView().findViewById(R.id.conversations_view);
+            conversationList.setAdapter(convoAdapter);
 
-        conversationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Conversation item = (Conversation) adapterView.getItemAtPosition(i);
-                ((ProfileActivity) getContext()).displayMessages(item.getId());
-            }
-        });
+            conversationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Conversation item = (Conversation) adapterView.getItemAtPosition(i);
+                    ((HomescreenActivity) getContext()).displayMessages(item.getId());
+                }
+            });
+        }
+        catch (Exception e){
+            Log.i("Conversations Fragment", e.getMessage());
+
+            Toast.makeText(this.getActivity(), "Error in loading Convos check logs", Toast.LENGTH_LONG).show();
+
+        }
     }
 
-    public void clearConversations() {
+    private void clearConversations() {
         conversations = new ArrayList<>();
     }
 
-    public void addConversation(Conversation convo) {
+    private void addConversation(Conversation convo) {
         if (getConversations().contains(convo))
             return;
         getConversations().add(convo);
