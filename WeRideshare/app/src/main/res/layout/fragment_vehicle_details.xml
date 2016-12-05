@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context="com.wpi.cs4518.werideshare.fragments.VehicleDetailsFragment"
-    android:layout_marginLeft="@dimen/text_left"
+    android:layout_marginStart="@dimen/text_left"
     android:layout_marginTop="@dimen/text_right">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textAutoComplete"
-            android:hint="Name"
+            android:hint="car_model"
             android:ems="10"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
@@ -30,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textAutoComplete"
-            android:hint="Registration ID"
+            android:hint="@string/reg_id"
             android:ems="10"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>

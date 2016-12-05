@@ -6,19 +6,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.MSG_ROOT;
 
 /**
  * Created by mrampiah on 11/21/16.
  */
 
-public class MessageDatabase {
+class MessageDatabase {
     private static User currentUser;
 
     private static DatabaseReference firebase;
 
     public MessageDatabase(DatabaseReference firebase){
-        this.firebase = firebase;
+        MessageDatabase.firebase = firebase;
         currentUser = Model.currentUser;
     }
 

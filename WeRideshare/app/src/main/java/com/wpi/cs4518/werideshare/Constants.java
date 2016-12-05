@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Created by mrampiah on 11/13/16.
  */
 public class Constants {
-    private static Constants ourInstance = new Constants();
+    private static final Constants ourInstance = new Constants();
 
     public static Constants getInstance() {
         return ourInstance;

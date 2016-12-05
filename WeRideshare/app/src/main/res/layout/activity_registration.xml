@@ -6,41 +6,24 @@
     android:layout_marginTop="13dp"
     android:orientation="vertical">
 
-    <ScrollView
+
+    <FrameLayout
+        android:id="@+id/task_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="420dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    </FrameLayout>
 
-
-            <FrameLayout
-                android:id="@+id/task_container"
-                android:layout_width="match_parent"
-                android:layout_height="420dp">
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/doneButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Proceed"
-                    android:layout_marginTop="@dimen/text_top"
-                    android:layout_marginBottom="@dimen/text_bottom"
-                    android:onClick="onClickProceedButton"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_bottom"
+        android:layout_marginTop="@dimen/text_top"
+        android:layout_weight="1"
+        android:text="@string/proceed"
+        android:onClick="onClickProceedButton"
+        android:id="@+id/proceedButton" />
 
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -48,8 +49,6 @@ public class RegistrationActivity extends BaseActivity {
             password = String.valueOf(getIntent().getStringExtra("password"));
             Log.w(TAG, "email: " + email);
         }
-
-        //add personal details fragment
         addPersonalDetails();
     }
 
@@ -90,6 +89,7 @@ public class RegistrationActivity extends BaseActivity {
                     registrationIdText.getText().toString(), Integer.parseInt(String.valueOf(capacitySpinner.getSelectedItem())),
                     newUser.getUserId());
             Model.writeCarToDatabase(newCar);
+            doNext();
 
         }
     }
@@ -148,19 +148,18 @@ public class RegistrationActivity extends BaseActivity {
         RadioButton driverButton = (RadioButton) findViewById(R.id.driverRadioButton);
 
         //open the vehicle registration page if this is a driver
-        if (driverButton.isChecked()) {
+        if (currentPage == PERSONAL && driverButton.isChecked()) {
             addVehicleDetails();
-
-            return;
-        } else {
-            //start profile intent and display message if registration successful
-            Intent profileIntent = new Intent(RegistrationActivity.this, ProfileActivity.class);
-            profileIntent.putExtra("user", newUser);
-            profileIntent.putExtra("userId", newUser.getUserId());
-            Toast.makeText(RegistrationActivity.this, R.string.reg_success,
-                    Toast.LENGTH_SHORT).show();
-
-            startActivity(profileIntent);
+            return ;
         }
+
+        //start profile intent and display message if registration successful
+        Intent profileIntent = new Intent(RegistrationActivity.this, HomescreenActivity.class);
+        profileIntent.putExtra("user", newUser);
+        profileIntent.putExtra("userId", newUser.getUserId());
+        Toast.makeText(this, R.string.reg_success,
+                Toast.LENGTH_SHORT).show();
+
+        startActivity(profileIntent);
     }
 }

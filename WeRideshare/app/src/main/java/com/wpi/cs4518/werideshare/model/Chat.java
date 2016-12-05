@@ -1,10 +1,12 @@
 package com.wpi.cs4518.werideshare.model;
 
+import java.io.Serializable;
+
 /**
  * Created by mrampiah on 11/18/16.
  */
 
-public class Chat {
+public class Chat implements Serializable{
     private String id, user1, user2, title;
 
     public Chat() {

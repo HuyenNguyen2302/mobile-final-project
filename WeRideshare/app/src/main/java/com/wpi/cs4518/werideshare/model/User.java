@@ -32,7 +32,6 @@ public class  User implements Serializable{
     private String userId, firstName, lastName, username, deviceId;
     private UserType userType;
     private Map<String, Chat> chats;
-
     private boolean update = false;
 
     public User() {
@@ -62,7 +61,7 @@ public class  User implements Serializable{
         setUpListeners();
     }
 
-    private static String getNewUserId(){
+    private static String getNewUserId() {
         return "RD" + System.currentTimeMillis() % 1000000;
     }
 
@@ -70,11 +69,11 @@ public class  User implements Serializable{
         return userId;
     }
 
-    public String getFirstName() {
+    private String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
+    private String getLastName() {
         return lastName;
     }
 
@@ -132,11 +131,11 @@ public class  User implements Serializable{
         return false;
     }
 
-    public boolean hasChatWith(String username){
-        if(getUsername().equals(username))
+    public boolean hasChatWith(String username) {
+        if (getUsername().equals(username))
             return true; //if it's the current user dont add chat
-        for(Chat chat : getChats().values()){
-            if(chat.getTitle().contains(username))
+        for (Chat chat : getChats().values()) {
+            if (chat.getTitle().contains(username))
                 return true;
         }
         return false;
@@ -161,36 +160,7 @@ public class  User implements Serializable{
          * convo root: changes to user's chats - add/remove
          */
 
-        //convo root listener
-        ChildEventListener convoListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                addChat(dataSnapshot.getKey(), dataSnapshot.getValue(Chat.class));
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        Model.usersRef.child(getUserId())
-                      .child(CHAT_ROOT).addChildEventListener(convoListener);
     }
 
     public boolean equals(Object other) {

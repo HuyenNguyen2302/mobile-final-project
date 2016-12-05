@@ -1,9 +1,5 @@
 package com.wpi.cs4518.werideshare.model;
 
-import com.google.firebase.database.ServerValue;
-
-import java.util.Map;
-
 /**
  * Created by mrampiah on 11/19/16.
  */

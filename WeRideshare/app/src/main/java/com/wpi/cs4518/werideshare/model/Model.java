@@ -31,14 +31,13 @@ public class Model {
     public static boolean loggedIn = false;
     private static List<User> users;
 
-    static Random index = new Random();
-    static String[] firstNames = {"John", "David", "Chris", "Papa", "Frank"};
-    static String[] lastNames = {"Viper", "Stewart", "Sarpong", "Ampiah", "Mould"};
+    private static final Random index = new Random();
+    private static final String[] firstNames = {"John", "David", "Chris", "Papa", "Frank"};
+    private static final String[] lastNames = {"Viper", "Stewart", "Sarpong", "Ampiah", "Mould"};
 
     public static DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     public static DatabaseReference usersRef = firebase.child(USER_ROOT);
     public static DatabaseReference carsRef = firebase.child(CARS_ROOT);
-
     public static List<User> getUsers() {
         if (users == null)
             users = new ArrayList<>();

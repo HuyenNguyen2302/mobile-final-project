@@ -6,18 +6,17 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wpi.cs4518.werideshare.ProfileActivity">
+    tools:context="com.wpi.cs4518.werideshare.HomescreenActivity">
 
 
     <RelativeLayout
-        android:id="@+id/activity_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.wpi.cs4518.werideshare.ProfileActivity">
+        tools:context="com.wpi.cs4518.werideshare.HomescreenActivity">
 
 
         <FrameLayout
@@ -41,21 +40,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/profile_image"
-                android:id="@+id/profile_image_button"
                 android:onClick="onClickProfileButton"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/messages_icon"
-                android:id="@+id/messages_image_button"
                 android:onClick="onClickMessagesButton"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/map_icon"
-                android:id="@+id/map_image_button"
                 android:onClick="onClickMapButton"/>
         </GridLayout>
 

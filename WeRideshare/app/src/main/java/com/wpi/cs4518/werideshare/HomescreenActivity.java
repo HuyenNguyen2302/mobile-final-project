@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -21,7 +22,7 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.wpi.cs4518.werideshare.fragments.ConversationsFragment;
+import com.wpi.cs4518.werideshare.fragments.ChatsFragment;
 import com.wpi.cs4518.werideshare.fragments.MessagesFragment;
 import com.wpi.cs4518.werideshare.fragments.ProfileDetails;
 import com.wpi.cs4518.werideshare.model.Chat;
@@ -29,29 +30,26 @@ import com.wpi.cs4518.werideshare.model.Message;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
-import java.util.List;
-
 import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.MSG_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.currentUser;
+import static com.wpi.cs4518.werideshare.model.Model.firebase;
 
-public class ProfileActivity extends AppCompatActivity {
-    public static final String SENDER_ID = "530810481145";
+public class HomescreenActivity extends AppCompatActivity {
     private static final String TAG = "PROFILE_ACTIVITY";
 
     private ProfileDetails profileDetails;
     private MessagesFragment messagesFragment;
-    private ConversationsFragment conversationsFragment;
-    private List<String> convoKeys;
+    private ChatsFragment chatsFragment;
 
     //realtime database fields
     private DatabaseReference firebase;
     private DatabaseReference chatRef;
     private DatabaseReference messageRef;
 
-    private String[] navItems = {"Profile", "Messages", "Map", "Sign Out"};
+    private final String[] navItems = {"Profile", "Messages", "Map", "Sign Out"};
     private DrawerLayout drawerLayout;
     private ListView drawerList;
 
@@ -61,39 +59,22 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_homescreen);
         firebase = FirebaseDatabase.getInstance().getReference();
-        Model.initDB();
+//        Model.initDB();
 
         if (getIntent() != null) {
             currentUser = (User) getIntent().getSerializableExtra("user");
-            if (currentUser == null)
-                getCurrentUser(getIntent().getStringExtra("userId"));
+            Toast.makeText(this, String.format("Current user: %s",
+                    currentUser.getUsername()), Toast.LENGTH_SHORT).show();
+
 
             if(getIntent().getStringExtra("type") != null &&
                     getIntent().getStringExtra("type").equals("private message"))
                 displayMessages(getIntent().getStringExtra("chatId"));
 
         }
-
-
-
         setupNavMenu();
-    }
-
-    private void getCurrentUser(String userId) {
-        firebase.child(USER_ROOT).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-                Log.w(TAG, "Retrieved user: " + currentUser.getUsername());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void setupNavMenu() {
@@ -101,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        drawerList.setAdapter(new ArrayAdapter<String>(this,
+        drawerList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, navItems));
         // Set the list's click listener
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void selectNavItem(int position) {
-        if (position >= navItems.length) //make sure we dont access beyond bounds
+        if (position >= navItems.length) //make sure we don't access beyond bounds
             return;
 
         switch (position) {
@@ -145,8 +126,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickMessagesButton(View view) {
-        if (conversationsFragment == null)
-            conversationsFragment = new ConversationsFragment();
+        if (chatsFragment == null)
+            chatsFragment = new ChatsFragment();
 
         //setup firebase references
         chatRef = FirebaseDatabase.getInstance().getReference()
@@ -190,68 +171,28 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-        addFragment(conversationsFragment);
+        addFragment(chatsFragment);
     }
 
-    public void displayMessages(String convoId) {
+    public void displayMessages(String chatId) {
         if (messagesFragment == null)
             messagesFragment = new MessagesFragment();
 
-        //setup firebase references
-        messageRef = firebase
-                .child(FCM_ROOT)
-                .child(MSG_ROOT)
-                .child(convoId);
-
-        messageRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                try {
-                    Message message = dataSnapshot.getValue(Message.class);
-                    if (messagesFragment != null)
-                        messagesFragment.addMessage(message);
-                } catch (DatabaseException ex) {
-                    Log.w("ERROR", ex.getMessage());
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.task_container, messagesFragment); // f1_container is your FrameLayout container
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.addToBackStack(null);
-        ft.commit();
+        addFragment(messagesFragment);
+        messagesFragment.setChatId(chatId);
     }
 
-    public void onClickSendMessage(View view) {
-        EditText messageText = (EditText) findViewById(R.id.message_input);
-        Message toSend = new Message(messageText.getText().toString(), currentUser.getUsername());
-        messageRef.push().setValue(toSend);
-        messageText.setText("");
+    public void onClickSendMessage(View view){
+        try {
+            messagesFragment.sendMessage();
+        }catch(NullPointerException ex){
+            Log.w(TAG, ex.getMessage());
+        }
     }
 
     public void onClickMapButton(View view) {
-
+        Intent goToMapFragment = new Intent (HomescreenActivity.this, MapsActivity.class);
+        HomescreenActivity.this.startActivity(goToMapFragment);
     }
 
     private void addFragment(Fragment fragment) {
