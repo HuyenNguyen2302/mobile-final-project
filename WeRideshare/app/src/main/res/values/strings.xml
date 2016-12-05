@@ -17,11 +17,12 @@
     <string name="form_status_valid">Form Status: Valid</string>
     <string name="form_status_invalid">Form Status: Invalid</string>
     <string name="form_status_pending">Form Status: Pending</string>
+    <string name="reg_success">Registration Successful!</string>
+
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="send_message">Send</string>
-
     <string name="msg_token_fmt">InstanceID Token: %s</string>
 
 

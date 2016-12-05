@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,25 +20,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
+import com.google.firebase.database.ValueEventListener;
 import com.wpi.cs4518.werideshare.fragments.ConversationsFragment;
 import com.wpi.cs4518.werideshare.fragments.MessagesFragment;
 import com.wpi.cs4518.werideshare.fragments.ProfileDetails;
-import com.wpi.cs4518.werideshare.map.MapsActivity;
-import com.wpi.cs4518.werideshare.model.Conversation;
+import com.wpi.cs4518.werideshare.model.Chat;
 import com.wpi.cs4518.werideshare.model.Message;
-import com.wpi.cs4518.werideshare.model.MessageDatabase;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
 import java.util.List;
-import java.util.Random;
 
 import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.MSG_ROOT;
+import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
+import static com.wpi.cs4518.werideshare.model.Model.currentUser;
 
 public class ProfileActivity extends AppCompatActivity {
     public static final String SENDER_ID = "530810481145";
@@ -59,13 +55,45 @@ public class ProfileActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
 
+    public static User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         firebase = FirebaseDatabase.getInstance().getReference();
+        Model.initDB();
+
+        if (getIntent() != null) {
+            currentUser = (User) getIntent().getSerializableExtra("user");
+            if (currentUser == null)
+                getCurrentUser(getIntent().getStringExtra("userId"));
+
+            if(getIntent().getStringExtra("type") != null &&
+                    getIntent().getStringExtra("type").equals("private message"))
+                displayMessages(getIntent().getStringExtra("chatId"));
+
+        }
+
+
+
         setupNavMenu();
+    }
+
+    private void getCurrentUser(String userId) {
+        firebase.child(USER_ROOT).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                Log.w(TAG, "Retrieved user: " + currentUser.getUsername());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setupNavMenu() {
@@ -125,6 +153,43 @@ public class ProfileActivity extends AppCompatActivity {
                 .child(FCM_ROOT)
                 .child(CHAT_ROOT);
 
+
+        //temp: users listener, to create a convo for each and add to this user
+        Model.usersRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                User user = dataSnapshot.getValue(User.class);
+                if(user != null && !currentUser.hasChatWith(user.getUsername())){
+                    //create chat and save to this user
+                    Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
+                    currentUser.saveChat(chat);
+
+                    //change the username associated with this chat and save to the other user
+                    //this is to ensure reflexivity
+                    user.saveChat(chat);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         addFragment(conversationsFragment);
     }
 
@@ -180,7 +245,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onClickSendMessage(View view) {
         EditText messageText = (EditText) findViewById(R.id.message_input);
-        Message toSend = new Message(messageText.getText().toString(), Model.currentUser.getUsername());
+        Message toSend = new Message(messageText.getText().toString(), currentUser.getUsername());
         messageRef.push().setValue(toSend);
         messageText.setText("");
     }
@@ -195,17 +260,5 @@ public class ProfileActivity extends AppCompatActivity {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.addToBackStack(null);
         ft.commit();
-    }
-
-    private void createDummyConversation() {
-        Random random = new Random();
-        String key = chatRef.push().getKey();
-        User randomUser = Model.getUsers().get(random.nextInt(Model.getUsers().size()));
-
-        while (Model.currentUser.equals(randomUser))
-            randomUser = Model.getUsers().get(random.nextInt(Model.getUsers().size()));
-
-        Model.currentUser.addConversation(new Conversation(key, randomUser.getUsername()), randomUser);
-
     }
 }

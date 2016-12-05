@@ -87,26 +87,10 @@ public class EmailPasswordActivity extends BaseActivity {
         if (!validateForm())
             return;
 
-        showProgressDialog();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the currentUser. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in currentUser can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            startActivity(new Intent(EmailPasswordActivity.this, RegistrationActivity.class));
-                        }
-                        hideProgressDialog();
-                    }
-                });
+        Intent registrationIntent = new Intent(EmailPasswordActivity.this, RegistrationActivity.class);
+        registrationIntent.putExtra("email", email);
+        registrationIntent.putExtra("password", password);
+        startActivity(registrationIntent);
     }
 
     private boolean validateForm() {
@@ -174,12 +158,10 @@ public class EmailPasswordActivity extends BaseActivity {
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         } else {//login success
-                            startActivity(new Intent(EmailPasswordActivity.this, ProfileActivity.class));
-                            String userId = mAuth.getCurrentUser().getUid();
-                            Model.getUser(userId);
-                            if(Model.currentUser == null)
-                                Model.setCurrentUser(Model.getDummyUser(userId));
-//                            Model.currentUser.setDeviceId(FirebaseInstanceId.getInstance().getToken());
+
+                            Intent homeIntent = new Intent(EmailPasswordActivity.this, ProfileActivity.class);
+                            homeIntent.putExtra("userId", mAuth.getCurrentUser().getUid());
+                            startActivity(homeIntent);
                         }
                         // [END_EXCLUDE]
                     }

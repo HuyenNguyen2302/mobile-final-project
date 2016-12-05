@@ -19,18 +19,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.wpi.cs4518.werideshare.ProfileActivity;
 import com.wpi.cs4518.werideshare.R;
-import com.wpi.cs4518.werideshare.model.Conversation;
-import com.wpi.cs4518.werideshare.model.Model;
+import com.wpi.cs4518.werideshare.model.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
+import static com.wpi.cs4518.werideshare.model.Model.currentUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +36,7 @@ public class ConversationsFragment extends Fragment {
     private final String TAG = "CONVO_FRAG";
 
     ListView conversationList;
-    List<Conversation> conversations;
-    ArrayAdapter<Conversation> convoAdapter;
+    ArrayAdapter<Chat> convoAdapter;
     DatabaseReference chatRef;
     ChildEventListener convoListener;
 
@@ -56,21 +52,20 @@ public class ConversationsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_conversations, container, false);
     }
 
-    private List<Conversation> getConversations() {
-        if (conversations == null)
-            conversations = new ArrayList<>();
+    private ArrayList<Chat> getConversations() {
+        if(ProfileActivity.currentUser  == null)
+            return null;
 
-        return conversations;
+        return new ArrayList(ProfileActivity.currentUser.getChats().values());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        clearConversations();
 
         if (chatRef == null)
             setupChatRef();
-        chatRef.addChildEventListener(convoListener);
+//        chatRef.addChildEventListener(convoListener);
     }
 
     @Override
@@ -79,28 +74,22 @@ public class ConversationsFragment extends Fragment {
 
         if (chatRef == null)
             setupChatRef();
-        chatRef.removeEventListener(convoListener);
+//        chatRef.removeEventListener(convoListener);
     }
 
     private void setupChatRef() {
         chatRef = FirebaseDatabase.getInstance().getReference()
                 .child(USER_ROOT)
-                .child(Model.currentUser.getUserId())
+                .child(ProfileActivity.currentUser.getUserId())
                 .child(CONVO_ROOT);
-    }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+        //create listener for conversation root
         convoListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 try {
-                    Conversation convo = dataSnapshot.getValue(Conversation.class);
-                    Log.w(TAG, "adding convo " + convo.getId());
-                    if (Model.currentUser.hasConversation(convo))
-                        addConversation(convo);
+//                    Chat convo = dataSnapshot.getValue(Chat.class);
+//                    addConversation(convo);
                 } catch (DatabaseException ex) {
                     Log.w("ERROR", ex.getMessage());
                 }
@@ -126,12 +115,13 @@ public class ConversationsFragment extends Fragment {
 
             }
         };
+    }
 
-        //set up conversation adapter
-        for (Conversation convo : Model.currentUser.getConversations())
-            addConversation(convo);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        convoAdapter = new ArrayAdapter<>(getContext(),
+        convoAdapter = new ArrayAdapter<Chat>(getContext(),
                 android.R.layout.simple_list_item_1, getConversations());
 
         conversationList = (ListView) getView().findViewById(R.id.conversations_view);
@@ -140,21 +130,9 @@ public class ConversationsFragment extends Fragment {
         conversationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Conversation item = (Conversation) adapterView.getItemAtPosition(i);
+                Chat item = (Chat) adapterView.getItemAtPosition(i);
                 ((ProfileActivity) getContext()).displayMessages(item.getId());
             }
         });
     }
-
-    public void clearConversations() {
-        conversations = new ArrayList<>();
-    }
-
-    public void addConversation(Conversation convo) {
-        if (getConversations().contains(convo))
-            return;
-        getConversations().add(convo);
-        convoAdapter.notifyDataSetChanged();
-    }
-
 }

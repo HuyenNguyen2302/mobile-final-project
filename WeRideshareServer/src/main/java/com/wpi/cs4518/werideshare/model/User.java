@@ -1,27 +1,32 @@
 package com.wpi.cs4518.werideshare.model;
-import com.google.firebase.database.*;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.wpi.cs4518.werideshare.Main;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.wpi.cs4518.werideshare.MessageServlet.CONVO_ROOT;
-import static com.wpi.cs4518.werideshare.MessageServlet.USER_ROOT;
 
 /**
  * Created by mrampiah on 11/13/16.
  */
 
-public class User {
+public class  User implements Serializable{
 
     private static final String TAG = "USER";
+    private static final String CHAT_ROOT = "conversations";
+    private static final String USER_ROOT = "users";
+
     public enum UserType {
         Driver, Rider;
     }
 
     private String userId, firstName, lastName, username, deviceId;
     private UserType userType;
-    private Map<String, String> conversations;
-    private DatabaseReference firebase;
+    private Map<String, Chat> chats;
 
     private boolean update = false;
 
@@ -29,18 +34,31 @@ public class User {
         //required empty constructor for firebase database
     }
 
-    public User(String userId, String firstName, String lastName) {
-        this(userId, firstName, lastName,
-                firstName.toLowerCase() + "_" + lastName.toLowerCase(), UserType.Rider);
+    public User(String firstName, String lastName) {
+        this(getNewUserId(), firstName, lastName, UserType.Rider);
     }
 
-    public User(String userId, String firstName, String lastName, String username, UserType userType) {
+    public User (String firstName, String lastName, UserType userType){
+        this(getNewUserId(), firstName, lastName, userType );
+    }
+
+    public User(String userId, String firstName, String lastName, UserType userType) {
+        this(userId, firstName, lastName, userType, "ecNVoxT2vBM:APA91bHBrqisoF6_dKu_PzuU21XPtCg4NOV7-pJ1gCfL3vu1afzulWnEql4Ge" +
+                "DyVl3Puz85DTOEkVxYBGZq-7EPx6A4uZBbcykuTUGDjkxnrf4fqe9a6p6P2AUVxNq6xrSF0c9ihuPC7");
+    }
+
+    public User(String userId, String firstName, String lastName, UserType userType, String deviceId) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.username = firstName.toLowerCase() + "_" + lastName.toLowerCase();
         this.userType = userType;
-        setupFirebase();
+        this.deviceId = deviceId;
+        setUpListeners();
+    }
+
+    private static String getNewUserId(){
+        return "RD" + System.currentTimeMillis() % 1000000;
     }
 
     public String getUserId() {
@@ -63,6 +81,10 @@ public class User {
         return deviceId;
     }
 
+    public void setUserId(String userId){
+        this.userId = userId;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -83,67 +105,59 @@ public class User {
         this.deviceId = deviceId;
     }
 
-    public Map<String, String> getConversations() {
-        if (conversations == null)
-            conversations = new HashMap<>();
 
-        return conversations;
+    //------ Chat related functions. Need to revise ----- //
+
+    public Map<String, Chat> getChats() {
+        if (chats == null)
+            chats = new HashMap<>();
+
+        return chats;
     }
 
-    public boolean hasConversation(String convoId){
-        return getConversations().containsKey(convoId);
+    public boolean hasChat(Chat convo){
+        return getChats().containsValue(convo);
     }
 
-    public void addConversation(String convoId, User otherUser) {
-        if(getConversations().containsValue(otherUser.getUsername()))
-            return;
-        saveConversation(convoId, otherUser.getUsername());
-        if (!otherUser.getConversations().containsValue(username)) {
-            otherUser.addConversation(convoId, username);
-            otherUser.saveConversation(convoId, username);
+    public boolean hasChat(String convoId){
+        for(Chat chat : getChats().values()){
+            if(chat.getId().equals(convoId))
+                return true;
         }
+        return false;
     }
 
-    private void saveConversation(String convoId, String otherUser){
-        firebase.child(convoId).setValue(otherUser);
-    }
-
-    public void addConversation(String convoId, String title) {
-        if (!getConversations().containsValue(title))
-            getConversations().put(convoId, title);
-    }
-
-    public String getConversationId(String user){
-        for(Map.Entry<String, String> convos : getConversations().entrySet()){
-            if(convos.getValue().equals(user))
-                return convos.getKey();
+    public boolean hasChatWith(String username){
+        if(getUsername().equals(username))
+            return true; //if it's the current user dont add chat
+        for(Chat chat : getChats().values()){
+            if(chat.getTitle().contains(username))
+                return true;
         }
-        return null;
+        return false;
     }
 
-    public void setupFirebase() {
-        firebase =
-                FirebaseDatabase
-                        .getInstance()
-                        .getReference()
-                        .child(USER_ROOT)
-                        .child(userId)
-                        .child(CONVO_ROOT);
-        firebase.addChildEventListener(new ChildEventListener() {
+    public void addChat(Chat convo) {
+        if (!hasChat(convo))
+            chats.containsValue(convo);
+    }
+
+    private void setUpListeners(){
+        /* required listeners:
+         * users root: changes to current user - make edits
+         * convo root: changes to user's chats - add/remove
+         */
+
+        //convo root listener
+        ChildEventListener convoListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String convoId = dataSnapshot.getKey();
-                String convoTitle = dataSnapshot.getValue(String.class);
-                if (!getConversations().containsValue(convoId))
-                    addConversation(convoId, convoTitle);
+                addChat(dataSnapshot.getValue(Chat.class));
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String convoId = dataSnapshot.getKey();
-                String convoTitle = dataSnapshot.getValue(String.class);
-                if (!getConversations().containsValue(convoTitle))
-                    addConversation(convoId, convoTitle);
+
             }
 
             @Override
@@ -160,7 +174,10 @@ public class User {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+       FirebaseDatabase.getInstance().getReference().child(Main.USER_ROOT).child(getUserId())
+                .child(CHAT_ROOT).addChildEventListener(convoListener);
     }
 
     public boolean equals(Object other) {
@@ -169,5 +186,27 @@ public class User {
         String firstName = ((User) other).getFirstName();
         String lastName = ((User) other).getLastName();
         return this.firstName.equals(firstName) && this.lastName.equals(lastName);
+    }
+
+    private void updateUser() {
+        try {
+            if (!update)
+                return;
+
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child(USER_ROOT)
+                    .child(userId)
+                    .setValue(this);
+
+            update = false;//reset the update variable on each update
+        } catch (NullPointerException ex) {//make sure null errors dont cause app to break
+//            Log.w(TAG, ex.getMessage());
+        }
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Firstname: %s, Lastname: %s\n", firstName, lastName);
     }
 }

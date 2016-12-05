@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,9 @@ public class Model {
     public static final String FCM_ROOT = "fcm";
     public static final String CHAT_ROOT = "chats";
     public static final String USER_ROOT = "users";
+    public static final String CARS_ROOT = "cars";
     public static final String MSG_ROOT = "messages";
-    public static final String CONVO_ROOT = "conversations";
+    public static final String CONVO_ROOT = "chats";
     private static final String TAG = "MODEL";
 
     public static User currentUser;
@@ -35,8 +35,9 @@ public class Model {
     static String[] firstNames = {"John", "David", "Chris", "Papa", "Frank"};
     static String[] lastNames = {"Viper", "Stewart", "Sarpong", "Ampiah", "Mould"};
 
-    static DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
-    static DatabaseReference usersRef = firebase.child(USER_ROOT);
+    public static DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+    public static DatabaseReference usersRef = firebase.child(USER_ROOT);
+    public static DatabaseReference carsRef = firebase.child(CARS_ROOT);
 
     public static List<User> getUsers() {
         if (users == null)
@@ -47,13 +48,16 @@ public class Model {
 
     public static void initDB() {
         Log.w("INIT", "initializing with 5 people");
+        for(int i = 0; i < 5; i++)
+            getDummyUser();
+
+        //register listener to read users as they are added
+        //and populate memory store of all users #temp
         firebase.child(USER_ROOT).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User user = dataSnapshot.getValue(User.class);
-                Log.w(TAG, "adding user: " + user);
-                if (!getUsers().contains(user))
-                    getUsers().add(user);
+//                User user = dataSnapshot.getValue(User.class);
+//                Log.w(TAG, "adding user to memory: " + user);
             }
 
             @Override
@@ -75,26 +79,41 @@ public class Model {
 
             }
         });
-
-        for(int i = 0; i < 5; i++)
-            getDummyUser("RD" + System.currentTimeMillis() % 1000000);
     }
 
-    public static User getDummyUser(String id) {
-        User user = new User(id, firstNames[index.nextInt(firstNames.length)],
+    public static User getDummyUser() {
+        User user = new User(firstNames[index.nextInt(firstNames.length)],
                 lastNames[index.nextInt(lastNames.length)]);
 
         if (!getUsers().contains(user)) {
-            writeToDatabase(user);
+            writeUserToDatabase(user);
         }
         return user;
     }
 
-    private static void writeToDatabase(User user) {
+    public static void writeUserToDatabase(User user) {
         Log.w("WRITE", "writing user to database: " + user);
 
         usersRef.child(user.getUserId())
                 .setValue(user);
+    }
+
+    public static String writeChatToDatabase(Chat chat, User user) {
+        Log.w("WRITE", "writing chat to database: " + chat);
+        DatabaseReference chatRef = usersRef
+                .child(user.getUserId())
+                .child(CONVO_ROOT);
+        String key = chatRef.push().getKey();
+        chatRef.child(key).setValue(chat);
+
+        return key;
+    }
+
+    public static void writeCarToDatabase(Car car) {
+        Log.w("WRITE", "writing car to database: " + car);
+
+        carsRef.child(car.getUserId())
+                .setValue(car);
     }
 
     public static void getAllUsers(){

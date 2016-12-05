@@ -5,23 +5,23 @@ import android.util.Log;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 
 /**
  * Created by mrampiah on 11/13/16.
  */
 
-public class  User {
+public class  User implements Serializable{
 
     private static final String TAG = "USER";
 
@@ -31,11 +31,7 @@ public class  User {
 
     private String userId, firstName, lastName, username, deviceId;
     private UserType userType;
-    private List<Conversation> conversations;
-    private DatabaseReference firebase = FirebaseDatabase
-                                                    .getInstance()
-                                                    .getReference();
-    private DatabaseReference convoRef;
+    private Map<String, Chat> chats;
 
     private boolean update = false;
 
@@ -43,19 +39,31 @@ public class  User {
         //required empty constructor for firebase database
     }
 
-    public User(String userId, String firstName, String lastName) {
-        this(userId, firstName, lastName,
-                firstName.toLowerCase() + "_" + lastName.toLowerCase(), UserType.Rider);
+    public User(String firstName, String lastName) {
+        this(getNewUserId(), firstName, lastName, UserType.Rider);
     }
 
-    public User(String userId, String firstName, String lastName, String username, UserType userType) {
+    public User (String firstName, String lastName, UserType userType){
+        this(getNewUserId(), firstName, lastName, userType );
+    }
+
+    public User(String userId, String firstName, String lastName, UserType userType) {
+        this(userId, firstName, lastName, userType, "ecNVoxT2vBM:APA91bHBrqisoF6_dKu_PzuU21XPtCg4NOV7-pJ1gCfL3vu1afzulWnEql4Ge" +
+                "DyVl3Puz85DTOEkVxYBGZq-7EPx6A4uZBbcykuTUGDjkxnrf4fqe9a6p6P2AUVxNq6xrSF0c9ihuPC7");
+    }
+
+    public User(String userId, String firstName, String lastName, UserType userType, String deviceId) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.username = firstName.toLowerCase() + "_" + lastName.toLowerCase();
         this.userType = userType;
-        deviceId = "ecNVoxT2vBM:APA91bHBrqisoF6_dKu_PzuU21XPtCg4NOV7-pJ1gCfL3vu1afzulWnEql4GeDyVl3Puz85DTOEkVxYBGZq-7EPx6A4uZBbcykuTUGDjkxnrf4fqe9a6p6P2AUVxNq6xrSF0c9ihuPC7";
-        setupFirebase();
+        this.deviceId = deviceId;
+        setUpListeners();
+    }
+
+    private static String getNewUserId(){
+        return "RD" + System.currentTimeMillis() % 1000000;
     }
 
     public String getUserId() {
@@ -78,6 +86,10 @@ public class  User {
         return deviceId;
     }
 
+    public void setUserId(String userId){
+        this.userId = userId;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -98,61 +110,62 @@ public class  User {
         this.deviceId = deviceId;
     }
 
-    public List<Conversation> getConversations() {
-        if (conversations == null)
-            conversations = new ArrayList<>();
 
-        return conversations;
+    //------ Chat related functions. Need to revise ----- //
+
+    public Map<String, Chat> getChats() {
+        if (chats == null)
+            chats = new HashMap<>();
+
+        return chats;
     }
 
-    public boolean hasConversation(Conversation convo){
-        return getConversations().contains(convo);
+    public boolean hasChat(Chat convo){
+        return getChats().containsValue(convo);
     }
 
-    public void addConversation(Conversation convo, User otherUser) {
-        //dont add if user already has conversation
-        if (hasConversation(convo))
-            return;
-
-        saveConversation(convo);
-        convo.setTitle(username);
-
-        if (otherUser != null && !otherUser.hasConversation(convo))
-            otherUser.addConversation(convo, null);
-    }
-
-    private void saveConversation(Conversation convo) {
-        if(convoRef == null)
-            setupFirebase();
-        convoRef.push().setValue(convo);
-        Log.w(TAG, String.format("adding %s(other), to %s(this) to %s(convo)",
-                convo.getTitle(), username, convo.getId()));
-    }
-
-    public void addConversation(Conversation convo) {
-        if (!hasConversation(convo))
-            getConversations().add(convo);
-    }
-
-    public String getConversationId(String user) {
-        for (Conversation convo : getConversations()) {
-            if (convo.getTitle().equals(user))
-                return convo.getId();
+    public boolean hasChat(String convoId){
+        for(Chat chat : getChats().values()){
+            if(chat.getId().equals(convoId))
+                return true;
         }
-        return null;
+        return false;
     }
 
-    private void setupFirebase() {
-        convoRef = firebase
-                .child(USER_ROOT)
-                .child(userId)
-                .child(CONVO_ROOT);
-        convoRef.addChildEventListener(new ChildEventListener() {
+    public boolean hasChatWith(String username){
+        if(getUsername().equals(username))
+            return true; //if it's the current user dont add chat
+        for(Chat chat : getChats().values()){
+            if(chat.getTitle().contains(username))
+                return true;
+        }
+        return false;
+    }
+
+    public void saveChat(Chat convo) {
+        if (!hasChat(convo)) {
+            Log.w(TAG, String.format("saving chat: %s\n", convo));
+            String key = Model.writeChatToDatabase(convo, this);
+            addChat(key, convo);
+        }
+    }
+
+    public void addChat(String key, Chat convo) {
+        if (!hasChat(convo))
+            chats.put(key, convo);
+    }
+
+    private void setUpListeners(){
+        /* required listeners:
+         * users root: changes to current user - make edits
+         * convo root: changes to user's chats - add/remove
+         */
+
+        //convo root listener
+        ChildEventListener convoListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Conversation convo = dataSnapshot.getValue(Conversation.class);
-                if (!hasConversation(convo))
-                    addConversation(convo);
+                addChat(dataSnapshot.getKey(), dataSnapshot.getValue(Chat.class));
             }
 
             @Override
@@ -174,7 +187,10 @@ public class  User {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        Model.usersRef.child(getUserId())
+                      .child(CHAT_ROOT).addChildEventListener(convoListener);
     }
 
     public boolean equals(Object other) {

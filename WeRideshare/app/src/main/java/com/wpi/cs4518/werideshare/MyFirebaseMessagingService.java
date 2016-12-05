@@ -59,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Conversation data payload: " + remoteMessage.getData());
+            Log.d(TAG, "Chat data payload: " + remoteMessage.getData());
             Map<String, String> data = remoteMessage.getData();
 
             readMessage(data, remoteMessage);
@@ -67,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Conversation Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Chat Notification Body: " + remoteMessage.getNotification().getBody());
             sendMessage(remoteMessage.getNotification().getBody());
         }
 
@@ -93,7 +93,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 //.setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setSmallIcon(R.drawable.notify_panel_notification_icon_bg)
-                .setContentTitle("FCM Conversation")
+                .setContentTitle("FCM Chat")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
@@ -111,12 +111,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         String sender = data.get("sender");
         String message = data.get("message");
+        String chatId = data.get("chatId");
         System.out.printf("message: %s\n", message);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("type", "private message");
         intent.putExtra("sender", sender);
         intent.putExtra("message", message);
+        intent.putExtra("chatId", chatId);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 

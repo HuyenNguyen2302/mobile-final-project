@@ -58,8 +58,8 @@ public class Main {
             }
         });
 
-        while (getUsers().size() < 5)
-            getDummyUser("RD" + System.currentTimeMillis() % 1000000);
+//        while (getUsers().size() < 5)
+//            getDummyUser("RD" + System.currentTimeMillis() % 1000000);
     }
 
     public static List<User> getUsers() {
@@ -68,24 +68,4 @@ public class Main {
 
         return users;
     }
-
-    public static User getDummyUser(String id) {
-        User user = new User(id, firstNames[index.nextInt(firstNames.length)],
-                lastNames[index.nextInt(lastNames.length)]);
-
-        if (!getUsers().contains(user)) {
-            getUsers().add(user);
-            writeToDatabase(user);
-        }
-        return user;
-    }
-
-    private static void writeToDatabase(User user) {
-        Log.w("WRITE", "writing user to database: " + user.getUsername());
-
-        firebase.child(USER_ROOT)
-                .child(user.getUserId())
-                .setValue(user);
-    }
-
 }
