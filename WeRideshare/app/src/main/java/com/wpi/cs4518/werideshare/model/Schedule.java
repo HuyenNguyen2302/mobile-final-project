@@ -16,18 +16,9 @@ import java.util.Map;
  */
 public class Schedule {
 
-    //Constants for 'times' array
-    public static final int MONDAY = 0,
-                            TUESDAY = 1,
-                            WEDNESDAY = 2,
-                            THURSDAY = 3,
-                            FRIDAY = 4,
-                            SATURDAY = 5,
-                            SUNDAY = 6;
-
 
     //enum to hold values for each day of the week
-    enum DayOfWeek{
+    public enum DayOfWeek{
         Monday,
         Tuesday,
         Wednesday,
@@ -37,7 +28,7 @@ public class Schedule {
         Sunday
     }
 
-    Location origin, destination;
+    WeRideShareLocation origin, destination;
     Map<DayOfWeek, ScheduleTime> times;
 
     //the range of dates for which this schedule is valid
@@ -51,7 +42,7 @@ public class Schedule {
      * @param startOfPeriod
      * @param endOfPeriod
      */
-    public Schedule(Location origin, Location destination,
+    public Schedule(WeRideShareLocation origin, WeRideShareLocation destination,
                     GregorianCalendar startOfPeriod, GregorianCalendar endOfPeriod){
        this(origin, destination, new HashMap<DayOfWeek, ScheduleTime>(), startOfPeriod, endOfPeriod );
     }
@@ -64,7 +55,7 @@ public class Schedule {
      * @param startOfPeriod: start date for which schedule is valid
      * @param endOfPeriod: end date for which schedule is valid
      */
-    public Schedule(Location origin, Location destination,
+    public Schedule(WeRideShareLocation origin, WeRideShareLocation destination,
                     Map<DayOfWeek, ScheduleTime> times,
                     GregorianCalendar startOfPeriod, GregorianCalendar endOfPeriod){
         this.origin = origin;
@@ -74,19 +65,19 @@ public class Schedule {
         this.endOfPeriod = endOfPeriod;
     }
 
-    public Location getOrigin() {
+    public WeRideShareLocation getOrigin() {
         return origin;
     }
 
-    public void setOrigin(Location origin) {
+    public void setOrigin(WeRideShareLocation origin) {
         this.origin = origin;
     }
 
-    public Location getDestination() {
+    public WeRideShareLocation getDestination() {
         return destination;
     }
 
-    public void setDestination(Location destination) {
+    public void setDestination(WeRideShareLocation destination) {
         this.destination = destination;
     }
 

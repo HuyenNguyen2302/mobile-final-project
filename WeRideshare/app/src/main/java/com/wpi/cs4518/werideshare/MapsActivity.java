@@ -79,7 +79,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             mGoogleApiClient);
                     if (mLastLocation != null) {
                         currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -185,7 +185,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mGoogleApiClient);
                         if (mLastLocation != null) {
                             currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                            mMap.addMarker(new MarkerOptions().position(currentLocation).title("current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                            mMap.addMarker(new MarkerOptions().position(currentLocation).title("current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                             mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -279,7 +279,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //mark current location
                 currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-                currLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                currLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -323,10 +323,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-        Toast.makeText(this, "Current Location Updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Current WeRideShareLocation Updated", Toast.LENGTH_SHORT).show();
 
 
         //If you only need one location, unregister the listener
