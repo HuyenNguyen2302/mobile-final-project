@@ -112,7 +112,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName());
                 //when you select a new source, remove the current source marker
-                sourceLocationMarker.remove();
+                if(sourceLocationMarker != null)
+                    sourceLocationMarker.remove();
                 sourceLocation = new Location(LocationManager.GPS_PROVIDER);
                 sourceLocation.setLatitude(place.getLatLng().latitude);
                 sourceLocation.setLongitude(place.getLatLng().longitude);
