@@ -56,6 +56,8 @@ public class EmailPasswordActivity extends BaseActivity {
         mPasswordField = (EditText) findViewById(R.id.password);
         formStatus = (TextView) findViewById(R.id.form_status);
 
+        //set up persistence
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
