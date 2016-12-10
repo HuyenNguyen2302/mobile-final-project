@@ -2,19 +2,12 @@ package com.wpi.cs4518.werideshare.model;
 
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 
 /**
@@ -58,7 +51,6 @@ public class  User implements Serializable{
         this.username = firstName.toLowerCase() + "_" + lastName.toLowerCase();
         this.userType = userType;
         this.deviceId = deviceId;
-        setUpListeners();
     }
 
     private static String getNewUserId() {
@@ -69,11 +61,11 @@ public class  User implements Serializable{
         return userId;
     }
 
-    private String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    private String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -152,15 +144,6 @@ public class  User implements Serializable{
     public void addChat(String key, Chat convo) {
         if (!hasChat(convo))
             chats.put(key, convo);
-    }
-
-    private void setUpListeners(){
-        /* required listeners:
-         * users root: changes to current user - make edits
-         * convo root: changes to user's chats - add/remove
-         */
-
-
     }
 
     public boolean equals(Object other) {

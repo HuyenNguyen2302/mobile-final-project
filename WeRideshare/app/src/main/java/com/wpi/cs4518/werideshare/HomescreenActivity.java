@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.wpi.cs4518.werideshare.fragments.ChatsFragment;
 import com.wpi.cs4518.werideshare.fragments.MessagesFragment;
 import com.wpi.cs4518.werideshare.fragments.ProfileDetails;
+import com.wpi.cs4518.werideshare.fragments.ProfileFragment;
 import com.wpi.cs4518.werideshare.model.Chat;
 import com.wpi.cs4518.werideshare.model.Message;
 import com.wpi.cs4518.werideshare.model.Model;
@@ -40,7 +41,7 @@ import static com.wpi.cs4518.werideshare.model.Model.firebase;
 public class HomescreenActivity extends AppCompatActivity {
     private static final String TAG = "PROFILE_ACTIVITY";
 
-    private ProfileDetails profileDetails;
+    private ProfileFragment profileFragment;
     private MessagesFragment messagesFragment;
     private ChatsFragment chatsFragment;
 
@@ -116,13 +117,10 @@ public class HomescreenActivity extends AppCompatActivity {
     }
 
     public void onClickProfileButton(View view) {
-        if (profileDetails == null)
-            profileDetails = new ProfileDetails();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.task_container, profileDetails); // f1_container is your FrameLayout container
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.addToBackStack(null);
-        ft.commit();
+        if (profileFragment == null)
+            profileFragment = new ProfileFragment();
+
+        addFragment(profileFragment);
     }
 
     public void onClickMessagesButton(View view) {

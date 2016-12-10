@@ -1,0 +1,46 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.CarProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:text="Car Details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_marginBottom="30dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:text="Car Model:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/model_text"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:text="Registration Id:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/reg_text"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:text="Capacity:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/capacity"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
+
+</FrameLayout>

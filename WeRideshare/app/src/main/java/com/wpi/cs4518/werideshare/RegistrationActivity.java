@@ -38,6 +38,7 @@ public class RegistrationActivity extends BaseActivity {
     private String email;
     private String password;
     private int currentPage;
+    private boolean userCreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     public void onClickProceedButton(View view) {
+        getCurrentPage(); //validate current page
         if (currentPage == PERSONAL) {
             createAccount();
         } else if (currentPage == VEHICLE) {
@@ -90,8 +92,19 @@ public class RegistrationActivity extends BaseActivity {
                     newUser.getUserId());
             Model.writeCarToDatabase(newCar);
             doNext();
-
         }
+    }
+
+    private int getCurrentPage(){
+        //check if current page is
+        boolean personal = findViewById(R.id.first_name) != null;
+
+        if(personal)
+            currentPage = PERSONAL;
+        else
+            currentPage = VEHICLE;
+
+        return currentPage;
     }
 
     private void createUser(String userId) {
@@ -112,11 +125,16 @@ public class RegistrationActivity extends BaseActivity {
      * Perform the neccesary steps to add this user to Firebase Authentication.
      * Return the userId provided by Firebase
      */
-    private String createAccount() {
+    private void createAccount() {
+        //skip account creation if user already created
+        if(userCreated) {
+            doNext();
+            return;
+        }
         mAuth = FirebaseAuth.getInstance();
-        Log.w(TAG, String.format("Creating account: email: %s password: %s", email, password));
+        Log.w(TAG, String.format("Creating account: email: %s, password: %s", email, password));
         if (email == null || password == null)
-            return null;
+            return ;
         showProgressDialog();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -130,18 +148,20 @@ public class RegistrationActivity extends BaseActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(RegistrationActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                            userCreated = false;
+                            hideProgressDialog();
                         } else {
                             String userId = mAuth.getCurrentUser().getUid();
                             Log.w(TAG, "userId: " + userId);
 
                             createUser(userId);
+                            userCreated = true;
 
                             doNext();
                             hideProgressDialog();
                         }
                     }
                 });
-        return null;
     }
 
     private void doNext() {
@@ -152,14 +172,17 @@ public class RegistrationActivity extends BaseActivity {
             addVehicleDetails();
             return ;
         }
+        try {
+            //start profile intent and display message if registration successful
+            Intent profileIntent = new Intent(RegistrationActivity.this, HomescreenActivity.class);
+            profileIntent.putExtra("user", newUser);
+            profileIntent.putExtra("userId", newUser.getUserId());
+            Toast.makeText(this, R.string.reg_success,
+                    Toast.LENGTH_SHORT).show();
 
-        //start profile intent and display message if registration successful
-        Intent profileIntent = new Intent(RegistrationActivity.this, HomescreenActivity.class);
-        profileIntent.putExtra("user", newUser);
-        profileIntent.putExtra("userId", newUser.getUserId());
-        Toast.makeText(this, R.string.reg_success,
-                Toast.LENGTH_SHORT).show();
-
-        startActivity(profileIntent);
+            startActivity(profileIntent);
+        }catch (NullPointerException ex){
+            Log.w(TAG, ex.getMessage());
+        }
     }
 }
