@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,26 +11,30 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.wpi.cs4518.werideshare.fragments.PersonalDetailsFragment;
-import com.wpi.cs4518.werideshare.fragments.VehicleDetailsFragment;
+import com.wpi.cs4518.werideshare.fragments.CarDetailsFragment;
+import com.wpi.cs4518.werideshare.fragments.UserDetailsFragment;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 import com.wpi.cs4518.werideshare.model.Car;
 
+
+/**
+ * This class implements the registration logic.
+ * It uses two fragments (UserDetailsFragment and CarDetailsFragment) to separate the
+ * registration of car details from user details
+ *
+ */
 public class RegistrationActivity extends BaseActivity {
-    private PersonalDetailsFragment personalDetailsFragment;
-    private VehicleDetailsFragment vehicleDetailsFragment;
 
     private static final String TAG = "REG";
     private static final int PERSONAL = 1;
-    private static final int VEHICLE = 2;
+    private static final int CAR = 2;
     private static FirebaseAuth mAuth;
 
     private User newUser;
@@ -49,21 +52,17 @@ public class RegistrationActivity extends BaseActivity {
             password = String.valueOf(getIntent().getStringExtra("password"));
             Log.w(TAG, "email: " + email);
         }
-        addPersonalDetails();
+        addUserDetails();
     }
 
-    private void addPersonalDetails() {
-        if (personalDetailsFragment == null)
-            personalDetailsFragment = new PersonalDetailsFragment();
-        addFragment(personalDetailsFragment);
+    private void addUserDetails() {
+        addFragment(new UserDetailsFragment());
         currentPage = PERSONAL;
     }
 
     private void addVehicleDetails() {
-        if (vehicleDetailsFragment == null)
-            vehicleDetailsFragment = new VehicleDetailsFragment();
-        addFragment(vehicleDetailsFragment);
-        currentPage = VEHICLE;
+        addFragment(new CarDetailsFragment());
+        currentPage = CAR;
     }
 
     private void addFragment(Fragment fragment) {
@@ -77,7 +76,7 @@ public class RegistrationActivity extends BaseActivity {
     public void onClickProceedButton(View view) {
         if (currentPage == PERSONAL) {
             createAccount();
-        } else if (currentPage == VEHICLE) {
+        } else if (currentPage == CAR) {
             //get vehicle fields from the form
             EditText carNameText = (EditText) findViewById(R.id.car_name);
             EditText registrationIdText = (EditText) findViewById(R.id.registration_id);
