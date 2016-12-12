@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -47,6 +49,8 @@ public class RegistrationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_registration);
 
         if (getIntent() != null) {
@@ -60,6 +64,8 @@ public class RegistrationActivity extends BaseActivity {
     private void addUserDetails() {
         addFragment(new UserDetailsFragment());
         currentPage = PERSONAL;
+
+
     }
 
     private void addVehicleDetails() {
@@ -112,7 +118,7 @@ public class RegistrationActivity extends BaseActivity {
             return false;
         }
         String phoneNum  = ((EditText) findViewById(R.id.phone_number)).getText().toString();
-        if (phoneNum.length() != 10){
+        if (phoneNum.length() != 14){ //14 because PhoneNumberFormattingTextWatcher adds spaces and ( and -
             Toast.makeText(this, "10 digit phone number", Toast.LENGTH_SHORT).show();
             return false;
 
