@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -75,10 +76,15 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     public void onClickProceedButton(View view) {
-        getCurrentPage(); //validate current page
+
+        getCurrentPage();
         if (currentPage == PERSONAL) {
+            if(!validatePersonalPage()) //validate current page
+                return;
             createAccount();
         } else if (currentPage == CAR) {
+            if(!validateCarPage()) //validate current page
+                return;
             //get vehicle fields from the form
             EditText carNameText = (EditText) findViewById(R.id.car_name);
             EditText registrationIdText = (EditText) findViewById(R.id.registration_id);
@@ -94,6 +100,49 @@ public class RegistrationActivity extends BaseActivity {
         }
     }
 
+    private boolean validatePersonalPage () {
+        String firstName = ((EditText) findViewById(R.id.first_name)).getText().toString();
+        if("".equals(firstName)) {
+            Toast.makeText(this, "Enter in a first name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        String lastName = ((EditText) findViewById(R.id.last_name)).getText().toString();
+        if("".equals(lastName)) {
+            Toast.makeText(this, "Enter in a last name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        String phoneNum  = ((EditText) findViewById(R.id.phone_number)).getText().toString();
+        if (phoneNum.length() != 10){
+            Toast.makeText(this, "10 digit phone number", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }
+        if(((RadioGroup)findViewById(R.id.radioButtonGroup)).getCheckedRadioButtonId() == -1){
+            Toast.makeText(this, "Select rider or driver", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validateCarPage(){
+        String carNameText = ((EditText) findViewById(R.id.car_name)).getText().toString();
+        if("".equals(carNameText)){
+            Toast.makeText(this, "Enter in a car name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        String registrationIdText = ((EditText) findViewById(R.id.registration_id)).getText().toString();
+        if("".equals(registrationIdText)){
+            Toast.makeText(this, "Enter in a registration id", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        String capacitySpinner = ((Spinner) findViewById(R.id.capacitySpinner)).getSelectedItem().toString();
+        if("(Vehicle Capacity)".equals(capacitySpinner)){
+            Toast.makeText(this, "Enter in a vehicle capacity", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
     private int getCurrentPage(){
         //check if current page is
         boolean personal = findViewById(R.id.first_name) != null;
@@ -101,7 +150,7 @@ public class RegistrationActivity extends BaseActivity {
         if(personal)
             currentPage = PERSONAL;
         else
-            currentPage = VEHICLE;
+            currentPage = CAR;
 
         return currentPage;
     }
