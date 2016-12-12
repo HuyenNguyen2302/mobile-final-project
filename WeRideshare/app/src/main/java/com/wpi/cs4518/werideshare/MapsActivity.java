@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -36,6 +37,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.wpi.cs4518.werideshare.model.GMapV2Direction;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.Console;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     //for logging purposes
@@ -79,7 +86,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             mGoogleApiClient);
                     if (mLastLocation != null) {
                         currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -105,7 +112,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName());
                 //when you select a new source, remove the current source marker
-                sourceLocationMarker.remove();
+                if(sourceLocationMarker != null)
+                    sourceLocationMarker.remove();
                 sourceLocation = new Location(LocationManager.GPS_PROVIDER);
                 sourceLocation.setLatitude(place.getLatLng().latitude);
                 sourceLocation.setLongitude(place.getLatLng().longitude);
@@ -115,6 +123,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .title("Source").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
                 moveCameraCaptureMarkers(new Marker[]{sourceLocationMarker});
+
+
             }
 
             @Override
@@ -150,9 +160,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     PolylineOptions polylineOptions = new PolylineOptions()
                             .add(new LatLng(sourceLocation.getLatitude(), sourceLocation.getLongitude())) // Point A.
-                    .add(new LatLng(destinationLocation.getLatitude(), destinationLocation.getLongitude())); // Point B.
+                    .add(new LatLng(destinationLocation.getLatitude(), destinationLocation.getLongitude())).width(5).color(Color.GREEN); // Point B.
 
                     sourceToDestinationLinePath = mMap.addPolyline(polylineOptions);
+
+                    //need <uses-permission android:name="android.permission.INTERNET"/>
+                    //and GMAP does network operations so to avoid network on main thread exception, we spawn a thread
+                    GMapV2Direction gdir = new GMapV2Direction(mMap);
+                    LatLng src = new LatLng(sourceLocation.getLatitude(),sourceLocation.getLongitude());
+                    LatLng des = new LatLng(destinationLocation.getLatitude(),destinationLocation.getLongitude());
+                    gdir.execute(src ,des);
+
+
                 }
             }
 
@@ -166,9 +185,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void loadPermissions(int requestCode) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, perm)) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MapsActivity.REQUEST_FINE_LOCATION);
-//            }
         }
     }
 
@@ -185,7 +202,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mGoogleApiClient);
                         if (mLastLocation != null) {
                             currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                            mMap.addMarker(new MarkerOptions().position(currentLocation).title("current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                            mMap.addMarker(new MarkerOptions().position(currentLocation).title("current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                             mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -213,17 +230,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
-
-//    @Override
-//    protected void onResume(){
-//        int permissionCheck = ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION);
-//        if(permissionCheck==PackageManager.PERMISSION_GRANTED && mGoogleApiClient.isConnected()) {
-//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-//        }
-//
-//        super.onResume();
-//    }
 
     @Override
     protected void onStop() {
@@ -279,7 +285,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //mark current location
                 currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-                currLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                currLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -323,10 +329,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-        Toast.makeText(this, "Current Location Updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Current WeRideShareLocation Updated", Toast.LENGTH_SHORT).show();
 
 
         //If you only need one location, unregister the listener
@@ -365,4 +371,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         mMap.animateCamera(cu);
     }
+
 }

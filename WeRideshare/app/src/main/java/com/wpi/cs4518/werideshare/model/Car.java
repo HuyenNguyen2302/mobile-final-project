@@ -17,6 +17,10 @@ public class Car {
     private int capacity;
     private String registrationId, carName, userId;
 
+    public Car(){
+        //empty constructor for fragment creation
+    }
+
     public Car(String carName, String registrationId, int capacity, String userId){
         this.capacity = capacity;
         this.registrationId = registrationId;

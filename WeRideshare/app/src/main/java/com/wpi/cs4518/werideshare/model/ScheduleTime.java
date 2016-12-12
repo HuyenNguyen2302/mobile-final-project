@@ -1,5 +1,6 @@
 package com.wpi.cs4518.werideshare.model;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -13,7 +14,8 @@ import java.util.GregorianCalendar;
  *
  */
 public class ScheduleTime {
-
+    //ONLY USE THE HOUR, MINUTE, SECOND of GREGORIAN CALENDAR
+    //the year, month, day are null
     private GregorianCalendar departTime, returnTime;
 
     public ScheduleTime(GregorianCalendar departTime, GregorianCalendar returnTime){
