@@ -109,7 +109,7 @@ public class EmailPasswordActivity extends BaseActivity {
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateForm())
+        if (!validateForm(email,password))
             return;
 
         Intent registrationIntent = new Intent(EmailPasswordActivity.this, RegistrationActivity.class);
@@ -118,31 +118,6 @@ public class EmailPasswordActivity extends BaseActivity {
         startActivity(registrationIntent);
     }
 
-    private boolean validateForm() {
-        boolean validEmail = true, validPassword = true;
-
-        String email = mEmailField.getText().toString();
-        if (!Pattern.matches(Constants.EMAIL_PATTERN, email)) {
-            validEmail = false;
-
-            if (formStatus != null)
-                formStatus.setText(String.format("%s\n", R.string.error_invalid_email));
-        }
-
-        String password = mPasswordField.getText().toString();
-        if (!Pattern.matches(Constants.PASSWORD_PATTERN, password)) {
-            validPassword = false;
-
-            if (formStatus != null) {
-                if (!validEmail)
-                    formStatus.setText(String.format("%s %s\n", formStatus.getText(), R.string.error_invalid_password));
-                else
-                    formStatus.setText(String.format("%s\n", R.string.error_invalid_password));
-            }
-        }
-//        return validEmail && validPassword;
-        return password != null && email != null;
-    }
 
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
@@ -158,10 +133,8 @@ public class EmailPasswordActivity extends BaseActivity {
 
     private void signIn(final String email, final String password) {
         Log.d(TAG, "signIn: " + email);
-        if (!validateForm(email,password)) {
-
+        if (!validateForm(email,password))
             return;
-        }
 
         showProgressDialog();
 
@@ -228,19 +201,19 @@ public class EmailPasswordActivity extends BaseActivity {
 
         //email or password is "" if user left the field empty
         if (email.equals("") || password.equals("")) {
-            Toast.makeText(EmailPasswordActivity.this, "Email and Password cannot be blank.",
-                    Toast.LENGTH_SHORT).show();
+            if (formStatus != null)
+                formStatus.setText(String.format("%s\n", "Email and/or pass cannot be blank"));
             return false;
         }
         //email pattern requires an '@' and '.com'
         if (!Pattern.matches(Constants.EMAIL_PATTERN, email)) {
-            Toast.makeText(EmailPasswordActivity.this, R.string.error_invalid_email,
-                    Toast.LENGTH_SHORT).show();
+            if (formStatus != null)
+                formStatus.setText(String.format("%s\n", "Email should have '@.com'"));
             return false;
         }
         if (password.length() < 6 ) {
-            Toast.makeText(EmailPasswordActivity.this, "Password should be at least 6 characters.",
-                    Toast.LENGTH_SHORT).show();
+            if (formStatus != null)
+                formStatus.setText(String.format("%s\n", "Password should be at least 6 chars'"));
             return false;
         }
 
