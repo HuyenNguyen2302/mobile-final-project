@@ -14,10 +14,10 @@ import com.wpi.cs4518.werideshare.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VehicleDetailsFragment extends Fragment {
+public class CarDetailsFragment extends Fragment {
 
 
-    public VehicleDetailsFragment() {
+    public CarDetailsFragment() {
         // Required empty public constructor
     }
 

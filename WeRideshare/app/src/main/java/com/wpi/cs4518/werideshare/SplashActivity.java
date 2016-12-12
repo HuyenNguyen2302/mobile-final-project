@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by mrampiah on 11/10/16.
+ *
+ * This class creates the intent showing the splash screen, which contains team information
  */
 
 public class SplashActivity extends AppCompatActivity {
@@ -16,6 +18,8 @@ public class SplashActivity extends AppCompatActivity {
 
         Intent intent = new Intent(SplashActivity.this, EmailPasswordActivity.class);
         startActivity(intent);
+
+        //Activity.class function to end the activity. Make sure it is up for garbage removal
         finish();
     }
 }

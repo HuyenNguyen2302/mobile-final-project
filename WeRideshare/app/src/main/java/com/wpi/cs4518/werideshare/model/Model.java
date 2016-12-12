@@ -91,14 +91,14 @@ public class Model {
     }
 
     public static void writeUserToDatabase(User user) {
-        Log.w("WRITE", "writing user to database: " + user);
+        Log.w(TAG, "writing user to database: " + user);
 
         usersRef.child(user.getUserId())
                 .setValue(user);
     }
 
     public static String writeChatToDatabase(Chat chat, User user) {
-        Log.w("WRITE", "writing chat to database: " + chat);
+        Log.w(TAG, "writing chat to database: " + chat);
         DatabaseReference chatRef = usersRef
                 .child(user.getUserId())
                 .child(CONVO_ROOT);
@@ -109,7 +109,7 @@ public class Model {
     }
 
     public static void writeCarToDatabase(Car car) {
-        Log.w("WRITE", "writing car to database: " + car);
+        Log.w(TAG, "writing car to database: " + car);
 
         carsRef.child(car.getUserId())
                 .setValue(car);

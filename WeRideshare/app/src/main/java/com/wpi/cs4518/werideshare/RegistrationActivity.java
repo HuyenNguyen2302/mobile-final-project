@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,32 +11,37 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.wpi.cs4518.werideshare.fragments.PersonalDetailsFragment;
-import com.wpi.cs4518.werideshare.fragments.VehicleDetailsFragment;
+import com.wpi.cs4518.werideshare.fragments.CarDetailsFragment;
+import com.wpi.cs4518.werideshare.fragments.UserDetailsFragment;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 import com.wpi.cs4518.werideshare.model.Car;
 
+
+/**
+ * This class implements the registration logic.
+ * It uses two fragments (UserDetailsFragment and CarDetailsFragment) to separate the
+ * registration of car details from user details
+ *
+ */
 public class RegistrationActivity extends BaseActivity {
-    private PersonalDetailsFragment personalDetailsFragment;
-    private VehicleDetailsFragment vehicleDetailsFragment;
 
     private static final String TAG = "REG";
     private static final int PERSONAL = 1;
-    private static final int VEHICLE = 2;
+    private static final int CAR = 2;
     private static FirebaseAuth mAuth;
 
     private User newUser;
     private String email;
     private String password;
     private int currentPage;
+    private boolean userCreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +53,17 @@ public class RegistrationActivity extends BaseActivity {
             password = String.valueOf(getIntent().getStringExtra("password"));
             Log.w(TAG, "email: " + email);
         }
-        addPersonalDetails();
+        addUserDetails();
     }
 
-    private void addPersonalDetails() {
-        if (personalDetailsFragment == null)
-            personalDetailsFragment = new PersonalDetailsFragment();
-        addFragment(personalDetailsFragment);
+    private void addUserDetails() {
+        addFragment(new UserDetailsFragment());
         currentPage = PERSONAL;
     }
 
     private void addVehicleDetails() {
-        if (vehicleDetailsFragment == null)
-            vehicleDetailsFragment = new VehicleDetailsFragment();
-        addFragment(vehicleDetailsFragment);
-        currentPage = VEHICLE;
+        addFragment(new CarDetailsFragment());
+        currentPage = CAR;
     }
 
     private void addFragment(Fragment fragment) {
@@ -75,9 +75,10 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     public void onClickProceedButton(View view) {
+        getCurrentPage(); //validate current page
         if (currentPage == PERSONAL) {
             createAccount();
-        } else if (currentPage == VEHICLE) {
+        } else if (currentPage == CAR) {
             //get vehicle fields from the form
             EditText carNameText = (EditText) findViewById(R.id.car_name);
             EditText registrationIdText = (EditText) findViewById(R.id.registration_id);
@@ -90,8 +91,19 @@ public class RegistrationActivity extends BaseActivity {
                     newUser.getUserId());
             Model.writeCarToDatabase(newCar);
             doNext();
-
         }
+    }
+
+    private int getCurrentPage(){
+        //check if current page is
+        boolean personal = findViewById(R.id.first_name) != null;
+
+        if(personal)
+            currentPage = PERSONAL;
+        else
+            currentPage = VEHICLE;
+
+        return currentPage;
     }
 
     private void createUser(String userId) {
@@ -112,11 +124,16 @@ public class RegistrationActivity extends BaseActivity {
      * Perform the neccesary steps to add this user to Firebase Authentication.
      * Return the userId provided by Firebase
      */
-    private String createAccount() {
+    private void createAccount() {
+        //skip account creation if user already created
+        if(userCreated) {
+            doNext();
+            return;
+        }
         mAuth = FirebaseAuth.getInstance();
-        Log.w(TAG, String.format("Creating account: email: %s password: %s", email, password));
+        Log.w(TAG, String.format("Creating account: email: %s, password: %s", email, password));
         if (email == null || password == null)
-            return null;
+            return ;
         showProgressDialog();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -130,18 +147,20 @@ public class RegistrationActivity extends BaseActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(RegistrationActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                            userCreated = false;
+                            hideProgressDialog();
                         } else {
                             String userId = mAuth.getCurrentUser().getUid();
                             Log.w(TAG, "userId: " + userId);
 
                             createUser(userId);
+                            userCreated = true;
 
                             doNext();
                             hideProgressDialog();
                         }
                     }
                 });
-        return null;
     }
 
     private void doNext() {
@@ -152,14 +171,17 @@ public class RegistrationActivity extends BaseActivity {
             addVehicleDetails();
             return ;
         }
+        try {
+            //start profile intent and display message if registration successful
+            Intent profileIntent = new Intent(RegistrationActivity.this, HomescreenActivity.class);
+            profileIntent.putExtra("user", newUser);
+            profileIntent.putExtra("userId", newUser.getUserId());
+            Toast.makeText(this, R.string.reg_success,
+                    Toast.LENGTH_SHORT).show();
 
-        //start profile intent and display message if registration successful
-        Intent profileIntent = new Intent(RegistrationActivity.this, HomescreenActivity.class);
-        profileIntent.putExtra("user", newUser);
-        profileIntent.putExtra("userId", newUser.getUserId());
-        Toast.makeText(this, R.string.reg_success,
-                Toast.LENGTH_SHORT).show();
-
-        startActivity(profileIntent);
+            startActivity(profileIntent);
+        }catch (NullPointerException ex){
+            Log.w(TAG, ex.getMessage());
+        }
     }
 }

@@ -73,25 +73,6 @@ public class EmailPasswordActivity extends BaseActivity {
                 }
             }
         };
-
-        signInButton = (Button) findViewById(R.id.signInButton);
-        registerButton = (Button) findViewById(R.id.registerButton);
-
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-
-            }
-        });
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-            }
-        });
-
-
     }
 
     @Override
@@ -118,24 +99,29 @@ public class EmailPasswordActivity extends BaseActivity {
         startActivity(registrationIntent);
     }
 
-
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
     }
 
     public void onClickRegister(View v) {
-        createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        String email = mEmailField.getText().toString();
+        String password =  mPasswordField.getText().toString();
+        Log.w(TAG, "some email: " + email);
+        if(validateForm(email, password))
+            createAccount(email, password);
     }
 
     public void onClickSignIn(View v) {
-        signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        String email = mEmailField.getText().toString();
+        String password =  mPasswordField.getText().toString();
+        if(validateForm(email, password))
+            signIn(email, password);
     }
 
     private void signIn(final String email, final String password) {
         Log.d(TAG, "signIn: " + email);
         if (!validateForm(email,password))
             return;
-
         showProgressDialog();
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -163,7 +149,6 @@ public class EmailPasswordActivity extends BaseActivity {
     }
 
     private void getCurrentUser(final String userId) {
-
         FirebaseDatabase.getInstance().getReference()
                 .child(USER_ROOT)
                 .child(userId)
