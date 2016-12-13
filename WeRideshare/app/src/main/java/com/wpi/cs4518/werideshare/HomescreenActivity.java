@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.wpi.cs4518.werideshare.fragments.ChatListFragment;
 import com.wpi.cs4518.werideshare.fragments.MessagesFragment;
 import com.wpi.cs4518.werideshare.fragments.ProfileFragment;
@@ -129,6 +130,44 @@ public class HomescreenActivity extends AppCompatActivity {
 
 
 //        //temp: users listener, to create a convo for each and add to this user
+
+        Model.usersRef.orderByChild("userId").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                User user = dataSnapshot.getValue(User.class);
+//                Log.w(TAG, "convo user: " + user.getUsername());
+                if (user != null && !currentUser.hasChatWith(user.getUsername())) {
+                    //create chat and save to this user
+                    Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
+                    currentUser.saveChat(chat);
+
+                    //change the username associated with this chat and save to the other user
+                    //this is to ensure reflexivity
+                    user.saveChat(chat);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 //        Model.usersRef.addChildEventListener(new ChildEventListener() {
 //            @Override
 //            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -165,7 +204,7 @@ public class HomescreenActivity extends AppCompatActivity {
 //
 //            }
 //        });
-//
+
         addFragment(chatsFragment);
     }
 
