@@ -27,9 +27,13 @@ import com.wpi.cs4518.werideshare.model.ScheduleTime;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.wpi.cs4518.werideshare.model.Model.SCHEDULE_ROOT;
+import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +41,7 @@ import static com.wpi.cs4518.werideshare.model.Model.SCHEDULE_ROOT;
 public class ScheduleFragment extends Fragment {
     private static String TAG = "SCHEDULE_FRAGMENT";
     String scheduleId;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 
     private DatabaseReference scheduleRef;
     private ChildEventListener listener;
@@ -63,14 +67,14 @@ public class ScheduleFragment extends Fragment {
 
 
     public void setScheduleId(final String scheduleId) {
-        Log.w(TAG, "setting schedule: " + scheduleId);
+//        Log.w(TAG, "setting schedule: " + scheduleId);
         this.scheduleId = scheduleId;
         if (scheduleRef == null)
             setUpFirebase();
     }
 
     private void init() {
-        Log.w(TAG, "initializing schedule fragment");
+//        Log.w(TAG, "initializing schedule fragment");
         setUpFirebase();
 
         Button saveButton = (Button) getView().findViewById(R.id.saveButton);
@@ -86,18 +90,18 @@ public class ScheduleFragment extends Fragment {
         //setup firebase references
 //        Log.w(TAG, "initializing firebase");
         scheduleRef = FirebaseDatabase.getInstance().getReference()
+                .child(USER_ROOT)
                 .child(HomescreenActivity.currentUser.getUserId())
                 .child(SCHEDULE_ROOT);
 
         if (scheduleId == null)
             return;
 
-        scheduleRef.child(scheduleId).addValueEventListener(new ValueEventListener() {
+        scheduleRef.child(scheduleId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Schedule schedule = dataSnapshot.getValue(Schedule.class);
-                Log.w(TAG, "found schedule: " + schedule);
-                Log.w(TAG, "found key: " + dataSnapshot.getKey());
+//                Log.w(TAG, "found schedule: " + schedule);
                 loadSchedule(schedule);
             }
 
@@ -129,7 +133,29 @@ public class ScheduleFragment extends Fragment {
             Time departValue = new Time(times.get(0).getDepartTimeMillis());
             Time returnValue = new Time(times.get(0).getReturnTimeMillis());
             departTime.setText(simpleDateFormat.format(departValue));
-            departTime.setText(simpleDateFormat.format(returnValue));
+            returnTime.setText(simpleDateFormat.format(returnValue));
+
+            Map timeMap = schedule.getTimes();
+            if(timeMap.containsKey(Schedule.DayOfWeek.Monday.toString()))
+                mondayCheckBox.setChecked(true);
+
+            if(timeMap.containsKey(Schedule.DayOfWeek.Tuesday.toString()))
+                tuesdayCheckBox.setChecked(true);
+
+            if(timeMap.containsKey(Schedule.DayOfWeek.Wednesday.toString()))
+                wednesdayCheckBox.setChecked(true);
+
+            if(timeMap.containsKey(Schedule.DayOfWeek.Thursday.toString()))
+                thursdayCheckBox.setChecked(true);
+
+            if(timeMap.containsKey(Schedule.DayOfWeek.Friday.toString()))
+                fridayCheckBox.setChecked(true);
+
+            if(timeMap.containsKey(Schedule.DayOfWeek.Saturday.toString()))
+                saturdayCheckBox.setChecked(true);
+
+            if(timeMap.containsKey(Schedule.DayOfWeek.Sunday.toString()))
+                sundayCheckBox.setChecked(true);
 
         } catch (NullPointerException ex) {
 
