@@ -25,6 +25,7 @@ public class  User implements Serializable{
     private String userId, firstName, lastName, username, deviceId;
     private UserType userType;
     private Map<String, Chat> chats;
+    private Map<String, Schedule> schedules;
     private boolean update = false;
 
     public User() {
@@ -146,6 +147,44 @@ public class  User implements Serializable{
             chats.put(key, convo);
     }
 
+
+    //------ Schdeule related functions. Copy of chat so might need to revise ----- //
+
+
+    public Map<String, Schedule> getSchedules() {
+        if (schedules == null)
+            schedules = new HashMap<>();
+
+        return schedules;
+    }
+
+    public boolean hasSchedule(Schedule schedule){
+        return getSchedules().containsValue(schedule);
+    }
+
+    public boolean hasSchedule(String scheduleId){
+        for(Schedule schedule : getSchedules().values()){
+            if(schedule.getId().equals(scheduleId))
+                return true;
+        }
+        return false;
+    }
+
+    public void saveSchedule(Schedule schedule) {
+        if (!hasSchedule(schedule)) {
+            Log.w(TAG, String.format("saving schedule: %s\n", schedule));
+            Model.writeScheduleToDatabase(schedule, this);
+            addSchedule(schedule.getId(), schedule);
+        }
+    }
+
+    public void addSchedule(String key, Schedule schedule) {
+        if (!hasSchedule(schedule))
+            schedules.put(key, schedule);
+    }
+
+
+
     public boolean equals(Object other) {
         if (!(other instanceof User))
             return false;
@@ -153,6 +192,7 @@ public class  User implements Serializable{
         String lastName = ((User) other).getLastName();
         return this.firstName.equals(firstName) && this.lastName.equals(lastName);
     }
+
 
     private void updateUser() {
         try {

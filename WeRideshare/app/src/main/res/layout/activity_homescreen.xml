@@ -53,6 +53,13 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/map_icon"
                 android:onClick="onClickMapButton"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/schedule_icon"
+                android:onClick="onClickScheduleButton"
+                android:id="@+id/imageButton" />
         </GridLayout>
 
     </RelativeLayout>

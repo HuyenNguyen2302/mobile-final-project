@@ -32,8 +32,8 @@ import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatsFragment extends Fragment {
-    private final String TAG = "CONVO_FRAG";
+public class ChatListFragment extends Fragment {
+    private final String TAG = "CHAT_FRAG";
 
     ListView conversationList;
     ArrayAdapter<Chat> convoAdapter;
@@ -41,7 +41,7 @@ public class ChatsFragment extends Fragment {
     DatabaseReference chatRef;
     ChildEventListener convoListener;
 
-    public ChatsFragment() {
+    public ChatListFragment() {
         // Required empty public constructor
     }
 

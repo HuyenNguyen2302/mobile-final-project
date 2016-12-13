@@ -101,7 +101,7 @@ public class RegistrationActivity extends BaseActivity {
         if(personal)
             currentPage = PERSONAL;
         else
-            currentPage = VEHICLE;
+            currentPage = CAR;
 
         return currentPage;
     }

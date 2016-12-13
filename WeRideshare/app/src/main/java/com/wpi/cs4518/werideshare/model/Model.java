@@ -25,6 +25,7 @@ public class Model {
     public static final String CARS_ROOT = "cars";
     public static final String MSG_ROOT = "messages";
     public static final String CONVO_ROOT = "chats";
+    public static final String SCHEDULE_ROOT = "schedules";
     private static final String TAG = "MODEL";
 
     public static User currentUser;
@@ -106,6 +107,16 @@ public class Model {
         chatRef.child(key).setValue(chat);
 
         return key;
+    }
+
+
+    public static void writeScheduleToDatabase(Schedule schedule, User user) {
+        Log.w(TAG, "writing schedule to database: " + schedule.getId());
+        DatabaseReference scheduleRef = usersRef
+                .child(user.getUserId())
+                .child(SCHEDULE_ROOT)
+                .child(schedule.getId());
+        scheduleRef.setValue(schedule);
     }
 
     public static void writeCarToDatabase(Car car) {

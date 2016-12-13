@@ -1,5 +1,7 @@
 package com.wpi.cs4518.werideshare.model;
 
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +16,7 @@ import java.util.Map;
  * Each schedule has an associated origin and destination, along with a map of which days and times
  * the ride is made.
  */
-public class Schedule {
+public class Schedule implements Serializable {
 
 
     //enum to hold values for each day of the week
@@ -28,23 +30,22 @@ public class Schedule {
         Sunday
     }
 
-    WeRideShareLocation origin, destination;
-    Map<DayOfWeek, ScheduleTime> times;
-
-    //the range of dates for which this schedule is valid
-    GregorianCalendar startOfPeriod, endOfPeriod;
+    String id, name;
+    private WeRideShareLocation origin, destination;
+    Map<String, ScheduleTime> times;
 
 
+    public Schedule(){
+        //required for firebase
+    }
     /**
-     * Constructor, missing 'times' parameter for convenience; set to new HashMap (default)
+     * Constructor, missing 'times' and period parameters for convenience; set to new HashMap (default)
      * @param origin
      * @param destination
-     * @param startOfPeriod
-     * @param endOfPeriod
      */
-    public Schedule(WeRideShareLocation origin, WeRideShareLocation destination,
-                    GregorianCalendar startOfPeriod, GregorianCalendar endOfPeriod){
-       this(origin, destination, new HashMap<DayOfWeek, ScheduleTime>(), startOfPeriod, endOfPeriod );
+    public Schedule(String id, String name, WeRideShareLocation origin,
+                    WeRideShareLocation destination){
+        this(id, name, origin, destination, new HashMap<String, ScheduleTime>());
     }
 
     /**
@@ -52,57 +53,54 @@ public class Schedule {
      * @param origin: location the ride starts from
      * @param destination: location the ride ends
      * @param times: days and times for the scheduled ride
-     * @param startOfPeriod: start date for which schedule is valid
-     * @param endOfPeriod: end date for which schedule is valid
      */
-    public Schedule(WeRideShareLocation origin, WeRideShareLocation destination,
-                    Map<DayOfWeek, ScheduleTime> times,
-                    GregorianCalendar startOfPeriod, GregorianCalendar endOfPeriod){
+    public Schedule(String id, String name, WeRideShareLocation origin,
+                    WeRideShareLocation destination, Map<String, ScheduleTime> times){
+        this.id = id;
+        this.name = name;
         this.origin = origin;
         this.destination = destination;
         this.times = times;
-        this.startOfPeriod = startOfPeriod;
-        this.endOfPeriod = endOfPeriod;
     }
 
-    public WeRideShareLocation getOrigin() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private WeRideShareLocation getOrigin() {
         return origin;
     }
 
-    public void setOrigin(WeRideShareLocation origin) {
+    private void setOrigin(WeRideShareLocation origin) {
         this.origin = origin;
     }
 
-    public WeRideShareLocation getDestination() {
+    private WeRideShareLocation getDestination() {
         return destination;
     }
 
-    public void setDestination(WeRideShareLocation destination) {
+    private void setDestination(WeRideShareLocation destination) {
         this.destination = destination;
     }
 
-    public Map<DayOfWeek, ScheduleTime> getTimes() {
+    public Map<String, ScheduleTime> getTimes() {
         return times;
     }
 
-    public void setTimes(Map<DayOfWeek, ScheduleTime> times) {
+    public void setTimes(Map<String, ScheduleTime> times) {
         this.times = times;
-    }
-
-    public GregorianCalendar getStartOfPeriod() {
-        return startOfPeriod;
-    }
-
-    public void setStartOfPeriod(GregorianCalendar startOfPeriod) {
-        this.startOfPeriod = startOfPeriod;
-    }
-
-    public GregorianCalendar getEndOfPeriod() {
-        return endOfPeriod;
-    }
-
-    public void setEndOfPeriod(GregorianCalendar endOfPeriod) {
-        this.endOfPeriod = endOfPeriod;
     }
 
     /**
@@ -111,6 +109,21 @@ public class Schedule {
      * @param time
      */
     public void addScheduleTime(DayOfWeek day, ScheduleTime time){
-        times.put(day, time); //replaces current value of 'day' if not null
+        times.put(day.toString(), time); //replaces current value of 'day' if not null
     }
+
+    @Override
+    public String toString(){
+        return String.format("Schdeule: %s", name);
+    }
+
+    /*
+     * Schedule workflow
+     * - enter schedule information
+     * - get map data from maps fragment
+     * - save writes to firebase
+     * - on each schedule, have button "find matches"
+     * - brings up matches fragment, with "message" button
+     * - add user to chats and being conversationing
+     */
 }

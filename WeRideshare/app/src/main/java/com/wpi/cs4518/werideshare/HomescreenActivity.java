@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,32 +17,28 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.wpi.cs4518.werideshare.fragments.ChatsFragment;
+import com.wpi.cs4518.werideshare.fragments.ChatListFragment;
 import com.wpi.cs4518.werideshare.fragments.MessagesFragment;
-import com.wpi.cs4518.werideshare.fragments.ProfileDetails;
 import com.wpi.cs4518.werideshare.fragments.ProfileFragment;
+import com.wpi.cs4518.werideshare.fragments.ScheduleFragment;
+import com.wpi.cs4518.werideshare.fragments.ScheduleListFragment;
 import com.wpi.cs4518.werideshare.model.Chat;
-import com.wpi.cs4518.werideshare.model.Message;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
 import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.MSG_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
-import static com.wpi.cs4518.werideshare.model.Model.currentUser;
-import static com.wpi.cs4518.werideshare.model.Model.firebase;
 
 public class HomescreenActivity extends AppCompatActivity {
     private static final String TAG = "PROFILE_ACTIVITY";
 
     private ProfileFragment profileFragment;
     private MessagesFragment messagesFragment;
-    private ChatsFragment chatsFragment;
+    private ChatListFragment chatsFragment;
+    private ScheduleListFragment scheduleListFragment;
+    private ScheduleFragment scheduleFragment;
 
     //realtime database fields
     private DatabaseReference firebase;
@@ -70,7 +65,7 @@ public class HomescreenActivity extends AppCompatActivity {
                     currentUser.getUsername()), Toast.LENGTH_SHORT).show();
 
 
-            if(getIntent().getStringExtra("type") != null &&
+            if (getIntent().getStringExtra("type") != null &&
                     getIntent().getStringExtra("type").equals("private message"))
                 displayMessages(getIntent().getStringExtra("chatId"));
 
@@ -125,7 +120,7 @@ public class HomescreenActivity extends AppCompatActivity {
 
     public void onClickMessagesButton(View view) {
         if (chatsFragment == null)
-            chatsFragment = new ChatsFragment();
+            chatsFragment = new ChatListFragment();
 
         //setup firebase references
         chatRef = FirebaseDatabase.getInstance().getReference()
@@ -133,42 +128,44 @@ public class HomescreenActivity extends AppCompatActivity {
                 .child(CHAT_ROOT);
 
 
-        //temp: users listener, to create a convo for each and add to this user
-        Model.usersRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User user = dataSnapshot.getValue(User.class);
-                if(user != null && !currentUser.hasChatWith(user.getUsername())){
-                    //create chat and save to this user
-                    Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
-                    currentUser.saveChat(chat);
-
-                    //change the username associated with this chat and save to the other user
-                    //this is to ensure reflexivity
-                    user.saveChat(chat);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        //temp: users listener, to create a convo for each and add to this user
+//        Model.usersRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                User user = dataSnapshot.getValue(User.class);
+//                Log.w(TAG, "convo user: " + user.getUsername());
+//                if (user != null && !currentUser.hasChatWith(user.getUsername())) {
+//                    //create chat and save to this user
+//                    Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
+//                    currentUser.saveChat(chat);
+//
+//                    //change the username associated with this chat and save to the other user
+//                    //this is to ensure reflexivity
+//                    user.saveChat(chat);
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
         addFragment(chatsFragment);
     }
 
@@ -180,18 +177,35 @@ public class HomescreenActivity extends AppCompatActivity {
         messagesFragment.setChatId(chatId);
     }
 
-    public void onClickSendMessage(View view){
+    public void displaySchedule(String scheduleId) {
+        if (scheduleFragment == null)
+            scheduleFragment = new ScheduleFragment();
+
+        addFragment(scheduleFragment);
+        if (scheduleId != null)
+            scheduleFragment.setScheduleId(scheduleId);
+    }
+
+    public void onClickSendMessage(View view) {
         try {
             messagesFragment.sendMessage();
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
             Log.w(TAG, ex.getMessage());
         }
     }
 
     public void onClickMapButton(View view) {
-        Intent goToMapFragment = new Intent (HomescreenActivity.this, MapsActivity.class);
+        Intent goToMapFragment = new Intent(HomescreenActivity.this, MapsActivity.class);
         HomescreenActivity.this.startActivity(goToMapFragment);
     }
+
+    public void onClickScheduleButton(View view) {
+        if (scheduleListFragment == null)
+            scheduleListFragment = new ScheduleListFragment();
+
+        addFragment(scheduleListFragment);
+    }
+
 
     private void addFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

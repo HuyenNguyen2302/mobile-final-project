@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wpi.cs4518.werideshare.fragments.ScheduleListFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="New Schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newScheduleButton"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transcriptMode="normal"
+            android:id="@+id/schedules_view"/>
+    </LinearLayout>
+
+</FrameLayout>

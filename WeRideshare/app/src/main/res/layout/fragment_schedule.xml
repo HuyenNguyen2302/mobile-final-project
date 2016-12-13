@@ -1,0 +1,163 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wpi.cs4518.werideshare.fragments.ScheduleFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_marginTop="@dimen/fragment_top_margin"
+            android:layout_marginBottom="@dimen/fragment_bottom_margin">
+
+            <TextView
+                android:text="Name:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_row="1"
+                android:layout_gravity="right"
+                android:layout_column="0" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Name"
+                android:ems="10"
+                android:id="@+id/scheduleName" />
+
+            <TextView
+                android:text="Departure Time:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3"
+                android:layout_gravity="right"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="HH:MM"
+                android:ems="10"
+                android:id="@+id/departTime" />
+
+            <TextView
+                android:text="Return Time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:layout_gravity="right" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="HH:MM"
+                android:ems="10"
+                android:id="@+id/returnTime" />
+
+            <TextView
+                android:text="Days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:layout_columnSpan="2"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnSpan="2">
+
+                <CheckBox
+                    android:text="M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mondayCheckBox"
+                    android:layout_weight="1" />
+
+
+                <CheckBox
+                    android:text="Tu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tuesdayCheckBox"
+                    android:layout_weight="1" />
+
+
+                <CheckBox
+                    android:text="W"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/wednesdayCheckBox"
+                    android:layout_weight="1" />
+
+
+                <CheckBox
+                    android:text="Th"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/thursdayCheckBox"
+                    android:layout_weight="1" />
+
+
+                <CheckBox
+                    android:text="F"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fridayCheckBox"
+                    android:layout_weight="1" />
+
+
+                <CheckBox
+                    android:text="Sa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/saturdayCheckBox"
+                    android:layout_weight="1" />
+
+
+                <CheckBox
+                    android:text="Su"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sundayCheckBox"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </GridLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="Save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/saveButton"
+                android:layout_weight="1" />
+
+
+            <Button
+                android:text="Find Matches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/findMatchesButton"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
