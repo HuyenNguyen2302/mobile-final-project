@@ -70,12 +70,12 @@ public class MessageServlet extends HttpServlet {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Message message = dataSnapshot.getValue(Message.class);
-                        logger.log(TAG, "number of users: " + getUsers().size());
+//                        logger.log(TAG, "number of users: " + getUsers().size());
                         for (User user : getUsers()) {
                             if (user.hasChat(chatId)) {
                                 try {
-                                    logger.log(TAG, "sending message to: " + user.getUsername());
-                                    sendNotification(message, user, chatId);
+//                                    logger.log(TAG, "sending message to: " + user.getUsername());
+                                    sendNotification(message, user, message.getUsername(), chatId);
                                 } catch (IOException e) {
                                     logger.log(TAG, e.getMessage());
                                 }
@@ -120,7 +120,7 @@ public class MessageServlet extends HttpServlet {
         });
     }
 
-    private void sendNotification(Message message, User sender, String chatId) throws IOException {
+    private void sendNotification(Message message, User receiver, String senderId, String chatId) throws IOException {
         // Build apache httpclient POST request
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(ENDPOINT_URL);
@@ -133,11 +133,12 @@ public class MessageServlet extends HttpServlet {
             // Notification payload has 'title' and 'body' key
             messageJson.put("title", TITLE);
             messageJson.put("message", message.getText());
-            messageJson.put("sender", sender.getUsername());
+            messageJson.put("sender", senderId);
+            messageJson.put("receiver", receiver.getUserId());
             messageJson.put("chatId", chatId);
 
             // This will be used in case of both 'notification' or 'data' payload
-            outerBaseJsonObj.put("to", sender.getDeviceId());
+            outerBaseJsonObj.put("to", receiver.getDeviceId());
 
 
             // Set priority of notification. For instant chat setting
@@ -165,6 +166,7 @@ public class MessageServlet extends HttpServlet {
         // Execute apache http client post response
         HttpResponse fcmResponse = client.execute(post);
         logger.log(TAG, fcmResponse.toString());
+        logger.log(TAG, "sent message to: " + receiver.getDeviceId());
 
     }
 
@@ -177,28 +179,13 @@ public class MessageServlet extends HttpServlet {
 
     private void readUsers() {
         usersRef = firebase.child(USER_ROOT);
-        usersRef.addChildEventListener(new ChildEventListener() {
+        usersRef.orderByChild("userId").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User user = dataSnapshot.getValue(User.class);
-
-                logger.log(TAG, "adding user: " + user);
-                addUser(user);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
+                    User user = userSnapshot.getValue(User.class);
+                    addUser(user);
+                }
             }
 
             @Override

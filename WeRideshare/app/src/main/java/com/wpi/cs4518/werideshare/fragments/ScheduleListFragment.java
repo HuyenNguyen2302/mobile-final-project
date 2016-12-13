@@ -70,6 +70,7 @@ public class ScheduleListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setupScheduleRef();
+        setupAdapter();
         scheduleRef.addChildEventListener(scheduleListener);
     }
 
@@ -112,6 +113,8 @@ public class ScheduleListFragment extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Schedule schedule = dataSnapshot.getValue(Schedule.class);
+                removeSchedule(schedule);
             }
 
             @Override
@@ -135,18 +138,8 @@ public class ScheduleListFragment extends Fragment {
             getSchedules().remove(schedule);
     }
 
-    private void addSchedule(String key,Schedule schedule) {
-        if (!getSchedules().contains(schedule)) {
-            HomescreenActivity.currentUser.addSchedule(key, schedule);
-            schedules.add(schedule);
-            scheduleAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    private void setupAdapter(){
+        getSchedules().clear();
         scheduleAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, getSchedules());
         scheduleList = (ListView) getView().findViewById(R.id.schedules_view);
@@ -167,5 +160,18 @@ public class ScheduleListFragment extends Fragment {
                 ((HomescreenActivity) getContext()).displaySchedule(null);
             }
         });
+    }
+
+    private void addSchedule(String key,Schedule schedule) {
+        if (!getSchedules().contains(schedule)) {
+            HomescreenActivity.currentUser.addSchedule(key, schedule);
+            schedules.add(schedule);
+            scheduleAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 }

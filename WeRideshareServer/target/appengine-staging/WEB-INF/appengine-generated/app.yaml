@@ -7,7 +7,7 @@ inbound_services:
 threadsafe: True
 auto_id_policy: default
 beta_settings:
-  'source_reference': 'https://github.com/HuyenNguyen2302/mobile-final-project.git#7c7896f117c8a290e5e69737b32cb7386e9535c8'
+  'source_reference': 'https://github.com/HuyenNguyen2302/mobile-final-project.git#e0b304a680fb33ce8a63e8edd3735a24059cba71'
 health_check:
   enable_health_check: True
 api_version: '1.0'

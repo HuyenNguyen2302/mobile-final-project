@@ -68,6 +68,7 @@ public class ChatListFragment extends Fragment {
 
         if (chatRef == null)
             setupChatRef();
+        setUpAdapter();
         chatRef.addChildEventListener(convoListener);
     }
 
@@ -134,10 +135,8 @@ public class ChatListFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    private void setUpAdapter(){
+        getConversations().clear();
         convoAdapter = new ArrayAdapter<Chat>(getContext(),
                 android.R.layout.simple_list_item_1, getConversations());
         conversationList = (ListView) getView().findViewById(R.id.conversations_view);
@@ -150,5 +149,11 @@ public class ChatListFragment extends Fragment {
                 ((HomescreenActivity) getContext()).displayMessages(item.getId());
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 }

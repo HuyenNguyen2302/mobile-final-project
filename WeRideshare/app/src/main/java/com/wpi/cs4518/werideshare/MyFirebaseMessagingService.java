@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.wpi.cs4518.werideshare.model.User;
 
 import java.util.Map;
 
@@ -111,6 +112,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String sender = data.get("sender");
         String message = data.get("message");
         String chatId = data.get("chatId");
+        String receiver = data.get("receiver");
         System.out.printf("message: %s\n", message);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -118,6 +120,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra("sender", sender);
         intent.putExtra("message", message);
         intent.putExtra("chatId", chatId);
+        intent.putExtra("receiver", receiver);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 

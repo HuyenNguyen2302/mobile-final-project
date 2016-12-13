@@ -29,10 +29,15 @@ import com.wpi.cs4518.werideshare.model.Chat;
 import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.FCM_ROOT;
+import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
+import static com.wpi.cs4518.werideshare.model.Model.usersRef;
 
-public class HomescreenActivity extends AppCompatActivity {
+public class HomescreenActivity extends BaseActivity {
     private static final String TAG = "PROFILE_ACTIVITY";
 
     private ProfileFragment profileFragment;
@@ -61,14 +66,18 @@ public class HomescreenActivity extends AppCompatActivity {
 //        Model.initDB();
 
         if (getIntent() != null) {
-            currentUser = (User) getIntent().getSerializableExtra("user");
-            Toast.makeText(this, String.format("Current user: %s",
-                    currentUser.getUsername()), Toast.LENGTH_SHORT).show();
-
-
-            if (getIntent().getStringExtra("type") != null &&
-                    getIntent().getStringExtra("type").equals("private message"))
+            if(getIntent().getStringExtra("type") != null &&
+                    getIntent().getStringExtra("type").equals("private message")){
+                String userId = getIntent().getStringExtra("receiver");
+                getCurrentUser(userId);
                 displayMessages(getIntent().getStringExtra("chatId"));
+
+            }else {
+                currentUser = (User) getIntent().getSerializableExtra("user");
+                Toast.makeText(this, String.format("Current user: %s",
+                        currentUser.getUsername()), Toast.LENGTH_SHORT).show();
+
+            }
 
         }
         setupNavMenu();
@@ -130,36 +139,22 @@ public class HomescreenActivity extends AppCompatActivity {
 
 
 //        //temp: users listener, to create a convo for each and add to this user
-
-        Model.usersRef.orderByChild("userId").addChildEventListener(new ChildEventListener() {
+        usersRef.orderByChild("userId").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User user = dataSnapshot.getValue(User.class);
-//                Log.w(TAG, "convo user: " + user.getUsername());
-                if (user != null && !currentUser.hasChatWith(user.getUsername())) {
-                    //create chat and save to this user
-                    Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
-                    currentUser.saveChat(chat);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
+                    User user = userSnapshot.getValue(User.class);
 
-                    //change the username associated with this chat and save to the other user
-                    //this is to ensure reflexivity
-                    user.saveChat(chat);
+                    if (user != null && !currentUser.hasChatWith(user.getUsername())) {
+                        //create chat and save to this user
+                        Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
+                        currentUser.saveChat(chat);
+
+                        //change the username associated with this chat and save to the other user
+                        //this is to ensure reflexivity
+                        user.saveChat(chat);
+                    }
                 }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -167,45 +162,30 @@ public class HomescreenActivity extends AppCompatActivity {
 
             }
         });
-
-//        Model.usersRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                User user = dataSnapshot.getValue(User.class);
-//                Log.w(TAG, "convo user: " + user.getUsername());
-//                if (user != null && !currentUser.hasChatWith(user.getUsername())) {
-//                    //create chat and save to this user
-//                    Chat chat = new Chat(user.getUsername(), currentUser.getUsername());
-//                    currentUser.saveChat(chat);
-//
-//                    //change the username associated with this chat and save to the other user
-//                    //this is to ensure reflexivity
-//                    user.saveChat(chat);
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
         addFragment(chatsFragment);
+    }
+    private void getCurrentUser(final String userId) {
+        showProgressDialog();
+        try {
+            FirebaseDatabase.getInstance().getReference()
+                    .child(USER_ROOT)
+                    .child(userId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            currentUser = dataSnapshot.getValue(User.class);
+                            Log.w(TAG, "Retrieved user: " + currentUser.getUsername());
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+        }catch (Exception e){
+            hideProgressDialog();
+        }
     }
 
     public void displayMessages(String chatId) {
@@ -244,7 +224,6 @@ public class HomescreenActivity extends AppCompatActivity {
 
         addFragment(scheduleListFragment);
     }
-
 
     private void addFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
