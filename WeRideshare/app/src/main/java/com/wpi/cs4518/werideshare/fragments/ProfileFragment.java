@@ -53,10 +53,12 @@ public class ProfileFragment extends Fragment {
             TextView firstnameText = (TextView) getActivity().findViewById(R.id.first_name);
             TextView lastnameText = (TextView) getActivity().findViewById(R.id.last_name);
             TextView usernameText = (TextView) getActivity().findViewById(R.id.username_text);
+            //TextView phoneNumberText = (TextView) getActivity().findViewById(R.id.phone_numberTextView);
 
             firstnameText.setText(currentUser.getFirstName().toLowerCase());
             lastnameText.setText(currentUser.getLastName().toUpperCase());
             usernameText.setText(currentUser.getUsername());
+            //phoneNumberText.setText(currentUser.getPhoneNumber());
 
             //show car details if driver, otherwise return
             if(currentUser.getUserType().equals(User.UserType.Rider))

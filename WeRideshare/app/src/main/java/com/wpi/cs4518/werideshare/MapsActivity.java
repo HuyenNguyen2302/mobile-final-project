@@ -62,7 +62,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location destinationLocation;
     private Marker destinationLocationMarker;
 
-    private Polyline sourceToDestinationLinePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,14 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //animate camera to capture both locations:
                     moveCameraCaptureMarkers(new Marker[]{sourceLocationMarker, destinationLocationMarker});
 
-                    if(sourceToDestinationLinePath != null)
-                        sourceToDestinationLinePath.remove();
 
-                    PolylineOptions polylineOptions = new PolylineOptions()
-                            .add(new LatLng(sourceLocation.getLatitude(), sourceLocation.getLongitude())) // Point A.
-                    .add(new LatLng(destinationLocation.getLatitude(), destinationLocation.getLongitude())).width(5).color(Color.GREEN); // Point B.
-
-                    sourceToDestinationLinePath = mMap.addPolyline(polylineOptions);
 
                     //need <uses-permission android:name="android.permission.INTERNET"/>
                     //and GMAP does network operations so to avoid network on main thread exception, we spawn a thread
@@ -332,7 +324,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current WeRideShareLocation").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-        Toast.makeText(this, "Current WeRideShareLocation Updated", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Current WeRideShareLocation Updated", Toast.LENGTH_SHORT).show();
 
 
         //If you only need one location, unregister the listener

@@ -42,7 +42,9 @@
             android:ems="10"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/text_top"
-            android:hint="@string/phone_number_hint"/>
+            android:hint="@string/phone_number_hint"
+            android:id="@+id/phone_number"
+            android:maxLength="14" />
 
         <RadioGroup
             android:layout_width="match_parent"
