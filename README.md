@@ -1,10 +1,11 @@
 # mobile-final-project
 
+
 #Video Demo
 https://www.youtube.com/watch?v=4sjcJyNvNJo
 
 #Overview 
-
+<img src = "resources/images/screenshots/splashScreen.png?raw=true" height = "960" width = "540"></img>
 
 WeRideshare is an android app that provides an easy-to-use, consistent system for commuters looking to carpool. Both drivers and riders will be able to save money by sharing rides. The difference between WeRideshare and other cab services like Uber is it does not require the driver to be a full-time driver. Instead, both riders and drivers will provide information about their current location and destination. If the current locations and destinations of a particular driver and rider are at most 1 mile apart, then WeRideshare matches them together. If there are several potential drivers, riders are provided with a list of drivers whose current location and destination are within 1 mile radius. Then, they can send a carpool request to any drivers on the list. After this, the driver can then accept or decline the request to share the ride. Riders will then be picked up and dropped off along the way. In this way, drivers lower their travel cost, while not having to wait for riders like full-time cab drivers. 
 
@@ -23,13 +24,21 @@ WeRideshare aims to solve these problems by matching riders with drivers. The ma
 
 #Design
 Here is a diagram that can give you a high level idea about the architecture of WeRideshare:
-![Alt text](resources/images/general state diagram.png?raw=true "WeRideshare State Diagram")
+<img src = "resources/images/general state diagram.png?raw=true"></img>
 
 Login Credentials use Firebase
+
+<img src = "resources/images/screenshots/login.png?raw=true" height = "960" width = "540"></img>
+<img src = "resources/images/screenshots/firebaseAuth.png?raw=true"></img>
 User rider/driver data are stored in Firebase Realtime Database
+
+<img src = "resources/images/screenshots/realtimeDatabase.png?raw=true"></img>
 Push notifications for messages are sent through Firebase Cloud Messaging and Notifications
   The WeRideShareServer folder contains the code for sending downstream messages to clients.
+  
 User location and Path drawing are using Google Maps Android API and Google Places Web API
+
+<img src = "resources/images/screenshots/locations.png?raw=true" height = "960" width = "540"></img>
 
 
 #Conclusion
