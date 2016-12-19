@@ -1,5 +1,8 @@
 # mobile-final-project
 
+#Video Demo
+https://www.youtube.com/watch?v=4sjcJyNvNJo
+
 #Overview 
 
 
@@ -11,13 +14,44 @@ WeRideshare is an android app that provides an easy-to-use, consistent system fo
 
 People who live in big cities have the need to carpool. The reason is traffic can get bad. Plus, it is hard and expensive to find a parking lot. For instance, according to Boston Magazine, “forty-six percent of Boston’s workforce drives to their place of business, either alone or in a carpool. There’s approximately one vehicle per household, despite a high rate of carless households (35.8 percent). And how many parking spots await them? The Globe took a stab at figuring it out in March, and came back with a big, fat, “Who knows?” That doesn’t bode well for the city’s looming parking crisis.” 
 
-![Alt text](resources/images/means_to_work.PNG?raw=true "Means of Transportation to Work in Boston, MA")
+![Alt text](resources/images/means to work.PNG?raw=true "Means of Transportation to Work in Boston, MA")
 Source:http://www.bostonmagazine.com/news/blog/2015/07/15/why-owning-a-car-in-boston-sucks/
 
 Based on the chart, 41% people drove alone, while only 5% of people carpooled. If the people who drove alone can carpool, the number of vehicles on the street in the morning will decrease by a factor of 2 at the minimum.
 
-Uber has a carpool service called Uber Pool. However, Uber Pool is only available in the following cities in the United States: 
+WeRideshare aims to solve these problems by matching riders with drivers. The match relies on the proximity: if a rider and a driver live within 1 miles and the destinations are 1 miles apart at most, then WeRideshare will match together. However, one of the differences between WeRideshare and other cab services is that it allows users to schedule rides. This feature is particularly useful for students who has to travel on a weekly basis no matter where they are. Besides reducing the number of vehicles in big cities, this features saves students from booking a vehicle every single day during their internships.
 
-#Video Demo
-https://www.youtube.com/watch?v=4sjcJyNvNJo
+#Design
+Here is a diagram that can give you a high level idea about the architecture of WeRideshare:
+![Alt text](resources/images/general state diagram.png?raw=true "WeRideshare State Diagram")
+
+Login Credentials use Firebase
+User rider/driver data are stored in Firebase Realtime Database
+Push notifications for messages are sent through Firebase Cloud Messaging and Notifications
+  The WeRideShareServer folder contains the code for sending downstream messages to clients.
+User location and Path drawing are using Google Maps Android API and Google Places Web API
+
+
+#Conclusion
+In summary, we were able to implement the following features for WeRideshare:
+User authentication
+User registration
+Offload data to Firebase
+Retrieve data from Firebase
+Use Google Maps API and Google API Client Libraries to develop map-related functionalities.
+
+However, there are many other useful features that could be developed:  
+For drivers: An algorithm to allow multiple riders to be picked up along the path to further minimize travel cost 
+For drivers: Path suggestion to maximize the number of riders 
+For riders: Provide a map of the driver’s location like Uber 
+Fior riders: Allow riders to write reviews for drivers 
+Drivers have to upload pictures of themselves, their vehicles, and driver’s license so riders can verify the information. 
+Drivers can see a list of potential riders.
+Implement horizontal layout 
+Remove duplicates for messages: Currently, if user A and user B exchange messages with other, then in user A’s messages, there is a message from user A to user B, and there is also a message from user B to user A. These two messages also appear in user B’s list of messages.
+Payment method
+Matching algorithm
+Drivers can accept request (special case: automatic decline when the vehicle is full)
+
+
 
