@@ -10,3 +10,8 @@ WeRideshare is an android app that provides an easy-to-use, consistent system fo
 
 WeRideshare solves the problem of users who do not own a car and are looking to carpool with other people to the same destination on a consistent basis. In addition, WeRideshare also helps sustain the environment by cutting down on gas emissions. Alternative ride sharing apps only do a one time trip, but if a user needs a trip to work every day, then transportation costs quickly rise and gas is wasted. WeRideshare will crowdsource both its drivers and riders by interest to save money.
 
+
+
+#Video Demo
+https://www.youtube.com/watch?v=4sjcJyNvNJo
+
