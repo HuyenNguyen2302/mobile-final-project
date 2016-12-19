@@ -43,24 +43,24 @@ User location and Path drawing are using Google Maps Android API and Google Plac
 
 #Conclusion
 In summary, we were able to implement the following features for WeRideshare:
-User authentication
-User registration
-Offload data to Firebase
-Retrieve data from Firebase
-Use Google Maps API and Google API Client Libraries to develop map-related functionalities.
+* User authentication
+* User registration
+* Offload data to Firebase
+* Retrieve data from Firebase
+* Use Google Maps API and Google API Client Libraries to develop map-related functionalities.
 
 However, there are many other useful features that could be developed:  
-For drivers: An algorithm to allow multiple riders to be picked up along the path to further minimize travel cost 
-For drivers: Path suggestion to maximize the number of riders 
-For riders: Provide a map of the driver’s location like Uber 
-Fior riders: Allow riders to write reviews for drivers 
-Drivers have to upload pictures of themselves, their vehicles, and driver’s license so riders can verify the information. 
-Drivers can see a list of potential riders.
-Implement horizontal layout 
-Remove duplicates for messages: Currently, if user A and user B exchange messages with other, then in user A’s messages, there is a message from user A to user B, and there is also a message from user B to user A. These two messages also appear in user B’s list of messages.
-Payment method
-Matching algorithm
-Drivers can accept request (special case: automatic decline when the vehicle is full)
+* For drivers: An algorithm to allow multiple riders to be picked up along the path to further minimize travel cost 
+* For drivers: Path suggestion to maximize the number of riders 
+* For riders: Provide a map of the driver’s location like Uber 
+* Fior riders: Allow riders to write reviews for drivers 
+* Drivers have to upload pictures of themselves, their vehicles, and driver’s license so riders can verify the information. 
+* Drivers can see a list of potential riders.
+* Implement horizontal layout 
+* Remove duplicates for messages: Currently, if user A and user B exchange messages with other, then in user A’s messages, there is a message from user A to user B, and there is also a message from user B to user A. These two messages also appear in user B’s list of messages.
+* Payment method
+* Matching algorithm
+* Drivers can accept request (special case: automatic decline when the vehicle is full)
 
 
 
