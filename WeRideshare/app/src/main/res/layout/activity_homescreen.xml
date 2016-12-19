@@ -40,26 +40,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/profile_image"
+                android:contentDescription="ProfileIcon"
                 android:onClick="onClickProfileButton"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/messages_icon"
+                android:contentDescription="MessageIcon"
                 android:onClick="onClickMessagesButton"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/map_icon"
+                android:contentDescription="MapIcon"
                 android:onClick="onClickMapButton"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/schedule_icon"
-                android:onClick="onClickScheduleButton"
-                android:id="@+id/imageButton" />
+                android:contentDescription="ScheduleIcon"
+                android:onClick="onClickScheduleButton" />
         </GridLayout>
 
     </RelativeLayout>

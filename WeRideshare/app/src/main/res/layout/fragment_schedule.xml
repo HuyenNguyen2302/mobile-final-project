@@ -22,7 +22,6 @@
                 android:text="Name:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2"
                 android:layout_row="1"
                 android:layout_gravity="right"
                 android:layout_column="0" />
@@ -39,7 +38,6 @@
                 android:text="Departure Time:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView3"
                 android:layout_gravity="right"/>
 
             <EditText
@@ -54,7 +52,6 @@
                 android:text="Return Time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView4"
                 android:layout_gravity="right" />
 
             <EditText
@@ -69,7 +66,6 @@
                 android:text="Days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView5"
                 android:layout_columnSpan="2"
                 android:layout_gravity="center" />
 
@@ -155,7 +151,6 @@
                 android:text="Find Matches"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/findMatchesButton"
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>

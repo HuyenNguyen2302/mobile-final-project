@@ -9,21 +9,15 @@
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">Invalid email</string>
-    <string name="error_invalid_password">Invalid password</string>
     <string name="form_status_pending">Form Status: Pending</string>
     <string name="reg_success">Registration Successful!</string>
 
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="send_message">Send</string>
-    <string name="msg_token_fmt">InstanceID Token: %s</string>
     <string name="proceed">Proceed</string>
 
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="phone_number_hint">Phone number: eg. 123-456-7890</string>
+    <string name="phone_number_hint">Phone number: eg. 123&#8211;456&#8211;7890</string>
     <string name="driver">Driver</string>
     <string name="rider">Rider</string>
 
@@ -41,11 +35,10 @@
         <item>7</item>
     </string-array>
 
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading&#8230;</string>
     <string name="auth_failed">Authentication failure</string>
 
     <string name="title_activity_maps">Map</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

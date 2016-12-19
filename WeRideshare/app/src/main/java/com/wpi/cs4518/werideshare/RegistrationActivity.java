@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -149,7 +147,7 @@ public class RegistrationActivity extends BaseActivity {
         }
         return true;
     }
-    private int getCurrentPage(){
+    private void getCurrentPage(){
         //check if current page is
         boolean personal = findViewById(R.id.first_name) != null;
 
@@ -157,8 +155,6 @@ public class RegistrationActivity extends BaseActivity {
             currentPage = PERSONAL;
         else
             currentPage = CAR;
-
-        return currentPage;
     }
 
     private void createUser(String userId) {

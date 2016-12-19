@@ -12,14 +12,8 @@ import static com.wpi.cs4518.werideshare.model.Model.CHAT_ROOT;
  */
 
 class MessageDatabase {
-    private static User currentUser;
 
     private static DatabaseReference firebase;
-
-    public MessageDatabase(DatabaseReference firebase){
-        MessageDatabase.firebase = firebase;
-        currentUser = Model.currentUser;
-    }
 
     private void setupListeners(){
         firebase.child(CHAT_ROOT).addValueEventListener(new ValueEventListener() {

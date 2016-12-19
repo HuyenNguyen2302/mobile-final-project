@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
 import java.util.regex.Pattern;
@@ -39,9 +37,6 @@ public class EmailPasswordActivity extends BaseActivity {
     //firebase fields
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private Button signInButton;
-    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +92,6 @@ public class EmailPasswordActivity extends BaseActivity {
         registrationIntent.putExtra("email", email);
         registrationIntent.putExtra("password", password);
         startActivity(registrationIntent);
-    }
-
-    private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
     }
 
     public void onClickRegister(View v) {

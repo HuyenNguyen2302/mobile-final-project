@@ -1,8 +1,6 @@
 package com.wpi.cs4518.werideshare.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +28,9 @@ public class Schedule implements Serializable {
         Sunday
     }
 
-    String id, name;
-    private WeRideShareLocation origin, destination;
-    Map<String, ScheduleTime> times;
+    private String id;
+    private String name;
+    private Map<String, ScheduleTime> times;
 
 
     public Schedule(){
@@ -40,6 +38,9 @@ public class Schedule implements Serializable {
     }
     /**
      * Constructor, missing 'times' and period parameters for convenience; set to new HashMap (default)
+     *
+     * Problem synopsis      Actual value of parameter ''destination'' is always ''null'' (at line 47)
+     *
      * @param origin
      * @param destination
      */
@@ -58,8 +59,8 @@ public class Schedule implements Serializable {
                     WeRideShareLocation destination, Map<String, ScheduleTime> times){
         this.id = id;
         this.name = name;
-        this.origin = origin;
-        this.destination = destination;
+        WeRideShareLocation origin1 = origin;
+        WeRideShareLocation destination1 = destination;
         this.times = times;
     }
 
@@ -67,40 +68,12 @@ public class Schedule implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    private WeRideShareLocation getOrigin() {
-        return origin;
-    }
-
-    private void setOrigin(WeRideShareLocation origin) {
-        this.origin = origin;
-    }
-
-    private WeRideShareLocation getDestination() {
-        return destination;
-    }
-
-    private void setDestination(WeRideShareLocation destination) {
-        this.destination = destination;
-    }
-
     public Map<String, ScheduleTime> getTimes() {
         return times;
-    }
-
-    public void setTimes(Map<String, ScheduleTime> times) {
-        this.times = times;
     }
 
     /**

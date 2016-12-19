@@ -20,13 +20,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.wpi.cs4518.werideshare.HomescreenActivity;
 import com.wpi.cs4518.werideshare.R;
-import com.wpi.cs4518.werideshare.model.Chat;
 import com.wpi.cs4518.werideshare.model.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.SCHEDULE_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
 
@@ -35,13 +33,10 @@ import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
  */
 public class ScheduleListFragment extends Fragment {
 
-    private final String TAG = "SCHED_FRAG";
-
-    ListView scheduleList;
-    ArrayAdapter<Schedule> scheduleAdapter;
-    List<Schedule> schedules;
-    DatabaseReference scheduleRef;
-    ChildEventListener scheduleListener;
+    private ArrayAdapter<Schedule> scheduleAdapter;
+    private List<Schedule> schedules;
+    private DatabaseReference scheduleRef;
+    private ChildEventListener scheduleListener;
 
     public ScheduleListFragment() {
         // Required empty public constructor
@@ -142,7 +137,7 @@ public class ScheduleListFragment extends Fragment {
         getSchedules().clear();
         scheduleAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, getSchedules());
-        scheduleList = (ListView) getView().findViewById(R.id.schedules_view);
+        ListView scheduleList = (ListView) getView().findViewById(R.id.schedules_view);
         scheduleList.setAdapter(scheduleAdapter);
 
         scheduleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,8 +165,4 @@ public class ScheduleListFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 }

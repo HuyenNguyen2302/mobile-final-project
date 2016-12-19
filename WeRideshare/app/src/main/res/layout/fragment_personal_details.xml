@@ -22,7 +22,6 @@
             android:inputType="textPersonName"
             android:hint="@string/first_name"
             android:ems="10"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
 
         <EditText
@@ -32,7 +31,6 @@
             android:inputType="textPersonName"
             android:hint="@string/last_name"
             android:ems="10"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
 
         <EditText
@@ -40,7 +38,6 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/text_top"
             android:hint="@string/phone_number_hint"
             android:id="@+id/phone_number"
@@ -60,8 +57,7 @@
             <RadioButton
                 android:text="@string/rider"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/riderRadioButton"/>
+                android:layout_height="wrap_content" />
         </RadioGroup>
     </LinearLayout>
 

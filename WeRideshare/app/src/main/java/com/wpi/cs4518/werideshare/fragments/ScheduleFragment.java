@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,10 +26,8 @@ import com.wpi.cs4518.werideshare.model.ScheduleTime;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static com.wpi.cs4518.werideshare.model.Model.SCHEDULE_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
@@ -39,12 +36,11 @@ import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
  * A simple {@link Fragment} subclass.
  */
 public class ScheduleFragment extends Fragment {
-    private static String TAG = "SCHEDULE_FRAGMENT";
-    String scheduleId;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+    private String scheduleId;
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm",
+            java.util.Locale.getDefault());
 
     private DatabaseReference scheduleRef;
-    private ChildEventListener listener;
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -86,7 +82,7 @@ public class ScheduleFragment extends Fragment {
         });
     }
 
-    public void setUpFirebase() {
+    private void setUpFirebase() {
         //setup firebase references
 //        Log.w(TAG, "initializing firebase");
         scheduleRef = FirebaseDatabase.getInstance().getReference()
@@ -164,6 +160,7 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void saveSchedule() {
+        String TAG = "SCHEDULE_FRAGMENT";
         try {
             Log.w(TAG, "saving schedule...");
             //get input fields

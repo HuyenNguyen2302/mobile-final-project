@@ -10,8 +10,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/text_top">
 
         <EditText
@@ -21,7 +19,6 @@
             android:inputType="textAutoComplete"
             android:hint="car_model"
             android:ems="10"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
 
         <EditText
@@ -31,7 +28,6 @@
             android:inputType="textAutoComplete"
             android:hint="@string/reg_id"
             android:ems="10"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/text_top"/>
 
         <Spinner

@@ -32,31 +32,16 @@ public class Car {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public String getRegistrationId() {
         return registrationId;
-    }
-
-    public void setRegistrationId(String registrationId) {
-        this.registrationId = registrationId;
     }
 
     public String getCarName() {
         return carName;
     }
 
-    public void setCarName(String carName) {
-        this.carName = carName;
-    }
-
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }

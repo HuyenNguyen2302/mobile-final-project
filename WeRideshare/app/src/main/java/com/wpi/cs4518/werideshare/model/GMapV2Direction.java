@@ -6,9 +6,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.wpi.cs4518.werideshare.MapsActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -32,12 +30,9 @@ import org.json.JSONObject;
 
 
 public class GMapV2Direction extends AsyncTask {
-    public final static String MODE_DRIVING = "driving";
-    public final static String MODE_WALKING = "walking";
     private final static String googleMapsDirectionsAPI = "AIzaSyBQ_MyP_rlp5rhDoQJQpWFS_k5WyMR9m1Q";
-    public JSONObject jsonObj;
 
-    GoogleMap mapController;
+    private final GoogleMap mapController;
 
     public GMapV2Direction(GoogleMap mapController) {
         this.mapController = mapController;
@@ -55,7 +50,7 @@ public class GMapV2Direction extends AsyncTask {
     }
 
 
-    public JSONObject getJSONResponse(LatLng start, LatLng end) {
+    private JSONObject getJSONResponse(LatLng start, LatLng end) {
         String url = "https://maps.googleapis.com/maps/api/directions/json?"
                 + "origin=" + start.latitude + "," + start.longitude
                 + "&destination=" + end.latitude + "," + end.longitude
@@ -67,7 +62,7 @@ public class GMapV2Direction extends AsyncTask {
             HttpsURLConnection urlConnection = (HttpsURLConnection) urlObj.openConnection();
 
             InputStream in =  new BufferedInputStream(urlConnection.getInputStream());
-            jsonObj = new JSONObject(getStringFromInputStream(in));
+            JSONObject jsonObj = new JSONObject(getStringFromInputStream(in));
             return jsonObj;
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +102,7 @@ public class GMapV2Direction extends AsyncTask {
     }
 
 
-    public void addJSONPath(JSONObject obj){
+    private void addJSONPath(JSONObject obj){
         PolylineOptions rectLine = new PolylineOptions().width(10).color(
                 Color.RED);
         try {
@@ -121,7 +116,7 @@ public class GMapV2Direction extends AsyncTask {
                 rectLine.add(nextLocation);
 
             }
-            Polyline polylin = mapController.addPolyline(rectLine);
+            mapController.addPolyline(rectLine);
         }
         catch (Exception e){
             e.printStackTrace();

@@ -33,7 +33,6 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".EmailPasswordActivity"/>
-        <uses-permission android:name="android.permission.INTERNET"/>
 
 
         <!--//showing self location activity -->

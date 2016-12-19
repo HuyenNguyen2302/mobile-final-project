@@ -28,7 +28,6 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.wpi.cs4518.werideshare.model.User;
 
 import java.util.Map;
 

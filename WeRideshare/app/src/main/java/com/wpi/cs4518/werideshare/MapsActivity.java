@@ -5,10 +5,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -35,14 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.wpi.cs4518.werideshare.model.GMapV2Direction;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.Console;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     //for logging purposes
@@ -54,7 +47,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest mLocationRequest;
     private Marker currLocationMarker;
     private static final int REQUEST_FINE_LOCATION = 0;
-    private ImageButton mGetCurrentLocationButton;
     private LatLng currentLocation;
 
     private Location sourceLocation;
@@ -75,7 +67,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
-        mGetCurrentLocationButton = (ImageButton) findViewById(R.id.getCurrentLocation);
+        ImageButton mGetCurrentLocationButton = (ImageButton) findViewById(R.id.getCurrentLocation);
         mGetCurrentLocationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int permissionCheck = ContextCompat.checkSelfPermission(MapsActivity.this,
@@ -182,7 +174,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -281,7 +273,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-                //make the source initally the current location
+                //make the source initially the current location
                 sourceLocation = mLastLocation;
                 sourceLocationMarker = currLocationMarker;
 
@@ -307,7 +299,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
     }
 

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +23,6 @@ import com.wpi.cs4518.werideshare.model.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.wpi.cs4518.werideshare.model.Model.CONVO_ROOT;
 import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
@@ -33,13 +31,11 @@ import static com.wpi.cs4518.werideshare.model.Model.USER_ROOT;
  * A simple {@link Fragment} subclass.
  */
 public class ChatListFragment extends Fragment {
-    private final String TAG = "CHAT_FRAG";
 
-    ListView conversationList;
-    ArrayAdapter<Chat> convoAdapter;
-    List<Chat> chats;
-    DatabaseReference chatRef;
-    ChildEventListener convoListener;
+    private ArrayAdapter<Chat> convoAdapter;
+    private List<Chat> chats;
+    private DatabaseReference chatRef;
+    private ChildEventListener convoListener;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -137,9 +133,9 @@ public class ChatListFragment extends Fragment {
 
     private void setUpAdapter(){
         getConversations().clear();
-        convoAdapter = new ArrayAdapter<Chat>(getContext(),
+        convoAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, getConversations());
-        conversationList = (ListView) getView().findViewById(R.id.conversations_view);
+        ListView conversationList = (ListView) getView().findViewById(R.id.conversations_view);
         conversationList.setAdapter(convoAdapter);
 
         conversationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -151,9 +147,4 @@ public class ChatListFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
 }

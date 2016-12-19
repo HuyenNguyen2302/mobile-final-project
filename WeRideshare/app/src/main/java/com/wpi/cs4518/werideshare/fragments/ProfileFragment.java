@@ -10,23 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.wpi.cs4518.werideshare.HomescreenActivity;
 import com.wpi.cs4518.werideshare.R;
-import com.wpi.cs4518.werideshare.model.Car;
-import com.wpi.cs4518.werideshare.model.Model;
 import com.wpi.cs4518.werideshare.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-    private static String TAG = "PROFILE";
-    User currentUser;
 
 
     public ProfileFragment() {
@@ -46,7 +37,7 @@ public class ProfileFragment extends Fragment {
         super.onResume();
 
         try {
-            currentUser = ((HomescreenActivity) getActivity()).currentUser;
+            User currentUser = ((HomescreenActivity) getActivity()).currentUser;
             System.out.printf("current user: %s", currentUser);
 
             //get controls
@@ -68,6 +59,7 @@ public class ProfileFragment extends Fragment {
             addFragment(carFragment);
 
         }catch(NullPointerException ex){
+            String TAG = "PROFILE";
             Log.w(TAG, ex.getMessage());
         }
     }

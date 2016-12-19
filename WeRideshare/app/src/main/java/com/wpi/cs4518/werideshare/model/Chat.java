@@ -7,7 +7,9 @@ import java.io.Serializable;
  */
 
 public class Chat implements Serializable{
-    private String id, user1, user2, title;
+    private String id;
+    private String user1;
+    private String user2;
 
     public Chat() {
         //required for data snapshot
@@ -27,33 +29,17 @@ public class Chat implements Serializable{
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUser1() {
+    private String getUser1() {
         return user1;
     }
 
-    public void setUser1(String user1) {
-        this.user1 = user1;
-    }
-
-    public String getUser2() {
+    private String getUser2() {
         return user2;
     }
 
-    public void setUser2(String user2) {
-        this.user2 = user2;
-    }
-
     public String getTitle() {
-        title = String.format("Between: %s and %s\n", getUser1(), getUser2());
+        String title = String.format("Between: %s and %s\n", getUser1(), getUser2());
         return title;
-    }
-
-    public void setTitle(String title){
-        this.title = title;
     }
 
 
@@ -64,9 +50,7 @@ public class Chat implements Serializable{
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof Chat))
-            return false;
+        return other instanceof Chat && ((Chat) other).getId().equals(id);
 
-        return ((Chat) other).getId().equals(id);
     }
 }
