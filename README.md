@@ -1,4 +1,4 @@
-mobile-final-project
+WeRideshare
 ===
 
 Video Demo
