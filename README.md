@@ -57,7 +57,7 @@ However, there are many other useful features that could be developed:
 * For drivers: An algorithm to allow multiple riders to be picked up along the path to further minimize travel cost 
 * For drivers: Path suggestion to maximize the number of riders 
 * For riders: Provide a map of the driver’s location like Uber 
-* Fior riders: Allow riders to write reviews for drivers 
+* For riders: Allow riders to write reviews for drivers 
 * Drivers have to upload pictures of themselves, their vehicles, and driver’s license so riders can verify the information. 
 * Drivers can see a list of potential riders.
 * Implement horizontal layout 
